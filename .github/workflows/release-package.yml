@@ -1,4 +1,4 @@
-name: Node.js Package
+name: publish to GitHub Packages
 
 on:
   release:
@@ -6,13 +6,19 @@ on:
 
 jobs:
   build:
+    name: build and test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v3
+      - name: checkout code
+        uses: actions/checkout@v4
+      - name: setup node
+        uses: actions/setup-node@v3
         with:
           node-version: 18.17.1
-      - run: yarn test
+      - name: build with devdependencies
+        run: yarn
+      - name: test
+        run: yarn test
 
   publish-gpr:
     needs: build
@@ -21,11 +27,13 @@ jobs:
       packages: write
       contents: read
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v3
+      - name: checkout code
+        uses: actions/checkout@v4
+      - name: setup node
+        uses: actions/setup-node@v3
         with:
           node-version: 18.17.1
-          registry-url: https://npm.pkg.github.com/
-      - run: yarn publish
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+      - name: build
+        run: yarn build
+      - name: publish
+        run: yarn publish --access public --registry https://npm.pkg.github.com
