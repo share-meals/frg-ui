@@ -1,0 +1,1 @@
+{"version":"0.34.6","results":[[":src/Input/Input.test.tsx",{"duration":22,"failed":false}],[":src/Input/AInput.test.tsx",{"duration":0,"failed":true}],[":src/MultipleCheckbox/MultipleCheckbox.test.tsx",{"duration":18,"failed":false}],[":src/Select/Select.test.tsx",{"duration":21,"failed":false}],[":src/Toggle/Toggle.test.tsx",{"duration":17,"failed":false}]]}
