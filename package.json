@@ -84,6 +84,9 @@
         "@ionic/react": "*",
         "react-hook-form": "*"
     },
+    "publishConfig": {
+	"@share-meals:registry": "https://npm.pkg.github.com"
+    },
     "scripts": {
         "dev": "vite",
         "prebuild": "rimraf dist",
