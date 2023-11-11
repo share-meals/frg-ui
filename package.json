@@ -41,7 +41,6 @@
         "react-dom": "^18.2.0",
         "react-hook-form": "^7.47.0",
         "react-markdown": "^9.0.0",
-        "rimraf": "^5.0.5",
         "storybook": "^7.5.2",
         "storybook-dark-mode": "^3.0.1",
         "typescript": "^5.2.2",
@@ -85,11 +84,11 @@
         "react-hook-form": "*"
     },
     "publishConfig": {
-	"@share-meals:registry": "https://npm.pkg.github.com"
+        "@share-meals:registry": "https://npm.pkg.github.com"
     },
     "scripts": {
         "dev": "vite",
-        "prebuild": "rimraf dist",
+        "prebuild": "rm -rf dist",
         "build": "tsc && vite build",
         "build:storybook": "storybook build",
         "preview": "vite preview",
