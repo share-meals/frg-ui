@@ -34,12 +34,16 @@ jobs:
         with:
           always-auth: true
           node-version: 18.17.1
-          registry-url: 'https://npm.pkg.github.com'
+          registry-url: https://npm.pkg.github.com/
       - name: install prod dependencies
         run: yarn
       - name: build
         run: yarn build
       - name: login to github packages
-        run: echo "//npm.pkg.github.com/:_authToken=${{secrets.GITHUB_TOKEN}}" >> ~/.npmrc
+        run: |
+          echo "@share-meals:registry=https://npm.pkg.github.com" >> .npmrc
+          echo "//npm.pkg.github.com/:_authToken=${{secrets.GITHUB_TOKEN}}" >> ~/.npmrc
       - name: publish
-        run: yarn publish --access public --registry https://npm.pkg.github.com
+        run: yarn publish
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
