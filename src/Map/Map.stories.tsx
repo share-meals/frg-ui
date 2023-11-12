@@ -18,33 +18,33 @@ const layers: MapLayer[] = [
     {
 	name: 'Community Partner Distributions',
 	geojson: cpds,
-	fillColor: '#23B0F0',
+	fillColor: '#54688b',
 	strokeColor: 'white',
 	icon: {
 	    src: cpd_truck,
-	    scale: 0.6
+	    scale: 0.13312
 	}
     },
     {
 	name: 'Mobile Markets',
 	geojson: mms,
-	fillColor: '#388e3d',
+	fillColor: '#006747',
 	strokeColor: 'white',
 	icon: {
 	    src: mm_truck,
-	    scale: 0.6
+	    scale: 0.065
 	}
     },
     {
 	name: 'Food Pantries',
 	geojson: food_pantries,
-	fillColor: '#64A70B',
+	fillColor: '#64a70b',
 	strokeColor: 'white'
     },
     {
 	name: 'Soup Kitchens',
 	geojson: soup_kitchens,
-	fillColor: '#FFD100',
+	fillColor: '#893B67',
 	strokeColor: 'white'
     }
 ];
