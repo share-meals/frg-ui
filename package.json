@@ -1,4 +1,5 @@
 {
+    "bugs": "https://github.com/share-meals/frg-ui/issues",
     "dependencies": {
         "dayjs": "^1.11.10",
         "deepmerge": "^4.3.1",
@@ -57,6 +58,7 @@
             "require": "./dist/frg.umd.js"
         }
     },
+    "homepage": "https://github.com/share-meals/frg-ui#readme",
     "files": [
         "dist"
     ],
@@ -77,7 +79,7 @@
     },
     "main": "./dist/frg-ui.umd.js",
     "module": "./dist/frg-ui.es.js",
-    "name": "@sharemeals/frg-ui",
+    "name": "@share-meals/frg-ui",
     "packageManager": "yarn@4.0.1",
     "peerDependencies": {
         "@ionic/react": "*",
@@ -86,6 +88,10 @@
     "publishConfig": {
         "@share-meals:registry": "https://npm.pkg.github.com"
     },
+    "repository": {
+	"type": "git",
+	"url": "git+https://github.com/share-meals/frg-ui.git"
+    },
     "scripts": {
         "dev": "vite",
         "prebuild": "rm -rf dist",
@@ -93,7 +99,8 @@
         "build:storybook": "storybook build",
         "preview": "vite preview",
         "storybook": "storybook dev -p 6006",
-        "test": "vitest --ui",
+        "test": "vitest",
+        "test:ui": "vitest --ui",
         "tsc": "tsc",
         "tsc:watch": "tsc --watch"
     },

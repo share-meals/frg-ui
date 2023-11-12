@@ -6,6 +6,8 @@ node_modules
 .loki/current
 .loki/difference
 
+.vitest
+
 .yarn/*
 !.yarn/patches
 !.yarn/plugins
