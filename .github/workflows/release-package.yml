@@ -38,6 +38,6 @@ jobs:
       - name: build
         run: yarn build
       - name: login to github packages
-        run: "//npm.pkg.github.com/:_authToken=${{secrets.GITHUB_TOKEN}}" >> ~/.npmrc
+        run: echo "//npm.pkg.github.com/:_authToken=${{secrets.GITHUB_TOKEN}}" >> ~/.npmrc
       - name: publish
         run: yarn publish --access public --registry https://npm.pkg.github.com
