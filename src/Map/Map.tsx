@@ -79,12 +79,12 @@ export interface MapLayer {
     fillColor: string,
     strokeColor: string,
     icon?: {
-	src: 'string',
+	src: string,
 	scale: number
     }
 };
 
-export interface MapProps extends RMapProps {
+export interface MapProps extends Partial<RMapProps> {
     center: {
 	lat: number,
 	lng: number
