@@ -80,7 +80,6 @@
 	"react": "*",
         "react-hook-form": "*"
     },
-    "private": "false",
     "publishConfig": {
         "@share-meals:registry": "https://npm.pkg.github.com"
     },
