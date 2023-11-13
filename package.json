@@ -52,16 +52,10 @@
         "vitest": "^0.34.6",
         "zod": "^3.22.4"
     },
-    "exports": {
-        ".": {
-            "import": "./dist/frg.es.js",
-            "require": "./dist/frg.umd.js"
-        }
-    },
-    "homepage": "https://github.com/share-meals/frg-ui#readme",
     "files": [
         "dist"
     ],
+    "homepage": "https://github.com/share-meals/frg-ui#readme",
     "loki": {
         "configurations": {
             "chrome.laptop": {
@@ -77,20 +71,22 @@
             }
         }
     },
-    "main": "./dist/frg-ui.umd.js",
-    "module": "./dist/frg-ui.es.js",
+    "main": "dist/frg-ui.umd.js",
+    "module": "dist/frg-ui.es.js",
     "name": "@share-meals/frg-ui",
     "packageManager": "yarn@4.0.1",
     "peerDependencies": {
         "@ionic/react": "*",
+	"react": "*",
         "react-hook-form": "*"
     },
+    "private": "false",
     "publishConfig": {
         "@share-meals:registry": "https://npm.pkg.github.com"
     },
     "repository": {
-	"type": "git",
-	"url": "git+https://github.com/share-meals/frg-ui.git"
+        "type": "git",
+        "url": "git+https://github.com/share-meals/frg-ui.git"
     },
     "scripts": {
         "dev": "vite",
@@ -105,6 +101,6 @@
         "tsc:watch": "tsc --watch"
     },
     "type": "module",
-    "types": "./dist/index.d.ts",
+    "types": "dist/index.d.ts",
     "version": "0.0.1"
 }

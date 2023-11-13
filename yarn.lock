@@ -3446,9 +3446,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sharemeals/frg-ui@workspace:.":
+"@share-meals/frg-ui@workspace:.":
   version: 0.0.0-use.local
-  resolution: "@sharemeals/frg-ui@workspace:."
+  resolution: "@share-meals/frg-ui@workspace:."
   dependencies:
     "@babel/runtime": "npm:^7.23.2"
     "@hookform/resolvers": "npm:^3.3.2"
