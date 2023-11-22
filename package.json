@@ -89,8 +89,8 @@
         "@share-meals:registry": "https://npm.pkg.github.com"
     },
     "repository": {
-	"type": "git",
-	"url": "git+https://github.com/share-meals/frg-ui.git"
+        "type": "git",
+        "url": "git+https://github.com/share-meals/frg-ui.git"
     },
     "scripts": {
         "dev": "vite",
