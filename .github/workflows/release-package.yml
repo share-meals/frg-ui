@@ -5,23 +5,27 @@ on:
     types: [created]
 
 jobs:
-#  build:
-#    name: build and test
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: checkout code
-#        uses: actions/checkout@v4
-#      - name: setup node
-#        uses: actions/setup-node@v3
-#        with:
-#          node-version: 18.17.1
-#      - name: build with devdependencies
-#        run: yarn
-#      - name: test
-#        run: yarn test
+  build:
+    name: build and test
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v4
+      - name: enable corepack
+        run: |
+          corepack enable
+          corepack prepare yarn@4.0.1 --activate
+          yarn set version 4.0.1
+     - name: setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.17.1
+      - name: build with devdependencies
+        run: yarn
+      - name: test
+        run: yarn test
 
   publish-gpr:
-#    needs: build
     runs-on: ubuntu-latest
     permissions:
       packages: write
@@ -29,6 +33,11 @@ jobs:
     steps:
       - name: checkout code
         uses: actions/checkout@v4
+      - name: enable corepack
+        run: |
+          corepack enable
+          corepack prepare yarn@4.0.1 --activate
+          yarn set version 4.0.1
       - name: setup node
         uses: actions/setup-node@v3
         with:
