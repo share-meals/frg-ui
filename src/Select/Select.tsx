@@ -1,7 +1,4 @@
 import {
-    JSX
-} from 'react';
-import {
     Control,
     Controller
 } from 'react-hook-form';
@@ -9,6 +6,16 @@ import {
     IonSelect,
     IonSelectOption
 } from '@ionic/react';
+import {
+    JSX
+} from 'react';
+
+import type {
+    color,
+    justify,
+    labelPlacement,
+    mode,
+} from '@/interfaces/ionic'
 
 export interface SelectOption {
     value: string,
@@ -17,17 +24,7 @@ export interface SelectOption {
 
 export interface IonSelect {
     cancelText?: string,
-    color?: 'danger'
-	 | 'dark'
-	 | 'light'
-	 | 'medium'
-	 | 'primary'
-	 | 'secondary'
-	 | 'success'
-	 | 'tertiary'
-	 | 'warning'
-	 | string
-	 | undefined,
+    color?: color,
     compareWith?: ((currentValue: any, compareValue: any) => boolean)
 	       | null
 	       | string
@@ -37,11 +34,11 @@ export interface IonSelect {
     fill?: 'outline' | 'solid' | undefined,
     interface?: 'action-sheet' | 'alert' | 'popover',
     interfaceOptions?: any,
-    justify?: 'end' | 'space-between' | 'start',
+    justify?: justify,
     label?: string | undefined,
-    labelPlacement?: 'fixed' | 'floating' | 'stacked' | undefined,
+    labelPlacement?: labelPlacement,
     //legacy?: boolean | undefined,
-    mode?: 'ios' | 'md',
+    mode?: mode,
     multiple?: boolean,
     name: string,
     okText?: string,
@@ -60,41 +57,33 @@ export interface SelectProps extends IonSelect {
 
 export const Select = ({
     control,
+    name,
     options,
     testId,
     ...props
-}: SelectProps): JSX.Element => {
-    return (
-	<>
-	    <Controller
-	    name={props.name}
-		control={control}
-	    render={({
-		field: {
-		    onChange,
-		    onBlur,
-		    ...fields
-		},
-	    }: any): JSX.Element => {
-		
-		return (
-		    <IonSelect
-			data-testid={testId}
-			onIonChange={(event) => {
-			    onChange(event.detail.value);
-			}}
-			{...props}
-			{...fields}
-		    >
-			{options.map((option: SelectOption) => 
-			    <IonSelectOption value={option.value} key={option.value}>
-				{option.label}
-			    </IonSelectOption>)
-			}
-		    </IonSelect>
-		);
-	    }}
-	    />
-	</>
-    );
-}
+}: SelectProps): JSX.Element =>
+    <Controller
+	control={control}
+	name={name}
+	render={({
+	    field: {
+		onChange,
+		onBlur,
+		...fields
+	    }
+	}: any): JSX.Element =>
+	    <IonSelect
+		data-testid={testId}
+		onIonChange={(event) => {
+		    onChange(event.detail.value);
+		}}
+		{...props}
+		{...fields}>
+		{options.map((option: SelectOption) => 
+		    <IonSelectOption value={option.value} key={option.value}>
+			{option.label}
+		    </IonSelectOption>)
+		}
+	    </IonSelect>
+	}
+    />;

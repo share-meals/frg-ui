@@ -130,63 +130,56 @@ export const Input = ({
     name,
     testId,
     ...props
-}: InputProps): JSX.Element => {
-    return (
-	<>
-	    <Controller
-	    {...{
-		control,
-		disabled,
-		name
-	    }}
-		render={({
-		    field: {
-			onChange,
-			onBlur,
-			...fields
-		    },
-		    fieldState
-		}: any): JSX.Element => {
-		    let classes: string[] = [];
-		    if(className){
-			classes.push(className);
-		    }
-		    if(fieldState.invalid){
-			classes.push('ion-invalid');
-		    }else{
-			classes.push('ion-valid');
-		    }
-		    if(fieldState.isTouched){
-			classes.push('ion-touched');
-		    }
-		    // todo: label accessibility
-		    return (
-			<>
-			    {
-				labelPlacement === 'above' &&
-				<IonLabel>
-				    {label}
-				</IonLabel>
-			    }
-			    <IonInput
-				aria-label={label}
-				className={classes.join(' ')}
-				data-testid={testId}
-				errorText={fieldState.error?.message}
-				onIonInput={onChange}
-				onIonBlur={onBlur}
-				label={labelPlacement === 'above' ? undefined : label}
-				labelPlacement={labelPlacement === 'above' ? undefined : labelPlacement}
-			    {...{
-				fill,
-			    }}
-			    {...props}
-			    {...fields}
-			    />
-			</>
-		    );
+}: InputProps): JSX.Element =>
+    <Controller
+    {...{
+	control,
+	disabled,
+	name
+    }}
+	render={({
+	    field: {
+		onChange,
+		onBlur,
+		...fields
+	    },
+	    fieldState
+	}: any): JSX.Element => {
+	    let classes: string[] = [];
+	    if(className){
+		classes.push(className);
+	    }
+	    if(fieldState.invalid){
+		classes.push('ion-invalid');
+	    }else{
+		classes.push('ion-valid');
+	    }
+	    if(fieldState.isTouched){
+		classes.push('ion-touched');
+	    }
+	    // todo: label accessibility
+	    return <>
+		{
+		    labelPlacement === 'above' &&
+		    <IonLabel>
+			{label}
+		    </IonLabel>
+		}
+		<IonInput
+		aria-label={label}
+		className={classes.join(' ')}
+		data-testid={testId}
+		errorText={fieldState.error?.message}
+		onIonInput={onChange}
+		onIonBlur={onBlur}
+		label={labelPlacement === 'above' ? undefined : label}
+		labelPlacement={labelPlacement === 'above' ? undefined : labelPlacement}
+		{...{
+		    fill,
 		}}
-	    />
-	</>
-    );
-}
+		{...props}
+		{...fields}
+		/>
+	    </>;
+	}}
+    />;
