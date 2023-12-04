@@ -29,7 +29,7 @@ export interface IonRadio {
     color?: color,
     disabled?: boolean,
     justify?: justify,
-    labelPlacement: 'end' | 'fixed' | 'stacked' | 'start',
+    labelPlacement?: 'end' | 'fixed' | 'stacked' | 'start',
     //legacy?: boolean | undefined,
     mode?: mode,
     name: string,
@@ -44,7 +44,8 @@ export interface RadioProps extends IonRadioGroup {
     alignment?: 'center' | 'start',
     control: Control<any>,
     justify?: justify,
-    labelPlacement: 'end' | 'fixed' | 'stacked' | 'start',
+    labelPlacement?: 'end' | 'fixed' | 'stacked' | 'start',
+    mode: mode,
     name: string,
     options: RadioOption[],
     optionSize: string | undefined,
@@ -64,43 +65,42 @@ export const Radio = ({
 }: RadioProps): JSX.Element =>
     <IonGrid>
 	<IonRow>
-    <Controller
-	control={control}
-	name={name}
-	render={({
-	    field: {
-		onChange,
-		onBlur,
-		...fields
+	    <Controller
+	    control={control}
+	    name={name}
+	    render={({
+		field: {
+		    onChange,
+		    onBlur,
+		    ...fields
+		}
+	    }: any): JSX.Element =>
+		<IonRadioGroup
+		    data-testid={testId}
+		    onIonChange={(event) => {
+			onChange(event.detail.value);
+		    }}
+		    {...props}
+		    {...fields}>
+		    {options.map((option: RadioOption) =>
+			<IonCol
+			    key={option.value}
+			    size="12">
+			    <IonRadio
+				value={option.value}
+				{...{
+				    alignment,
+				    justify,
+				    labelPlacement
+				}}>
+				{option.name}
+			    </IonRadio>
+			    <br />
+			</IonCol>
+		    )}
+		</IonRadioGroup>
+	    
 	    }
-	}: any): JSX.Element =>
-	    <IonRadioGroup
-		data-testid={testId}
-		onIonChange={(event) => {
-		    onChange(event.detail.value);
-		}}
-		{...props}
-		{...fields}>
-		{options.map((option: RadioOption) =>
-		    <IonCol
-			key={option.value}
-			size="12">
-			<IonRadio
-			    value={option.value}
-			    {...{
-				alignment,
-				justify,
-				labelPlacement
-			    }}>
-			    {option.name}
-			</IonRadio>
-			<br />
-		    </IonCol>
-		)}
-	    </IonRadioGroup>
-	
-	}
-    />
+	    />
 	</IonRow>
-</IonGrid>
-;
+    </IonGrid>;
