@@ -48,7 +48,6 @@ export interface RadioProps extends IonRadioGroup {
     mode: mode,
     name: string,
     options: RadioOption[],
-    optionSize: string | undefined,
     testId?: string
 };
 
@@ -59,7 +58,6 @@ export const Radio = ({
     labelPlacement = 'end',
     name,
     options,
-    optionSize,
     testId,
     ...props
 }: RadioProps): JSX.Element =>
