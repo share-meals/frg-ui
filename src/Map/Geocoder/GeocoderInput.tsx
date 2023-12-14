@@ -104,7 +104,7 @@ const geocodeNominatim = async (
  */
 
 export const GeocoderInput = ({
-    label,
+    label = 'Address',
     onGeocode,
     placeholder
 }: GeocoderInputProps) => {
@@ -151,7 +151,7 @@ export const GeocoderInput = ({
 			<Input
 			    control={control}
 			    disabled={isSubmitting}
-			    label={label || 'Address'}
+			    label={label}
 			    name='address'
 			    placeholder={placeholder}
 			/>

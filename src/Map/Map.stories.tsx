@@ -2,9 +2,24 @@ import type {
     Meta,
     StoryObj
 } from '@storybook/react';
+import {
+    IonCol,
+    IonGrid,
+    IonRow
+} from '@ionic/react';
 
-import {Map} from './Map';
+import {
+    Map,
+    MapProvider
+} from './Map';
+import {
+    LayerToggles
+} from './MapLayers';
 import type {MapLayer} from './Map';
+import {
+    GeocoderInput,
+    GeocoderProvider
+} from './Geocoder';
 import {Renderer} from './stories_data/Renderer';
 
 import food_pantries from './stories_data/food_pantries.json';
@@ -55,18 +70,53 @@ const meta: Meta<typeof Map> = {
     render: (props) => {
 	return <>
 	    <div style={{height: '100vh', width: '100vw'}}>
-		<Map
-		    center={{
-			lat: 40.7127281,
-			lng: -74.0060152
-		    }}
-		    geocoderPlatform='nominatim'
-		    geocoderUrl='https://nominatim.openstreetmap.org/search'
-		
-		    renderer={Renderer}
-		    layers={layers}
-		{...props}
-		/>
+		<MapProvider
+			layers={layers}
+		>
+		    <GeocoderProvider>
+			<IonGrid>
+			    <IonRow style={{height: '100vh'}}>
+				<IonCol>
+				    <Map
+				    center={{
+					lat: 40.7127281,
+					lng: -74.0060152
+				    }}
+				    geocoderPlatform='nominatim'
+				    geocoderUrl='https://nominatim.openstreetmap.org/search'
+				    {...props}
+				    />
+				</IonCol>
+				<IonCol>
+				    <LayerToggles />
+				    <Renderer />
+				    <GeocoderInput
+				    placeholder={'abc'}
+				    onGeocode={({latlng, address}: onGeocodeProps) => {
+					if(onMapCenter !== undefined){
+					    onMapCenter({
+						address,
+						lat: latlng?.lat || null,
+						lng: latlng?.lng || null,
+					    });
+					}
+					if(latlng !== null){
+					    const point: Coordinate = fromLonLat([latlng.lng, latlng.lat]);
+					    setView({
+						center: point,
+						zoom: view.zoom
+					    });
+					    setSpotlight!(new Point(point));
+					    setGeocoderErrorMessage(null);
+					}else{
+					    setGeocoderErrorMessage('Address not found');
+					}
+				    }}/>
+				</IonCol>
+			    </IonRow>
+			</IonGrid>
+		</GeocoderProvider>
+		</MapProvider>
 	    </div>
 	</>;
     }
