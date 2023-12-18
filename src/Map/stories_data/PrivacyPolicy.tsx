@@ -63,7 +63,7 @@ const Modal: FC<{modal: RefObject<HTMLIonModalElement>}> = ({modal}) => {
 		<IonTitle>
 		    Privacy Policy
 		</IonTitle>
-		<IonButtons slot='secondary'>
+		<IonButtons slot='end'>
 		    <IonButton onClick={() => modal.current?.dismiss()}>
 			<IonIcon
 			    icon={closeSharp}

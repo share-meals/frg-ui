@@ -1,11 +1,49 @@
+import {
+    useEffect,
+    useRef,
+    useState
+} from 'react';
+
 import type {
     Meta,
     StoryObj
 } from '@storybook/react';
-
-import {Map} from './Map';
+import {
+    IonButton,
+    IonButtons,
+    IonCol,
+    IonContent,
+    IonGrid,
+    IonHeader,
+    IonIcon,
+    IonModal,
+    IonRow,
+    IonToolbar
+} from '@ionic/react';
+import {RControl} from 'rlayers';
+import {
+    Map,
+    MapProvider
+} from './Map';
+import {
+    ZoomButtons
+} from './MapControls';
+import {
+    LayerToggles
+} from './MapLayers';
 import type {MapLayer} from './Map';
+import {
+    GeocoderInput,
+    GeocoderProvider
+} from './Geocoder';
 import {Renderer} from './stories_data/Renderer';
+import {useWindowSize} from '@uidotdev/usehooks';
+import {
+    closeSharp,
+    layersSharp
+} from 'ionicons/icons';
+
+import './Map.stories.css';
 
 import food_pantries from './stories_data/food_pantries.json';
 import soup_kitchens from './stories_data/soup_kitchens.json';
@@ -49,24 +87,134 @@ const layers: MapLayer[] = [
     }
 ];
 
+const InfoModal = ({trigger}: {trigger: string}) => {
+    const [isOpen, setIsOpen] = useState<boolean>(false);
+    useEffect(() => {
+	setIsOpen(trigger !== null);
+    }, [trigger]);
+    return <IonModal isOpen={isOpen}>
+	<IonHeader>
+	    <IonToolbar>
+	    <IonButtons slot='end'>
+		<IonButton onClick={() => {setIsOpen(false);}}>
+		    <IonIcon slot='icon-only' icon={closeSharp} />
+		</IonButton>
+	    </IonButtons>
+	    </IonToolbar>
+	</IonHeader>
+	<IonContent className='ion-padding'>
+	    <Renderer />
+	</IonContent>
+    </IonModal>;    
+}
+
+const LayerTogglesModal = () => {
+    const modal = useRef<HTMLIonModalElement>(null);
+    return <IonModal ref={modal} trigger='openLayerToggles'>
+	<IonHeader>
+	    <IonToolbar>
+	    <IonButtons slot='end'>
+		<IonButton onClick={() => {modal.current?.dismiss();}}>
+		    <IonIcon slot='icon-only' icon={closeSharp} />
+		</IonButton>
+	    </IonButtons>
+	    </IonToolbar>
+	</IonHeader>
+	<IonContent className='ion-padding'>
+	    <LayerToggles />
+	</IonContent>
+    </IonModal>;
+}
 
 const meta: Meta<typeof Map> = {
     component: Map,
     render: (props) => {
+	const geocoderInput = <GeocoderInput
+	onGeocode={({latlng, address}: onGeocodeProps) => {
+	    
+	    /*
+	       if(onMapCenter !== undefined){
+	       onMapCenter({
+	       address,
+	       lat: latlng?.lat || null,
+	       lng: latlng?.lng || null,
+	       });
+	       }
+	       if(latlng !== null){
+	       const point: Coordinate = fromLonLat([latlng.lng, latlng.lat]);
+	       setView({
+						    center: point,
+						    zoom: view.zoom
+						});
+						setSpotlight!(new Point(point));
+						setGeocoderErrorMessage(null);
+					    }else{
+						setGeocoderErrorMessage('Address not found');
+					    }
+				    */
+	}}
+	/>;
+	const size: {
+	    height: number,
+	    width: number
+	} = useWindowSize();
+	const isMobile: boolean = size.width < 576;
+	const controls = <>
+	    <ZoomButtons className='primaryButtons' />
+	    {isMobile && <RControl.RCustom className='secondaryButtons'>
+		<IonButton id='openLayerToggles'>
+		    <IonIcon slot='icon-only' icon={layersSharp} />
+		</IonButton>
+	    </RControl.RCustom>}
+	</>;
+	const [infoTrigger, setInfoTrigger] = useState<string>(null);
+	useEffect(() => {
+	    if(!isMobile && infoTrigger !== null){
+		setInfoTrigger(null);
+	    }
+	}, [isMobile, infoTrigger, setInfoTrigger]);
 	return <>
 	    <div style={{height: '100vh', width: '100vw'}}>
-		<Map
+		<MapProvider
 		    center={{
 			lat: 40.7127281,
 			lng: -74.0060152
 		    }}
-		    geocoderPlatform='nominatim'
-		    geocoderUrl='https://nominatim.openstreetmap.org/search'
-		
-		    renderer={Renderer}
-		    layers={layers}
-		{...props}
-		/>
+		    layers={layers}>
+		    <GeocoderProvider
+			platform='nominatim'
+			url='https://nominatim.openstreetmap.org/search'>
+			{!isMobile &&
+			 <IonGrid>
+			     <IonRow style={{height: '100vh'}}>
+				 <IonCol>
+				     <Map
+				     {...props}
+				     controls={controls}
+
+				     />
+				 </IonCol>
+				 <IonCol>
+				     <LayerToggles />
+				     <Renderer />
+				     {geocoderInput}
+				 </IonCol>
+			     </IonRow>
+			 </IonGrid>
+			}
+			{isMobile && <>
+			    <Map
+			    {...props}
+				onMapClick={() => {
+				    setInfoTrigger(new Date());
+				}}
+				controls={controls}
+			    />
+			    <InfoModal trigger={infoTrigger} />
+			    <LayerTogglesModal />
+			</>}
+		    </GeocoderProvider>
+		</MapProvider>
 	    </div>
 	</>;
     }

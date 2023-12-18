@@ -13,7 +13,7 @@
         "@ionic/react-test-utils": "^0.4.0",
         "@loki/core": "^0.33.0",
         "@storybook/addon-a11y": "^7.5.2",
-        "@storybook/addon-actions": "^7.5.3",
+        "@storybook/addon-actions": "~7.5",
         "@storybook/addon-console": "^2.0.0",
         "@storybook/addon-essentials": "^7.5.2",
         "@storybook/addon-viewport": "^7.5.2",
@@ -31,6 +31,7 @@
         "@types/jest-image-snapshot": "^6",
         "@types/react": "^18.2.34",
         "@types/react-dom": "^18.2.14",
+        "@uidotdev/usehooks": "^2.4.1",
         "@vitejs/plugin-react-swc": "^3.4.1",
         "@vitest/ui": "0.34.6",
         "jest": "^29.7.0",
@@ -74,9 +75,10 @@
     "main": "dist/frg-ui.umd.js",
     "module": "dist/frg-ui.es.js",
     "name": "@share-meals/frg-ui",
+    "packageManager": "yarn@4.0.2",
     "peerDependencies": {
         "@ionic/react": "*",
-	"react": "*",
+        "react": "*",
         "react-hook-form": "*"
     },
     "publishConfig": {
@@ -100,5 +102,5 @@
     },
     "type": "module",
     "types": "dist/index.d.ts",
-    "version": "0.0.2"
+    "version": "0.0.3"
 }

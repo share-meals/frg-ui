@@ -1,6 +1,8 @@
 import {
     createContext,
-    JSX,
+    Dispatch,
+    PropsWithChildren,
+    SetStateAction,
     useContext,
     useState
 } from 'react';
@@ -8,34 +10,44 @@ import {
 type GeocoderPlatform = 'google' | 'nominatim';
 
 interface GeocoderContextProps {
-    url?: string,
-    setUrl: (url: string | undefined) => void,
-    platform?: GeocoderPlatform,
-    setPlatform: (platform: GeocoderPlatform | undefined) => void,
     apiKey?: string,
-    setApiKey: (apiKey: string | undefined) => void
+    platform: GeocoderPlatform,
+    setApiKey?: Dispatch<SetStateAction<string>>,
+    setPlatform: Dispatch<SetStateAction<GeocoderPlatform>>,
+    setUrl: Dispatch<SetStateAction<string>>,
+    url: string,
 }
 
 const GeocoderContext = createContext<GeocoderContextProps>({
-    setUrl: (url) => {console.log(url);},
-    setPlatform: (platform) => {console.log(platform);},
-    setApiKey: (apiKey) => {console.log(apiKey);},
+    platform: 'nominatim',
+    setUrl: () => {},
+    setPlatform: () => {},
+    url: 'https://nominatim.openstreetmap.org/search'
 });
 
 export const useGeocoder = () => useContext(GeocoderContext);
 
-export const GeocoderProvider = ({children}: {children: JSX.Element}) => {
-    const [url, setUrl] = useState<string>();
-    const [platform, setPlatform] = useState<GeocoderPlatform | undefined>();
-    const [apiKey, setApiKey] = useState<string>();
+export interface GeocoderProvider {
+    platform: GeocoderPlatform,
+    url: string,
+};
+
+export const GeocoderProvider = ({
+    children,
+    platform: platformFromProps,
+    url: urlFromProps,
+}: PropsWithChildren<GeocoderProvider>) => {
+    const [apiKey, setApiKey] = useState<string>('');
+    const [platform, setPlatform] = useState<GeocoderPlatform>(platformFromProps);
+    const [url, setUrl] = useState<string>(urlFromProps);
     return (
 	<GeocoderContext.Provider value={{
-	    url,
-	    setUrl,
-	    platform,
-	    setPlatform,
 	    apiKey,
-	    setApiKey
+	    platform,
+	    setUrl,
+	    setPlatform,
+	    setApiKey,
+	    url,
 	}}>
 	    {children}
 	</GeocoderContext.Provider>

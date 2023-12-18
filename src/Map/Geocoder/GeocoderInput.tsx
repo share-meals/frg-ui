@@ -16,6 +16,7 @@ import {
     useForm
 } from 'react-hook-form';
 import {useGeocoder} from './GeocoderContext';
+import {useMap} from '../MapContext';
 import {z} from 'zod';
 import {zodResolver} from '@hookform/resolvers/zod';
 
@@ -77,34 +78,8 @@ const geocodeNominatim = async (
     }
 };
 
-/*
-   const geocodeGoogle = async (
-   data: GeocoderInputProps,
-   apiKey: string | undefined
-   ): Promise<LatLng | null> => {
-   if(apiKey === null){
-   // todo: error checking
-   return null;
-   }
-   GoogleGeocoder.setApiKey(apiKey);
-   const response = await GoogleGeocoder.fromAddress(data.address);
-   if(response.status === 'OK'){
-   return {
-   lat: response.results[0].geometry.location.lat,
-   lng: response.results[0].geometry.location.lng
-   };
-   }else{
-   // todo: error checking
-   return {
-   lat: 0,
-   lng: 0
-   }
-   }
-   };
- */
-
 export const GeocoderInput = ({
-    label,
+    label = 'Address',
     onGeocode,
     placeholder
 }: GeocoderInputProps) => {
@@ -116,26 +91,40 @@ export const GeocoderInput = ({
     const {
 	control,
 	formState: {isSubmitting},
-	handleSubmit
+	handleSubmit,
+	setError,
     } = useForm<z.infer<typeof schema>>({
-	//mode: 'onChange',
 	resolver: zodResolver(schema)
     });
     const {
 	platform,
-	url,
-	//apiKey // used for Google Geocoder
+	url
     } = useGeocoder();
+    const {
+	setInternalCenter
+    } = useMap();
     const onSubmit = handleSubmit(async (data) => {
 	switch(platform){
 	    case 'nominatim':
-		onGeocode({
-		    latlng: await geocodeNominatim(
-			data,
-			url
-		    ),
-		    address: data.address
-		});
+		const latlng: LatLng | null = await geocodeNominatim(
+		    data,
+		    url
+		);
+		if(latlng === null){
+		    setError(
+			'address',
+			{
+			    type: 'custom',
+			    message: 'Address not found. Please try a different one.'
+			}
+		    );
+		}else{
+		    setInternalCenter(latlng);
+		    onGeocode({
+			latlng,
+			address: data.address
+		    });
+		}
 		break;
 	    default:
 		// do nothing?
@@ -151,7 +140,7 @@ export const GeocoderInput = ({
 			<Input
 			    control={control}
 			    disabled={isSubmitting}
-			    label={label || 'Address'}
+			    label={label}
 			    name='address'
 			    placeholder={placeholder}
 			/>
