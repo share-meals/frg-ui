@@ -1,6 +1,7 @@
 import {Coordinate} from 'ol/coordinate';
 import {
     FC,
+    JSX,
     useEffect,
     useMemo,
     useState
@@ -29,7 +30,6 @@ import {
     useMap
 } from './MapContext';
 
-
 import 'ol/ol.css';
 
 import type {
@@ -54,10 +54,7 @@ export interface RendererProps {
 export * from './MapContext';
 
 export interface MapProps extends Partial<RMapProps> {
-    center: {
-	lat: number,
-	lng: number
-    },
+    controls?: JSX.Element,
     featureRadius?: number,
     featureWidth?: number,
     onMapCenter?: ({lat, lng, address}: {lat: number | null, lng: number | null, address: string}) => void,
@@ -65,7 +62,6 @@ export interface MapProps extends Partial<RMapProps> {
     renderer: FC,
     spotlightColor?: string,
     spotlightRadius?: number,
-    zoom?: number,
 };
 
 const calculateZoomLevel = ({
@@ -90,20 +86,22 @@ const calculateZoomLevel = ({
 };
 
 export const Map: FC<MapProps> = ({
-    center,
+    controls,
     featureRadius = 10,
     featureWidth = 10,
-    maxZoom = 20,
-    minZoom = 10,
     onMapClick,
     spotlightColor = 'red',
     spotlightRadius = 16,
-    zoom,
 }: MapProps) => {
     const {
+	internalCenter: center,
 	layers,
+	maxZoom,
+	minZoom,
 	setClickedFeatures,
+	setZoom,
 	visibleLayers,
+	zoom
     } = useMap();
     const [view, setView] = useState<RView>({
 	center: fromLonLat([
@@ -116,11 +114,31 @@ export const Map: FC<MapProps> = ({
     const [zoomPercentage, setZoomPercentage] = useState<number>(1);
 
     useEffect(() => {
+	if(zoom !== undefined){
+	    setView({
+		center: view.center,
+		zoom: zoom
+	    });
+	}
+    }, [zoom]);
+    
+    useEffect(() => {
+	setView({
+	    center: fromLonLat([
+		center.lng,
+		center.lat
+	    ]),
+	    zoom: view.zoom
+	});
+    }, [center, setView]);
+    
+    useEffect(() => {
 	const newZoomPercentage: number = calculateZoomLevel({
 	    zoom: view.zoom,
 	    minZoom,
 	    maxZoom
 	});
+	setZoom(view.zoom);
 	if(newZoomPercentage !== zoomPercentage){
 	    setZoomPercentage(newZoomPercentage);
 	}
@@ -200,15 +218,19 @@ export const Map: FC<MapProps> = ({
 	)).reverse();
     }, [features, visibleLayers, zoomPercentage]);
 
-    return <RMap
-	       height='100%'
-	       initial={view}
-	       maxZoom={maxZoom}
-	       minZoom={minZoom}
-	       onClick={handleClick}
-	       view={[view, setView]}
-	       width='100%'>
+    // wrap in a relative div so controls can be positioned absolute inside
+    return <div style={{position: 'relative', height: '100%'}}>
+    <RMap
+	height='100%'
+	initial={view}
+	maxZoom={maxZoom}
+	minZoom={minZoom}
+	noDefaultControls={true}
+	onClick={handleClick}
+	view={[view, setView]}
+	width='100%'>
 	<ROSM />
+    {controls}
 	{layersRendered}
 	<RLayerVector zIndex={2}>
 	    {generateStyle({
@@ -219,73 +241,7 @@ export const Map: FC<MapProps> = ({
 	    })}
 	    <RFeature geometry={spotlight} />
 	</RLayerVector>
-    </RMap>;
+	</RMap>
+    </div>
+    ;
 };
-
-/*
-const RendererControls: FC<RendererControlsProps> = ({
-    page,
-    setPage,
-    totalPages
-}) => {
-    return <>
-	<IonHeader class='ion-no-border'>
-	    <IonToolbar>
-		<IonButtons slot='start'>
-		    <IonButton
-			fill='clear'
-			size='small'
-			onClick={() => {
-			    setPage(page - 1);
-			}}>
-			<IonIcon
-			icon={chevronBackSharp}
-			slot='icon-only' />
-		    </IonButton>
-		</IonButtons>
-		<IonTitle className='ion-text-center' size='small'>
-		    <IonText>
-			{page + 1} of {totalPages}
-		    </IonText>
-		</IonTitle>
-		<IonButtons slot='end'>
-		    <IonButton
-			fill='clear'
-			size='small'
-			onClick={() => {
-			    setPage(page + 1);
-			}}>
-			<IonIcon
-			icon={chevronForwardSharp}
-			slot='icon-only' />
-		    </IonButton>
-		</IonButtons>
-	    </IonToolbar>
-	</IonHeader>
-    </>;
-};
-*/
-/*
-const Renderer: FC<RendererProps> = ({
-    data,
-    pageRenderer: PageRenderer
-}: RendererProps) => {
-    const [page, setPage] = useState(0);
-    if(data === undefined
-       || data.length === 0){
-	return (
-	    <>
-		<PageRenderer data={null} />
-	    </>
-	);
-    }else{
-	return (
-	    <>
-	    {data.length > 1
-	  && <RendererControls {...{page, setPage}} totalPages={data.length} />}
-		<PageRenderer data={data[page]}/>
-	    </>
-	);
-    }
-};
-*/

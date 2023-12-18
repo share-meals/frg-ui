@@ -50,7 +50,6 @@ export const LayerToggles = () => {
 	setVisibleLayers,
 	visibleLayers
     } = useMap();
-    console.log(visibleLayers);
     const layerToggles: JSX.Element[] = useMemo(() => {
 	return Object.values(visibleLayers).map((
 	    {fillColor, name}: any, // todo: better typing
