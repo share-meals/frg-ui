@@ -1,10 +1,7 @@
-import {
-    chevronBackSharp,
-    chevronForwardSharp
-} from 'ionicons/icons';
 import {Coordinate} from 'ol/coordinate';
 import {
     FC,
+    JSX,
     useEffect,
     useMemo,
     useState
@@ -14,37 +11,11 @@ import {
     fromLonLat,
     toLonLat
 } from 'ol/proj';
-import {
-    GeocoderInput,
-    GeocoderProvider,
-    useGeocoder
-} from './Geocoder';
-import type {
-    onGeocodeProps
-} from './Geocoder';
 import GeoJSON from 'ol/format/GeoJSON';
 import {generateStyle} from './generateStyle';
-import {
-    IonButton,
-    IonButtons,
-    IonCard,
-    IonCardContent,
-    IonCheckbox,
-    IonCol,
-    IonGrid,
-    IonHeader,
-    IonIcon,
-    IonItem,
-    IonList,
-    IonRow,
-    IonText,
-    IonTitle,
-    IonToolbar,
-} from '@ionic/react';
 import {Point} from 'ol/geom';
 import {
     RFeature,
-    //    RLayerTile,
     RLayerVector,
     RMap,
     ROSM,
@@ -55,12 +26,19 @@ import type {
 import {
     RView
 } from 'rlayers/RMap';
+import {
+    useMap
+} from './MapContext';
 
 import 'ol/ol.css';
 
 import type {
     LatLng,
 } from './interfaces';
+
+import type {
+    MapLayer
+} from './MapLayers';
 
 export interface RendererControlsProps {
     page: number,
@@ -73,47 +51,18 @@ export interface RendererProps {
     pageRenderer: FC<{data: any}> // todo: better typing
 }
 
-export interface MapLayer {
-    name: string,
-    geojson: GeoJSON.GeoJSON,
-    fillColor: string,
-    strokeColor: string,
-    icon?: {
-	src: string,
-	scale: number
-    }
-};
+export * from './MapContext';
 
 export interface MapProps extends Partial<RMapProps> {
-    center: {
-	lat: number,
-	lng: number
-    },
+    controls?: JSX.Element,
     featureRadius?: number,
     featureWidth?: number,
-    geocoderApiKey?: string,
-    geocoderLabel?: string,
-    geocoderPlatform?: 'nominatim' | 'google',
-    geocoderUrl?: string,
-    layers: MapLayer[],
     onMapCenter?: ({lat, lng, address}: {lat: number | null, lng: number | null, address: string}) => void,
     onMapClick?: (latlng: LatLng) => void,
     renderer: FC,
     spotlightColor?: string,
     spotlightRadius?: number,
-    zoom?: number,
 };
-
-
-const generateMapLayerType = (geojson: GeoJSON.GeoJSON): GeoJSON.GeoJsonTypes => {
-    switch(geojson.type){
-	case 'FeatureCollection':
-	    return geojson.features[0].geometry.type;
-	default:
-	    // todo: process other GeoJsonTypes
-	    return 'Point';
-    }
-}
 
 const calculateZoomLevel = ({
     zoom,
@@ -136,31 +85,24 @@ const calculateZoomLevel = ({
     }
 };
 
-export const Map: FC<MapProps> = (props) => {
-    return <GeocoderProvider>
-	<MapComponent {...props} />
-    </GeocoderProvider>
-}
-
-const MapComponent: FC<MapProps> = ({
-    center,
+export const Map: FC<MapProps> = ({
+    controls,
     featureRadius = 10,
     featureWidth = 10,
-    geocoderApiKey,
-    geocoderLabel,
-    geocoderPlatform,
-    geocoderUrl,
-    layers = [],
-    maxZoom = 20,
-    minZoom = 10,
-    onMapCenter,
     onMapClick,
-    renderer,
     spotlightColor = 'red',
     spotlightRadius = 16,
-    zoom,
-    //    ...props
 }: MapProps) => {
+    const {
+	internalCenter: center,
+	layers,
+	maxZoom,
+	minZoom,
+	setClickedFeatures,
+	setZoom,
+	visibleLayers,
+	zoom
+    } = useMap();
     const [view, setView] = useState<RView>({
 	center: fromLonLat([
 	    center.lng,
@@ -168,61 +110,40 @@ const MapComponent: FC<MapProps> = ({
 	]),
 	zoom: zoom || minZoom
     });
-    const [geocoderErrorMessage, setGeocoderErrorMessage] = useState<string | null>(null);
-    const [popupData, setPopupData] = useState<{[key: string]: any}[]>([]);
     const [spotlight, setSpotlight] = useState<Point>();
     const [zoomPercentage, setZoomPercentage] = useState<number>(1);
 
-    const {
-	setApiKey: setGeocoderApiKey,
-	setPlatform: setGeocoderPlatform,
-	setUrl: setGeocoderUrl,
-    } = useGeocoder();
-
     useEffect(() => {
-	setGeocoderApiKey(geocoderApiKey);
-    }, [geocoderApiKey]);
-    useEffect(() => {
-	setGeocoderPlatform(geocoderPlatform);
-    }, [geocoderPlatform]);
-    useEffect(() => {
-	setGeocoderUrl(geocoderUrl);
-    }, [geocoderUrl]);
+	if(zoom !== undefined){
+	    setView({
+		center: view.center,
+		zoom: zoom
+	    });
+	}
+    }, [zoom]);
     
-    const geocoderInput = <GeocoderInput
-			      placeholder={geocoderLabel}
-			      onGeocode={({latlng, address}: onGeocodeProps) => {
-				  if(onMapCenter !== undefined){
-				      onMapCenter({
-					  address,
-					  lat: latlng?.lat || null,
-					  lng: latlng?.lng || null,
-				      });
-				     }
-				  if(latlng !== null){
-				      const point: Coordinate = fromLonLat([latlng.lng, latlng.lat]);
-				      setView({
-					  center: point,
-					  zoom: view.zoom
-				      });
-				      setSpotlight!(new Point(point));
-				      setGeocoderErrorMessage(null);
-				  }else{
-				      setGeocoderErrorMessage('Address not found');
-				  }
-			      }}/>;
-
+    useEffect(() => {
+	setView({
+	    center: fromLonLat([
+		center.lng,
+		center.lat
+	    ]),
+	    zoom: view.zoom
+	});
+    }, [center, setView]);
+    
     useEffect(() => {
 	const newZoomPercentage: number = calculateZoomLevel({
 	    zoom: view.zoom,
 	    minZoom,
 	    maxZoom
 	});
+	setZoom(view.zoom);
 	if(newZoomPercentage !== zoomPercentage){
 	    setZoomPercentage(newZoomPercentage);
 	}
     }, [view]);
-    
+
     const features = useMemo(() => {
 	return layers.map((
 	    layer: MapLayer,
@@ -238,58 +159,7 @@ const MapComponent: FC<MapProps> = ({
 	    return features;
 	});
     }, []);
-
-    const [visibleLayers, setVisibleLayers] = useState(Object.fromEntries(Object.values(layers).map((
-	layer: MapLayer
-    ) =>
-	[
-	    layer.name,
-	    {
-		name: layer.name,
-		visible: true,
-		fillColor: layer.fillColor,
-		strokeColor: layer.strokeColor,
-		icon: layer.icon,
-		type: generateMapLayerType(layer.geojson)
-	    }
-	]
-    )));
     
-    const layerToggles: JSX.Element[] = useMemo(() => {
-	return Object.values(visibleLayers).map((
-	    {fillColor, name}: any, // todo: better typing
-	    index: number
-	) => {
-	    return (
-		<IonItem key={index}>
-		    <IonCheckbox
-			checked={visibleLayers[name].visible}
-			justify='start'
-			labelPlacement='end'
-			mode='md'
-			onIonChange={(e) => {
-			    setVisibleLayers({
-				...visibleLayers,
-				[name]: {
-				    ...visibleLayers[name],
-				    visible: e.target.checked
-				}
-			    });
-			}}
-			style={{
-			    '--border-color': fillColor,
-			    '--border-color-checked': fillColor,
-			    '--checkbox-background-checked': fillColor,
-			    '--checkmark-color': fillColor
-			}}>
-			{name}
-		    </IonCheckbox>
-		</IonItem>
-	    );
-	}
-	);
-    }, [visibleLayers]);
-
     const handleClick = (event: any) => {
 	const features: Feature[] = event.map.getFeaturesAtPixel(
 	    event.pixel,
@@ -319,8 +189,7 @@ const MapComponent: FC<MapProps> = ({
 		    ...(feature.getProperties())
 		}
 	    });
-
-	    setPopupData(featureProperties);
+	    setClickedFeatures(featureProperties);
 	}
     }
 
@@ -349,120 +218,30 @@ const MapComponent: FC<MapProps> = ({
 	)).reverse();
     }, [features, visibleLayers, zoomPercentage]);
 
-    return (
-	<>
-	    <IonGrid style={{height: '100%'}}>
-		<IonRow style={{height: '100%'}}>
-		    <IonCol size='8' style={{height: '100%'}}>
-			<RMap
-			    height='100%'
-			    initial={view}
-			    maxZoom={maxZoom}
-			    minZoom={minZoom}
-			    onClick={handleClick}
-			    view={[view, setView]}
-			    width='100%'>
-			    <ROSM />
-			    {layersRendered}
-			    <RLayerVector zIndex={2}>
-				{generateStyle({
-				    strokeColor: spotlightColor,
-				    type: 'Spotlight',
-				    radius: spotlightRadius,
-				    zoomPercentage
-				})}
-				<RFeature geometry={spotlight} />
-			    </RLayerVector>
-			</RMap>
-		    </IonCol>
-		    <IonCol size='4'>
-			<IonList>
-			    {layerToggles}
-			</IonList>
-			{geocoderInput}
-			{geocoderErrorMessage !== null
-			&&
-			 <IonCard color='danger'>
-			     <IonCardContent>
-				 <IonText>
-				     {geocoderErrorMessage}
-				 </IonText>
-			     </IonCardContent>
-			 </IonCard>
-			}
-			<Renderer
-			data={popupData}
-			key={JSON.stringify(popupData)}
-			pageRenderer={renderer}
-			/>
-		    </IonCol>
-		</IonRow>
-	    </IonGrid>
-	</>
-    );
-};
-
-const RendererControls: FC<RendererControlsProps> = ({
-    page,
-    setPage,
-    totalPages
-}) => {
-    return <>
-	<IonHeader class='ion-no-border'>
-	    <IonToolbar>
-		<IonButtons slot='start'>
-		    <IonButton
-			fill='clear'
-			size='small'
-			onClick={() => {
-			    setPage(page - 1);
-			}}>
-			<IonIcon
-			icon={chevronBackSharp}
-			slot='icon-only' />
-		    </IonButton>
-		</IonButtons>
-		<IonTitle className='ion-text-center' size='small'>
-		    <IonText>
-			{page + 1} of {totalPages}
-		    </IonText>
-		</IonTitle>
-		<IonButtons slot='end'>
-		    <IonButton
-			fill='clear'
-			size='small'
-			onClick={() => {
-			    setPage(page + 1);
-			}}>
-			<IonIcon
-			icon={chevronForwardSharp}
-			slot='icon-only' />
-		    </IonButton>
-		</IonButtons>
-	    </IonToolbar>
-	</IonHeader>
-    </>;
-};
-
-const Renderer: FC<RendererProps> = ({
-    data,
-    pageRenderer: PageRenderer
-}: RendererProps) => {
-    const [page, setPage] = useState(0);
-    if(data === undefined
-       || data.length === 0){
-	return (
-	    <>
-		<PageRenderer data={null} />
-	    </>
-	);
-    }else{
-	return (
-	    <>
-	    {data.length > 1
-	  && <RendererControls {...{page, setPage}} totalPages={data.length} />}
-		<PageRenderer data={data[page]}/>
-	    </>
-	);
-    }
+    // wrap in a relative div so controls can be positioned absolute inside
+    return <div style={{position: 'relative', height: '100%'}}>
+    <RMap
+	height='100%'
+	initial={view}
+	maxZoom={maxZoom}
+	minZoom={minZoom}
+	noDefaultControls={true}
+	onClick={handleClick}
+	view={[view, setView]}
+	width='100%'>
+	<ROSM />
+    {controls}
+	{layersRendered}
+	<RLayerVector zIndex={2}>
+	    {generateStyle({
+		strokeColor: spotlightColor,
+		type: 'Spotlight',
+		radius: spotlightRadius,
+		zoomPercentage
+	    })}
+	    <RFeature geometry={spotlight} />
+	</RLayerVector>
+	</RMap>
+    </div>
+    ;
 };
