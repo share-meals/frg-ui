@@ -22,7 +22,7 @@ import {zodResolver} from '@hookform/resolvers/zod';
 
 export interface GeocoderInputProps {
     label?: string,
-    onGeocode: (props: onGeocodeProps) => void,
+    onGeocode?: (props: onGeocodeProps) => void,
     placeholder?: string
 };
 
@@ -120,10 +120,12 @@ export const GeocoderInput = ({
 		    );
 		}else{
 		    setInternalCenter(latlng);
-		    onGeocode({
-			latlng,
-			address: data.address
-		    });
+		    if(onGeocode){
+			onGeocode({
+			    latlng,
+			    address: data.address
+			});
+		    }
 		}
 		break;
 	    default:
