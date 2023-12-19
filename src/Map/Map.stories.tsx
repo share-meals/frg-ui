@@ -180,7 +180,9 @@ const meta: Meta<typeof Map> = {
 			lat: 40.7127281,
 			lng: -74.0060152
 		    }}
-		    layers={layers}>
+		    layers={layers}
+		    maxZoom={20}
+		    minZoom={10}>
 		    <GeocoderProvider
 			platform='nominatim'
 			url='https://nominatim.openstreetmap.org/search'>

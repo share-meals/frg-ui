@@ -40,17 +40,6 @@ import type {
     MapLayer
 } from './MapLayers';
 
-export interface RendererControlsProps {
-    page: number,
-    setPage: (page: number) => void,
-    totalPages: number
-};
-
-export interface RendererProps {
-    data: any,
-    pageRenderer: FC<{data: any}> // todo: better typing
-}
-
 export * from './MapContext';
 
 export interface MapProps extends Partial<RMapProps> {
@@ -59,7 +48,6 @@ export interface MapProps extends Partial<RMapProps> {
     featureWidth?: number,
     onMapCenter?: ({lat, lng, address}: {lat: number | null, lng: number | null, address: string}) => void,
     onMapClick?: (latlng: LatLng) => void,
-    renderer: FC,
     spotlightColor?: string,
     spotlightRadius?: number,
 };

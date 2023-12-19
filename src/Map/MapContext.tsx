@@ -57,7 +57,6 @@ export interface MapProvider {
     layers: MapLayer[],
     maxZoom: number,
     minZoom: number,
-    visibleLayers: VisibleMapLayers,
     zoom?: number,
 }
 
