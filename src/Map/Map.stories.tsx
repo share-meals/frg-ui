@@ -90,7 +90,7 @@ const layers: MapLayer[] = [
 const InfoModal = ({trigger}: {trigger: string}) => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
     useEffect(() => {
-	setIsOpen(trigger !== null);
+	setIsOpen(trigger !== '');
     }, [trigger]);
     return <IonModal isOpen={isOpen}>
 	<IonHeader>
@@ -159,18 +159,22 @@ const meta: Meta<typeof Map> = {
 	    width: number
 	} = useWindowSize();
 	const isMobile: boolean = size.width < 576;
-	const controls = <>
-	    <ZoomButtons className='primaryButtons' />
-	    {isMobile && <RControl.RCustom className='secondaryButtons'>
-		<IonButton id='openLayerToggles'>
+	const controls: MapControl[] = [
+	    {
+		className:'primaryButtons',
+		element: ZoomButtons
+	    },
+	    {
+		className: 'secondaryButtons',
+		element: <IonButton id='openLayerToggles'>
 		    <IonIcon slot='icon-only' icon={layersSharp} />
 		</IonButton>
-	    </RControl.RCustom>}
-	</>;
-	const [infoTrigger, setInfoTrigger] = useState<string>(null);
+	    }
+	];
+	const [infoTrigger, setInfoTrigger] = useState<string>('');
 	useEffect(() => {
-	    if(!isMobile && infoTrigger !== null){
-		setInfoTrigger(null);
+	    if(!isMobile && infoTrigger !== ''){
+		setInfoTrigger('');
 	    }
 	}, [isMobile, infoTrigger, setInfoTrigger]);
 	return <>
@@ -192,8 +196,7 @@ const meta: Meta<typeof Map> = {
 				 <IonCol>
 				     <Map
 				     {...props}
-				     controls={controls}
-
+					 controls={controls.slice(0, 1)}
 				     />
 				 </IonCol>
 				 <IonCol>
@@ -207,10 +210,10 @@ const meta: Meta<typeof Map> = {
 			{isMobile && <>
 			    <Map
 			    {...props}
+				controls={controls}
 				onMapClick={() => {
 				    setInfoTrigger(new Date());
 				}}
-				controls={controls}
 			    />
 			    <InfoModal trigger={infoTrigger} />
 			    <LayerTogglesModal />

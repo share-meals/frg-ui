@@ -87,6 +87,9 @@
         "type": "git",
         "url": "git+https://github.com/share-meals/frg-ui.git"
     },
+    "resolutions": {
+	"react-element-to-jsx-string": "14.3.2"
+    },
     "scripts": {
         "dev": "vite",
         "prebuild": "rm -rf dist",

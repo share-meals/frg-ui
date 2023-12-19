@@ -1,3 +1,4 @@
+import {JSX} from 'react';
 import {
     IonButton,
     IonIcon
@@ -6,7 +7,6 @@ import {
     addSharp,
     removeSharp
 } from 'ionicons/icons';
-import {RControl} from 'rlayers';
 
 import {
     useMap
@@ -14,7 +14,12 @@ import {
 
 export interface ZoomButton {
     type: '-' | '+'
-}
+};
+
+export interface MapControl {
+    className: string,
+    element: JSX.Element
+};
 
 export const ZoomButton = ({
     type
@@ -37,9 +42,7 @@ export const ZoomButton = ({
     </IonButton>
 }
 
-export const ZoomButtons = ({className}: {className: string}) => {
-    return <RControl.RCustom className={className}>
-	<ZoomButton type='+' />
-	<ZoomButton type='-' />
-    </RControl.RCustom>
-}
+export const ZoomButtons: JSX.Element = <>
+    <ZoomButton type='+' />
+    <ZoomButton type='-' />
+</>;
