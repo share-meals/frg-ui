@@ -9,7 +9,7 @@ import {
 import type {
     LatLng,
 } from './interfaces';
-
+import {Point} from 'ol/geom';
 import {
     generateMapLayerType,
 } from './MapLayers';
@@ -27,8 +27,10 @@ interface MapContext {
     minZoom: number,
     setClickedFeatures: Dispatch<SetStateAction<any>>
     setInternalCenter: Dispatch<SetStateAction<LatLng>>,
+    setSpotlight: Dispatch<SetStateAction<Point | undefined>>,
     setVisibleLayers: Dispatch<SetStateAction<VisibleMapLayers>>,
     setZoom: Dispatch<SetStateAction<number>>,
+    spotlight: Point | undefined,
     visibleLayers: VisibleMapLayers,
     zoom?: number
 };
@@ -44,8 +46,10 @@ const MapContext = createContext<MapContext>({
     minZoom: 20,
     setClickedFeatures: () => {},
     setInternalCenter: () => {},
+    setSpotlight: () => {},
     setVisibleLayers: () => {},
     setZoom: () => {},
+    spotlight: undefined,
     visibleLayers: {},
     zoom: 10
 });
@@ -68,9 +72,10 @@ export const MapProvider = ({
     minZoom = 10,
     zoom: zoomFromProps,
 }: PropsWithChildren<MapProvider>) => {
-    const [internalCenter, setInternalCenter] = useState<LatLng>(center);
-    const [clickedFeatures, setClickedFeatures] = useState<any[]>([])
-    const [visibleLayers, setVisibleLayers] = useState<VisibleMapLayers>(Object.fromEntries(Object.values(layers).map((
+    const [internalCenter, setInternalCenter] = useState<MapContext['internalCenter']>(center);
+    const [clickedFeatures, setClickedFeatures] = useState<MapContext['clickedFeatures']>([]);
+    const [spotlight, setSpotlight] = useState<MapContext['spotlight']>();
+    const [visibleLayers, setVisibleLayers] = useState<MapContext['visibleLayers']>(Object.fromEntries(Object.values(layers).map((
 	layer: MapLayer
     ) =>
 	[
@@ -96,8 +101,10 @@ export const MapProvider = ({
 	minZoom,
 	setClickedFeatures,
 	setInternalCenter,
+	setSpotlight,
 	setVisibleLayers,
 	setZoom,
+	spotlight,
 	visibleLayers,
 	zoom
     }}>

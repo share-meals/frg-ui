@@ -89,7 +89,9 @@ export const Map: FC<MapProps> = ({
 	maxZoom,
 	minZoom,
 	setClickedFeatures,
+	setSpotlight,
 	setZoom,
+	spotlight,
 	visibleLayers,
 	zoom
     } = useMap();
@@ -100,7 +102,6 @@ export const Map: FC<MapProps> = ({
 	]),
 	zoom: zoom || minZoom
     });
-    const [spotlight, setSpotlight] = useState<Point>();
     const [zoomPercentage, setZoomPercentage] = useState<number>(1);
 
     useEffect(() => {
@@ -210,8 +211,8 @@ export const Map: FC<MapProps> = ({
 
     const controlsRendered = useMemo(() => {
 	if(controls){
-	    return controls.map((control) => {
-		return <RControl.RCustom className={control.className}>
+	    return controls.map((control, index) => {
+		return <RControl.RCustom className={control.className} key={index}>
 		    {control.element}
 		</RControl.RCustom>
 	    });

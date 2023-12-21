@@ -1,3 +1,4 @@
+import {fromLonLat} from 'ol/proj';
 import {Input} from '@/Input';
 import type {IonInput} from '@/Input';
 import {
@@ -7,12 +8,11 @@ import {
     IonIcon,
     IonRow,
 } from '@ionic/react';
+import type {LatLng} from '../interfaces';
+import {Point} from 'ol/geom';
 import {
     searchSharp
 } from 'ionicons/icons';
-import type {
-    LatLng,
-} from '../interfaces';
 import {
     useForm
 } from 'react-hook-form';
@@ -104,39 +104,49 @@ export const GeocoderInput = ({
 	url
     } = useGeocoder();
     const {
-	setInternalCenter
+	setInternalCenter,
+	setSpotlight,
     } = useMap();
     const onSubmit = handleSubmit(async (data) => {
+	let latlng: LatLng | null = null;
 	switch(platform){
 	    case 'nominatim':
-		const latlng: LatLng | null = await geocodeNominatim(
+		latlng = await geocodeNominatim(
 		    data,
 		    url
 		);
-		if(latlng === null){
-		    setError(
-			'address',
-			{
-			    type: 'custom',
-			    message: 'Address not found. Please try a different one.'
-			}
-		    );
-		}else{
-		    setInternalCenter(latlng);
-		    if(onGeocode){
-			onGeocode({
-			    latlng,
-			    address: data.address
-			});
-		    }
-		}
 		break;
 	    default:
 		// do nothing?
 		break;
 	}
+	
+	if(latlng === null){
+	    setError(
+		'address',
+		{
+		    type: 'custom',
+		    message: 'Address not found. Please try a different one.'
+		}
+	    );
+	}else{
+	    setInternalCenter(latlng);
+	    setSpotlight(
+		new Point(
+		    fromLonLat([
+			latlng.lng,
+			latlng.lat
+		    ])
+		)
+	    );
+	    if(onGeocode){
+		onGeocode({
+		    latlng,
+		    address: data.address
+		});
+	    }
+	}
     });
-    
     return <>
 	<form onSubmit={onSubmit}>
 	    <IonGrid>
