@@ -4,7 +4,6 @@ import type {
 } from '@storybook/react';
 
 import {
-    SubmitHandler,
     useForm,
     useWatch
 } from 'react-hook-form';

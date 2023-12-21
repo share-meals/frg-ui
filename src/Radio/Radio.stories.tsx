@@ -2,9 +2,12 @@ import type {
     Meta,
     StoryObj
 } from '@storybook/react';
+import {
+    IonItem,
+    IonList
+} from '@ionic/react';
 
 import {
-    SubmitHandler,
     useForm,
     useWatch
 } from 'react-hook-form';
@@ -12,7 +15,10 @@ import {z} from 'zod';
 import {zodResolver} from '@hookform/resolvers/zod';
 
 import {Radio} from './Radio';
-import type {RadioOption} from './Radio';
+import type {
+    Radio as RadioProps,
+    RadioOption
+} from './Radio';
 
 const options: RadioOption[] = [
     {
@@ -33,7 +39,7 @@ const options: RadioOption[] = [
     },
 ];
 
-const meta: Meta<typeof Radio> = {
+const meta: Meta<RadioProps & {defaultValue: string}> = {
     argTypes: {
 	control: {
 	    table: {
@@ -71,12 +77,15 @@ const meta: Meta<typeof Radio> = {
 	});
 	return (
 	    <>
+		<IonList>
 		<Radio
 		{...props}
 		    control={control}
 		    name='field'
 		options={options}
+		wrapper={IonItem}
 		/>
+		</IonList>
 		<br />
 		value of field: {field}
 	    </>
@@ -86,12 +95,16 @@ const meta: Meta<typeof Radio> = {
 }
 
 export default meta;
-type Story = StoryObj<typeof Radio>;
+type Story = StoryObj<RadioProps & {defaultValue: string}>;
 
 export const Default: Story = {
     args: {
-	justify: 'end',
 	labelPlacement: 'end',
-	optionSize: '12',
+    }
+};
+
+export const WithDefaultValue: Story = {
+    args: {
+	defaultValue: 'caspian_sea'
     }
 };

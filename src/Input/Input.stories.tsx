@@ -3,7 +3,6 @@ import type {
     StoryObj
 } from '@storybook/react';
 import {
-    SubmitHandler,
     useForm,
     useWatch
 } from 'react-hook-form';
@@ -22,13 +21,12 @@ const meta: Meta<typeof Input> = {
 	});
 	type schemaType = z.infer<typeof schema>;
 	const {
-	    control,
-	    handleSubmit
+	    control
 	} = useForm<schemaType>({
 	    mode: 'onChange',
 	    resolver: zodResolver(schema)
 	});
-	const field: string[] = useWatch({
+	const field: string = useWatch({
 	    control,
 	    name: 'field'
 	});

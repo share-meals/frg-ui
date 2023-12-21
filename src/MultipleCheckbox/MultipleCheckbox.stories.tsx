@@ -3,7 +3,6 @@ import type {
     StoryObj
 } from '@storybook/react';
 import {
-    SubmitHandler,
     useForm,
     useWatch
 } from 'react-hook-form';
@@ -52,8 +51,7 @@ const meta: Meta<typeof MultipleCheckbox> = {
 		    .array()
 	});
 	const {
-	    control,
-	    handleSubmit
+	    control
 	} = useForm<z.infer<typeof schema>>({
 	    defaultValues: {
 		field: []

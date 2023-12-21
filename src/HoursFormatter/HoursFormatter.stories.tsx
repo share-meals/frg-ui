@@ -90,21 +90,21 @@ const HoursRow = ({
     if(isValid(hour)){
 	return (
 	    <IonRow>
-		<IonCol size={1}>
+		<IonCol size='1'>
 		    <IonButton color='success'>
 			<IonIcon icon={checkmarkSharp} slot='icon-only'/>
 		    </IonButton>
 		</IonCol>
-		<IonCol size={4} style={{whiteSpace: 'pre'}}>
+		<IonCol size='4' style={{whiteSpace: 'pre'}}>
 		    {JSON.stringify(hour, null, '    ')}
 		</IonCol>
-		<IonCol size={2}>
+		<IonCol size='2'>
 		    {days}
 		</IonCol>
-		<IonCol size={2}>
+		<IonCol size='2'>
 		    {hour.time_start !== null && hour.time_zone !== null && <TimeDisplay time={hour as ITime} />}
 		</IonCol>
-		<IonCol size={3}>
+		<IonCol size='3'>
 		    {hour.notes}
 		</IonCol>
 	    </IonRow>
@@ -112,12 +112,12 @@ const HoursRow = ({
     }else{
 	return(
 	    <IonRow>
-		<IonCol size={1}>
+		<IonCol size='1'>
 		    <IonButton color='danger'>
 			<IonIcon icon={closeSharp} slot='icon-only' />
 		    </IonButton>
 		</IonCol>
-		<IonCol size={4} style={{whiteSpace: 'pre'}}>
+		<IonCol size='4' style={{whiteSpace: 'pre'}}>
 		    {JSON.stringify(hour, null, '    ')}
 		</IonCol>
 	    </IonRow>
@@ -139,24 +139,24 @@ const Template: ComponentStory<typeof Wrapper> = (
     return (
 	<IonGrid>
 	    <IonRow>
-		<IonCol size={1}>
+		<IonCol size='1'>
 		    
 		</IonCol>
-		<IonCol size={4}>
+		<IonCol size='4'>
 		    input
 		</IonCol>
-		<IonCol size={2}>
+		<IonCol size='2'>
 		    days
 		</IonCol>
-		<IonCol size={2}>
+		<IonCol size='2'>
 		    hours
 		</IonCol>
-		<IonCol size={3}>
+		<IonCol size='3'>
 		    notes
 		</IonCol>
 	    </IonRow>
 	    {
-		hours.map((hour: Iours, index: number) => 
+		hours.map((hour: Hours, index: number) => 
 		    <HoursRow key={index} hour={hour} dictionary={dictionary} />
 		)
 	    }

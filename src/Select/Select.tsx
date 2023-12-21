@@ -49,7 +49,7 @@ export interface IonSelect {
     value?: any
 }
 
-export interface SelectProps extends IonSelect {
+export interface Select extends IonSelect {
     control: Control<any>,
     options: SelectOption[],
     testId?: string
@@ -61,7 +61,7 @@ export const Select = ({
     options,
     testId,
     ...props
-}: SelectProps): JSX.Element =>
+}: Select): JSX.Element =>
     <Controller
 	control={control}
 	name={name}

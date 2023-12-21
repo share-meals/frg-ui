@@ -4,7 +4,6 @@ import type {
 } from '@storybook/react';
 
 import {
-    SubmitHandler,
     useForm,
     useWatch
 } from 'react-hook-form';
@@ -12,7 +11,10 @@ import {z} from 'zod';
 import {zodResolver} from '@hookform/resolvers/zod';
 
 import {Select} from './Select';
-import type {SelectOption} from './Select';
+import type {
+    Select as SelectProps,
+    SelectOption
+} from './Select';
 
 const options: SelectOption[] = [
     {
@@ -29,7 +31,7 @@ const options: SelectOption[] = [
     }
 ];
 
-const meta: Meta<typeof Select> = {
+const meta: Meta<SelectProps & {defaultValue: string}> = {
     argTypes: {
 	control: {
 	    table: {
@@ -81,7 +83,7 @@ const meta: Meta<typeof Select> = {
 }
 
 export default meta;
-type Story = StoryObj<typeof Select>;
+type Story = StoryObj<SelectProps & {defaultValue: string}>;
 
 export const Default: Story = {
     args: {

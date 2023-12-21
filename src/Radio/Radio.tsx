@@ -6,11 +6,8 @@ import {
     JSX
 } from 'react';
 import {
-    IonCol,
-    IonGrid,
     IonRadio,
     IonRadioGroup,
-    IonRow,
 } from '@ionic/react';
 import {
     color,
@@ -40,7 +37,7 @@ export interface RadioOption extends Exclude<IonRadio, 'alignment' | 'justify' |
 
 };
 
-export interface RadioProps extends IonRadioGroup {
+export interface Radio extends IonRadioGroup {
     alignment?: 'center' | 'start',
     control: Control<any>,
     justify?: justify,
@@ -48,7 +45,9 @@ export interface RadioProps extends IonRadioGroup {
     mode: mode,
     name: string,
     options: RadioOption[],
-    testId?: string
+    optionSize?: string,
+    testId?: string,
+    wrapper?: React.ComponentType<React.PropsWithChildren<{}>>
 };
 
 export const Radio = ({
@@ -58,47 +57,41 @@ export const Radio = ({
     labelPlacement = 'end',
     name,
     options,
+    optionSize = '12',
     testId,
+    wrapper: Wrapper = ({children}) => children,
     ...props
-}: RadioProps): JSX.Element =>
-    <IonGrid>
-	<IonRow>
-	    <Controller
-	    control={control}
-	    name={name}
-	    render={({
-		field: {
-		    onChange,
-		    onBlur,
-		    ...fields
-		}
-	    }: any): JSX.Element =>
-		<IonRadioGroup
-		    data-testid={testId}
-		    onIonChange={(event) => {
-			onChange(event.detail.value);
-		    }}
-		    {...props}
-		    {...fields}>
-		    {options.map((option: RadioOption) =>
-			<IonCol
-			    key={option.value}
-			    size="12">
-			    <IonRadio
-				value={option.value}
-				{...{
-				    alignment,
-				    justify,
-				    labelPlacement
-				}}>
-				{option.name}
-			    </IonRadio>
-			    <br />
-			</IonCol>
-		    )}
-		</IonRadioGroup>
-	    
-	    }
-	    />
-	</IonRow>
-    </IonGrid>;
+}: Radio): JSX.Element => <Controller
+	control={control}
+	name={name}
+    render={({
+	field: {
+	    onChange,
+	    onBlur,
+	    ...fields
+	}
+    }: any): JSX.Element =>
+	<IonRadioGroup
+	    data-testid={testId}
+	    onIonChange={(event) => {
+		onChange(event.detail.value);
+	    }}
+	    {...props}
+	    {...fields}>
+	    {options.map((option: RadioOption) =>
+		<Wrapper key={option.value}>
+		    <IonRadio
+			value={option.value}
+			{...{
+			    alignment,
+			    justify,
+			    labelPlacement
+			}}>
+			{option.name}
+		    </IonRadio>
+		</Wrapper>
+	    )}
+	</IonRadioGroup>	
+    }
+    />
+;

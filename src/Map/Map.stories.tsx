@@ -20,18 +20,14 @@ import {
     IonRow,
     IonToolbar
 } from '@ionic/react';
-import {RControl} from 'rlayers';
 import {
     Map,
     MapProvider
 } from './Map';
-import {
-    ZoomButtons
-} from './MapControls';
-import {
-    LayerToggles
-} from './MapLayers';
-import type {MapLayer} from './Map';
+import {ZoomButtons} from './MapControls';
+import type {MapControl} from './MapControls';
+import {LayerToggles} from './MapLayers';
+import type {MapLayer} from './MapLayers';
 import {
     GeocoderInput,
     GeocoderProvider
@@ -55,6 +51,7 @@ import cpd_truck from './stories_data/cpd_truck.png';
 const layers: MapLayer[] = [
     {
 	name: 'Community Partner Distributions',
+	// @ts-ignore
 	geojson: cpds,
 	fillColor: '#54688b',
 	strokeColor: 'white',
@@ -65,6 +62,7 @@ const layers: MapLayer[] = [
     },
     {
 	name: 'Mobile Markets',
+	// @ts-ignore
 	geojson: mms,
 	fillColor: '#006747',
 	strokeColor: 'white',
@@ -75,12 +73,14 @@ const layers: MapLayer[] = [
     },
     {
 	name: 'Food Pantries',
+	// @ts-ignore
 	geojson: food_pantries,
 	fillColor: '#64a70b',
 	strokeColor: 'white'
     },
     {
 	name: 'Soup Kitchens',
+	// @ts-ignore
 	geojson: soup_kitchens,
 	fillColor: '#893B67',
 	strokeColor: 'white'
@@ -132,7 +132,7 @@ const meta: Meta<typeof Map> = {
 	const geocoderInput = <GeocoderInput
 	helperText='To find food near you, please enter your address, city, and zip code'
 	fill='outline'
-	onGeocode={({latlng, address}: onGeocodeProps) => {
+	onGeocode={() => {
 	    
 	    /*
 	       if(onMapCenter !== undefined){
@@ -157,10 +157,10 @@ const meta: Meta<typeof Map> = {
 	}}
 	/>;
 	const size: {
-	    height: number,
-	    width: number
+	    height: number | null,
+	    width: number | null
 	} = useWindowSize();
-	const isMobile: boolean = size.width < 576;
+	const isMobile: boolean = size.width === null ? false : size.width < 576; // if size is not available, assume desktop
 	const controls: MapControl[] = [
 	    {
 		className:'primaryButtons',
@@ -214,7 +214,7 @@ const meta: Meta<typeof Map> = {
 			    {...props}
 				controls={controls}
 				onMapClick={() => {
-				    setInfoTrigger(new Date());
+				    setInfoTrigger((new Date()).toString());
 				}}
 			    />
 			    <InfoModal trigger={infoTrigger} />
