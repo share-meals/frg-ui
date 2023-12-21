@@ -22,7 +22,7 @@ import {z} from 'zod';
 import {zodResolver} from '@hookform/resolvers/zod';
 
 // use partial extend because name field is required by IonInput
-export interface GeocoderInput extends Omit<IonInput, 'name'>{
+export interface GeocoderInput extends Partial<IonInput>{
     onGeocode?: (props: onGeocode) => void,
 };
 
