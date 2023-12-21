@@ -1,4 +1,5 @@
 import {Input} from '@/Input';
+import type {IonInput} from '@/Input';
 import {
     IonButton,
     IonCol,
@@ -20,13 +21,14 @@ import {useMap} from '../MapContext';
 import {z} from 'zod';
 import {zodResolver} from '@hookform/resolvers/zod';
 
-export interface GeocoderInputProps {
+// use partial extend because name field is required by IonInput
+export interface GeocoderInput extends Partial<IonInput>{
     label?: string,
-    onGeocode?: (props: onGeocodeProps) => void,
+    onGeocode?: (props: onGeocode) => void,
     placeholder?: string
 };
 
-export interface GeocoderGeocodeProps {
+export interface GeocoderGeocode {
     address: string
 };
 
@@ -56,13 +58,13 @@ export interface NominatimSearchResult {
     }
 };
 
-export interface onGeocodeProps {
+export interface onGeocode {
     latlng: LatLng | null,
     address: string
 };
 
 const geocodeNominatim = async (
-    data: GeocoderGeocodeProps,
+    data: GeocoderGeocode,
     url: string | undefined
 ): Promise<LatLng | null> => {
     const geocoderResponse = await fetch(`${url}?q=${data.address}&limit=1&format=json`);
@@ -81,8 +83,9 @@ const geocodeNominatim = async (
 export const GeocoderInput = ({
     label = 'Address',
     onGeocode,
-    placeholder
-}: GeocoderInputProps) => {
+    placeholder,
+    ...props
+}: GeocoderInput) => {
     const schema = z.object({
 	address: z.string()
 		  .min(3)
@@ -145,6 +148,7 @@ export const GeocoderInput = ({
 			    label={label}
 			    name='address'
 			    placeholder={placeholder}
+			{...props}
 			/>
 		    </IonCol>
 		    <IonCol size='auto' style={{paddingLeft: 0, paddingTop: 10}}>

@@ -130,6 +130,8 @@ const meta: Meta<typeof Map> = {
     component: Map,
     render: (props) => {
 	const geocoderInput = <GeocoderInput
+	helperText='To find food near you, please enter your address, city, and zip code'
+	fill='outline'
 	onGeocode={({latlng, address}: onGeocodeProps) => {
 	    
 	    /*

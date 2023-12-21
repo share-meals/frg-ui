@@ -11,7 +11,7 @@ import {
 } from '@ionic/react';
 
 // todo: find a way for props to be required?
-export interface IonInputProps {
+export interface IonInput {
     autocapitalize?: 'characters' | 'none' | 'off' | 'on' | 'sentences' | 'words',
     autocomplete?:
     'additional-name'
@@ -115,7 +115,7 @@ export interface IonInputProps {
     value?: null | number | string | undefined,
 };
 
-export interface InputProps extends IonInputProps {
+export interface Input extends IonInput {
     control: Control<any>,
     className?: string,
     testId?: string
@@ -130,7 +130,7 @@ export const Input = ({
     name,
     testId,
     ...props
-}: InputProps): JSX.Element =>
+}: Input): JSX.Element =>
     <Controller
     {...{
 	control,
