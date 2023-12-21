@@ -1,6 +1,6 @@
 import {fromLonLat} from 'ol/proj';
-import {Input} from '@/Input';
-import type {IonInput} from '@/Input';
+import {Input} from '../../Input';
+import type {IonInput} from '../../Input';
 import {
     IonButton,
     IonCol,
