@@ -3,7 +3,7 @@ import {
     useRef,
     useState
 } from 'react';
-
+import {RControl} from 'rlayers'
 import type {
     Meta,
     StoryObj
@@ -163,16 +163,21 @@ const meta: Meta<typeof Map> = {
 	const isMobile: boolean = size.width === null ? false : size.width < 576; // if size is not available, assume desktop
 	const controls: MapControl[] = [
 	    {
-		className:'primaryButtons',
-		element: ZoomButtons
+		className: '',
+		element: <IonButton>
+		    hello world
+		</IonButton>
 	    },
+	    /*
 	    {
 		className: 'secondaryButtons',
 		element: <IonButton id='openLayerToggles'>
 		    <IonIcon slot='icon-only' icon={layersSharp} />
 		</IonButton>
 	    }
+	    */
 	];
+	console.log(controls);
 	const [infoTrigger, setInfoTrigger] = useState<string>('');
 	useEffect(() => {
 	    if(!isMobile && infoTrigger !== ''){
@@ -196,10 +201,11 @@ const meta: Meta<typeof Map> = {
 			 <IonGrid>
 			     <IonRow style={{height: '100vh'}}>
 				 <IonCol>
-				     <Map
-				     {...props}
-					 controls={controls.slice(0, 1)}
-				     />
+				     <Map {...props}>
+					 <RControl.RCustom className='primaryButtons'>
+					     <ZoomButtons size='small' />
+					 </RControl.RCustom>
+				     </Map>
 				 </IonCol>
 				 <IonCol>
 				     <LayerToggles />
@@ -212,11 +218,19 @@ const meta: Meta<typeof Map> = {
 			{isMobile && <>
 			    <Map
 			    {...props}
-				controls={controls}
 				onMapClick={() => {
 				    setInfoTrigger((new Date()).toString());
-				}}
-			    />
+				}}>
+				<RControl.RCustom className='primaryButtons'>
+				    <ZoomButtons size='small' />
+				</RControl.RCustom>
+				<RControl.RCustom className='secondaryButtons'>
+				    <IonButton id='openLayerToggles' size='small'>
+					<IonIcon slot='icon-only' icon={layersSharp} />
+				    </IonButton>
+				</RControl.RCustom>
+			    </Map>
+
 			    <InfoModal trigger={infoTrigger} />
 			    <LayerTogglesModal />
 			</>}

@@ -7,13 +7,16 @@ import {
     addSharp,
     removeSharp
 } from 'ionicons/icons';
+import type {
+    IonButton as IonButtonProps
+} from '../interfaces/ionic';
 
 import {
     useMap
 } from './MapContext';
 
-export interface ZoomButton {
-    type: '-' | '+'
+export interface ZoomButton extends Omit<IonButtonProps, 'disabled'>{
+    direction: '-' | '+'
 };
 
 export interface MapControl {
@@ -22,7 +25,8 @@ export interface MapControl {
 };
 
 export const ZoomButton = ({
-    type
+    direction,
+    ...props
 }: ZoomButton) => {
     const {
 	maxZoom,
@@ -31,18 +35,20 @@ export const ZoomButton = ({
 	zoom
     } = useMap();
     return <IonButton
-    disabled={type === '+' ? zoom! >= maxZoom : zoom! <= minZoom}
-    onClick={() => {
-	const newZoom: number  = zoom! + (type === '+' ? 1 : -1);
-	setZoom(type === '+'
-	      ? (newZoom > maxZoom ? maxZoom : newZoom)
-	      : (newZoom < minZoom ? minZoom : newZoom));
-	       }}>
-	<IonIcon slot='icon-only' icon={type === '+' ? addSharp : removeSharp} />
+	       disabled={direction === '+' ? zoom! >= maxZoom : zoom! <= minZoom}
+	       onClick={() => {
+		   const newZoom: number  = zoom! + (direction === '+' ? 1 : -1);
+		   setZoom(direction === '+'
+			 ? (newZoom > maxZoom ? maxZoom : newZoom)
+			 : (newZoom < minZoom ? minZoom : newZoom));
+	       }}
+    {...props}
+    >
+	<IonIcon slot='icon-only' icon={direction === '+' ? addSharp : removeSharp} />
     </IonButton>
 }
 
-export const ZoomButtons: JSX.Element = <>
-    <ZoomButton type='+' />
-    <ZoomButton type='-' />
+export const ZoomButtons: React.FC<Omit<IonButtonProps, 'disabled'>> = (props) => <>
+    <ZoomButton direction='+' {...props} />
+    <ZoomButton direction='-' {...props} />
 </>;

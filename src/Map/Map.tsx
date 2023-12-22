@@ -14,7 +14,6 @@ import GeoJSON from 'ol/format/GeoJSON';
 import {generateStyle} from './generateStyle';
 import {Point} from 'ol/geom';
 import {
-    RControl,
     RFeature,
     RLayerVector,
     RMap,
@@ -36,16 +35,12 @@ import type {
     LatLng,
 } from './interfaces';
 import type {
-    MapControl
-} from './MapControls';
-import type {
     MapLayer
 } from './MapLayers';
 
 export * from './MapContext';
 
 export interface MapProps extends Partial<RMapProps> {
-    controls?: MapControl[],
     featureRadius?: number,
     featureWidth?: number,
     onMapCenter?: ({lat, lng, address}: {lat: number | null, lng: number | null, address: string}) => void,
@@ -75,8 +70,8 @@ const calculateZoomLevel = ({
     }
 };
 
-export const Map: FC<MapProps> = ({
-    controls,
+export const Map: FC<React.PropsWithChildren<MapProps>> = ({
+    children,
     featureRadius = 10,
     featureWidth = 10,
     onMapClick,
@@ -209,17 +204,6 @@ export const Map: FC<MapProps> = ({
 	)).reverse();
     }, [features, visibleLayers, zoomPercentage]);
 
-    const controlsRendered = useMemo(() => {
-	if(controls){
-	    return controls.map((control, index) => {
-		return <RControl.RCustom className={control.className} key={index}>
-		    {control.element}
-		</RControl.RCustom>
-	    });
-	}else{
-	    return <></>;
-	}
-    }, [controls]);
     // wrap in a relative div so controls can be positioned absolute inside
     return <div style={{position: 'relative', height: '100%'}}>
     <RMap
@@ -232,7 +216,7 @@ export const Map: FC<MapProps> = ({
 	view={[view, setView]}
 	width='100%'>
 	<ROSM />
-	{controlsRendered}
+	{children}
 	{layersRendered}
 	<RLayerVector zIndex={2}>
 	    {generateStyle({
