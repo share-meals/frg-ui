@@ -132,6 +132,7 @@ const meta: Meta<typeof Map> = {
 	const geocoderInput = <GeocoderInput
 	helperText='To find food near you, please enter your address, city, and zip code'
 	fill='outline'
+	onGeocodeZoom={17}
 	onGeocode={() => {
 	    
 	    /*

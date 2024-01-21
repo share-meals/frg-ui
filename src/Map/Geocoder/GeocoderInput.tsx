@@ -24,6 +24,7 @@ import {zodResolver} from '@hookform/resolvers/zod';
 // use partial extend because name field is required by IonInput
 export interface GeocoderInput extends Partial<IonInput>{
     onGeocode?: (props: onGeocode) => void,
+    onGeocodeZoom?:  number
 };
 
 export interface GeocoderGeocode {
@@ -81,6 +82,7 @@ const geocodeNominatim = async (
 export const GeocoderInput = ({
     label = 'Address',
     onGeocode,
+    onGeocodeZoom,
     placeholder,
     ...props
 }: GeocoderInput) => {
@@ -104,6 +106,7 @@ export const GeocoderInput = ({
     const {
 	setInternalCenter,
 	setSpotlight,
+	setView
     } = useMap();
     const onSubmit = handleSubmit(async (data) => {
 	let latlng: LatLng | null = null;
@@ -128,7 +131,14 @@ export const GeocoderInput = ({
 		}
 	    );
 	}else{
-	    setInternalCenter(latlng);
+	    if(onGeocodeZoom){
+		setView({
+		    center: fromLonLat([latlng.lng, latlng.lat]),
+		    zoom: onGeocodeZoom
+		});
+	    }else{
+		setInternalCenter(latlng);
+	    }
 	    setSpotlight(
 		new Point(
 		    fromLonLat([
