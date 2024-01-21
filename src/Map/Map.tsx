@@ -14,30 +14,25 @@ import GeoJSON from 'ol/format/GeoJSON';
 import {generateStyle} from './generateStyle';
 import {Point} from 'ol/geom';
 import {
+    RControl,
     RFeature,
     RLayerVector,
     RMap,
     ROSM,
 } from 'rlayers';
-import type {
-    RMapProps
-} from 'rlayers/RMap';
-import {
-    useMap
-} from './MapContext';
+import type {RMapProps} from 'rlayers/RMap';
+import {useMap} from './MapContext';
 
 import 'ol/ol.css';
 
-import type {
-    LatLng,
-} from './interfaces';
-import type {
-    MapLayer
-} from './MapLayers';
+import type {LatLng} from './interfaces';
+import type {MapControl} from './MapControls';
+import type {MapLayer} from './MapLayers';
 
 export * from './MapContext';
 
 export interface MapProps extends Partial<RMapProps> {
+    controls?: MapControl[],
     featureRadius?: number,
     featureWidth?: number,
     onMapCenter?: ({lat, lng, address}: {lat: number | null, lng: number | null, address: string}) => void,
@@ -68,7 +63,7 @@ const calculateZoomLevel = ({
 };
 
 export const Map: FC<React.PropsWithChildren<MapProps>> = ({
-    children,
+    controls,
     featureRadius = 10,
     featureWidth = 10,
     onMapClick,
@@ -140,6 +135,18 @@ export const Map: FC<React.PropsWithChildren<MapProps>> = ({
 	});
     }, []);
     
+    const controlsRendered = useMemo(() => {
+	if(controls){
+	    return controls.map((control, index) => {
+		return <RControl.RCustom className={control.className} key={index}>
+		    {control.element}
+		</RControl.RCustom>
+	    });
+	}else{
+	    return <></>;
+	}
+    }, [controls]);
+
     const handleClick = (event: any) => {
 	const features: Feature[] = event.map.getFeaturesAtPixel(
 	    event.pixel,
@@ -210,7 +217,7 @@ export const Map: FC<React.PropsWithChildren<MapProps>> = ({
 	view={[view, setView]}
 	width='100%'>
 	<ROSM />
-	{children}
+	{controlsRendered}
 	{layersRendered}
 	<RLayerVector zIndex={2}>
 	    {generateStyle({
