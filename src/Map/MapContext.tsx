@@ -6,9 +6,11 @@ import {
     useContext,
     useState
 } from 'react';
+import {fromLonLat} from 'ol/proj';
 import type {
     LatLng,
 } from './interfaces';
+import {RView} from 'rlayers/RMap';
 import {Point} from 'ol/geom';
 import {
     generateMapLayerType,
@@ -28,10 +30,12 @@ interface MapContext {
     setClickedFeatures: Dispatch<SetStateAction<any>>
     setInternalCenter: Dispatch<SetStateAction<LatLng>>,
     setSpotlight: Dispatch<SetStateAction<Point | undefined>>,
+    setView: Dispatch<SetStateAction<RView>>,
     setVisibleLayers: Dispatch<SetStateAction<VisibleMapLayers>>,
     setZoom: Dispatch<SetStateAction<number>>,
     spotlight: Point | undefined,
     visibleLayers: VisibleMapLayers,
+    view: RView,
     zoom?: number
 };
 
@@ -47,10 +51,15 @@ const MapContext = createContext<MapContext>({
     setClickedFeatures: () => {},
     setInternalCenter: () => {},
     setSpotlight: () => {},
+    setView: () => {},
     setVisibleLayers: () => {},
     setZoom: () => {},
     spotlight: undefined,
     visibleLayers: {},
+    view: {
+	center: fromLonLat([0, 0]),
+	zoom: 0
+    },
     zoom: 10
 });
 
@@ -90,9 +99,15 @@ export const MapProvider = ({
 	    }
 	]
     )));
+    const [view, setView] = useState<RView>({
+	center: fromLonLat([
+	    center.lng,
+	    center.lat
+	]),
+	zoom: zoomFromProps || minZoom
+    });
     const [zoom, setZoom] = useState<number>(zoomFromProps || 10);
 
-    
     return <MapContext.Provider value={{
 	internalCenter,
 	clickedFeatures,
@@ -102,10 +117,12 @@ export const MapProvider = ({
 	setClickedFeatures,
 	setInternalCenter,
 	setSpotlight,
+	setView,
 	setVisibleLayers,
 	setZoom,
 	spotlight,
 	visibleLayers,
+	view,
 	zoom
     }}>
     {children}

@@ -23,9 +23,6 @@ import type {
     RMapProps
 } from 'rlayers/RMap';
 import {
-    RView
-} from 'rlayers/RMap';
-import {
     useMap
 } from './MapContext';
 
@@ -85,22 +82,19 @@ export const Map: FC<React.PropsWithChildren<MapProps>> = ({
 	minZoom,
 	setClickedFeatures,
 	setSpotlight,
+	setView,
 	setZoom,
 	spotlight,
 	visibleLayers,
+	view,
 	zoom
     } = useMap();
-    const [view, setView] = useState<RView>({
-	center: fromLonLat([
-	    center.lng,
-	    center.lat
-	]),
-	zoom: zoom || minZoom
-    });
     const [zoomPercentage, setZoomPercentage] = useState<number>(1);
 
     useEffect(() => {
 	if(zoom !== undefined){
+	    console.log(9999999);
+	    console.log(zoom);
 	    setView({
 		center: view.center,
 		zoom: zoom
