@@ -7,13 +7,9 @@ import {
     addSharp,
     removeSharp
 } from 'ionicons/icons';
-import type {
-    IonButton as IonButtonProps
-} from '../interfaces/ionic';
+import type {IonButton as IonButtonProps} from '../interfaces/ionic';
 
-import {
-    useMap
-} from './MapContext';
+import {useMap} from './MapContext';
 
 export interface ZoomButton extends Omit<IonButtonProps, 'disabled'>{
     direction: '-' | '+'
