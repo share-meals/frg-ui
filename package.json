@@ -43,6 +43,7 @@
         "react-dom": "^18.2.0",
         "react-hook-form": "^7.47.0",
         "react-markdown": "^9.0.0",
+        "sass": "^1.70.0",
         "storybook": "^7.5.2",
         "storybook-dark-mode": "^3.0.1",
         "typescript": "^5.2.2",
@@ -88,7 +89,7 @@
         "url": "git+https://github.com/share-meals/frg-ui.git"
     },
     "resolutions": {
-	"react-element-to-jsx-string": "14.3.2"
+        "react-element-to-jsx-string": "14.3.2"
     },
     "scripts": {
         "dev": "vite",

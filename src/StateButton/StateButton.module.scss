@@ -1,0 +1,21 @@
+.wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.loadingIndicatorWrapper {
+    align-items: center;
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    position: absolute;
+    width: 100%;
+}
+
+.isLoading {
+    --color: transparent;
+
+    &::part(native){
+	--ion-color-contrast: transparent;
+    }
+}
