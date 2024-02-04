@@ -1,9 +1,9 @@
+---
 name: publish to GitHub Packages
-
 on:
   release:
-    types: [created]
-
+    types:
+      - created
 jobs:
   build:
     name: build and test
@@ -16,7 +16,7 @@ jobs:
           corepack enable
           corepack prepare yarn@4.0.1 --activate
           yarn set version 4.0.1
-     - name: setup node
+      - name: setup node
         uses: actions/setup-node@v3
         with:
           node-version: 18.17.1
@@ -24,7 +24,6 @@ jobs:
         run: yarn
       - name: test
         run: yarn test
-
   publish-gpr:
     runs-on: ubuntu-latest
     permissions:
@@ -49,8 +48,9 @@ jobs:
       - name: build
         run: yarn build
       - name: login to github packages
-        run: |
+        run: >
           echo "@share-meals:registry=https://npm.pkg.github.com" >> .npmrc
+
           echo "//npm.pkg.github.com/:_authToken=${{secrets.GITHUB_TOKEN}}" >> ~/.npmrc
       - name: publish
         run: npm publish
