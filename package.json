@@ -76,6 +76,7 @@
     "main": "dist/frg-ui.umd.js",
     "module": "dist/frg-ui.es.js",
     "name": "@share-meals/frg-ui",
+    "packageManager": "yarn@4.1.0",
     "peerDependencies": {
         "@ionic/react": "*",
         "react": "*",

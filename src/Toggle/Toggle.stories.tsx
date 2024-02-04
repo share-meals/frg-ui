@@ -27,7 +27,7 @@ const meta: Meta<typeof Toggle> = {
     },
     component: Toggle,
     render: ({
-	//defaultValue, // todo: implement default checked
+	defaultValue,
 	...props
     }) => {
 	const schema = z.object({
@@ -37,12 +37,9 @@ const meta: Meta<typeof Toggle> = {
 	const {
 	    control
 	} = useForm<schemaType>({
-	    // todo: implement default checked
-	    /*
 	    defaultValues: {
 		field: defaultValue
 	    },
-	    */
 	    mode: 'onChange',
 	    resolver: zodResolver(schema)
 	});
@@ -71,5 +68,12 @@ type Story = StoryObj<typeof Toggle>;
 export const Default: Story = {
     args: {
 	label: 'label',
+    }
+}
+
+export const CheckedByDefault: Story = {
+    args: {
+      label: 'label',
+      defaultValue: true
     }
 }

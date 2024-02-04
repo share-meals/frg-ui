@@ -26,10 +26,12 @@ export const Toggle: React.FC<ToggleProps> = ({
 	  field: {
 	    onChange,
 	    onBlur,
+	    value,
 	    ...fields
 	  },
 	}: any): JSX.Element => (
 	  <IonToggle
+	    checked={value}
 	    data-testid={testId}
 	    onIonChange={(event) => {
 	      onChange(event.detail.checked);
