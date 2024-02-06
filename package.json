@@ -78,10 +78,10 @@
     "name": "@share-meals/frg-ui",
     "packageManager": "yarn@4.1.0",
     "peerDependencies": {
-        "@ionic/react": "^7.5.3",
-        "react": "^18.2.0",
-	"react-dom": "^18.2.0",
-        "react-hook-form": "^7.47.0"
+        "@ionic/react": "*",
+        "react": "*",
+        "react-dom": "*",
+        "react-hook-form": "*"
     },
     "publishConfig": {
         "@share-meals:registry": "https://npm.pkg.github.com"
