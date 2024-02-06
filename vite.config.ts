@@ -12,7 +12,7 @@ export default defineConfig({
 	    entry: path.resolve(__dirname, 'src/index.tsx'),
 	    formats: [
 		'es',
-		'umd'
+//		'umd'
 	    ],
 	    fileName: (format) => `frg-ui.${format}.js`,
 	    name: 'frg-ui',
