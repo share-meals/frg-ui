@@ -3,46 +3,18 @@ import {
     Controller
 } from 'react-hook-form';
 import {
-    JSX
-} from 'react';
-import {
     IonRadio,
     IonRadioGroup,
 } from '@ionic/react';
-import {
-    color,
-    justify,
-    mode,
-} from '@/interfaces/ionic';
 
-export interface IonRadioGroup {
-    allowEmptySelection?: boolean,
-    name?: string,
-    value?: any
-}
+export interface RadioOption extends Exclude<React.ComponentProps<typeof IonRadio>, 'alignment' | 'justify' | 'labelPlacement'> {};
 
-export interface IonRadio {
-    alignment?: 'center' | 'start',
-    color?: color,
-    disabled?: boolean,
-    justify?: justify,
-    labelPlacement?: 'end' | 'fixed' | 'stacked' | 'start',
-    //legacy?: boolean | undefined,
-    mode?: mode,
-    name: string,
-    value?: any
-};
-
-export interface RadioOption extends Exclude<IonRadio, 'alignment' | 'justify' | 'labelPlacement'> {
-
-};
-
-export interface Radio extends IonRadioGroup {
+export interface Radio extends React.ComponentProps<typeof IonRadioGroup> {
     alignment?: 'center' | 'start',
     control: Control<any>,
-    justify?: justify,
+    justify?: 'end' | 'space-between' | 'start',
     labelPlacement?: 'end' | 'fixed' | 'stacked' | 'start',
-    mode: mode,
+    mode: 'ios' | 'md',
     name: string,
     options: RadioOption[],
     optionSize?: string,
@@ -61,7 +33,7 @@ export const Radio = ({
     testId,
     wrapper: Wrapper = ({children}) => children,
     ...props
-}: Radio): JSX.Element => <Controller
+}: Radio): React.JSX.Element => <Controller
 	control={control}
 	name={name}
     render={({
@@ -70,7 +42,7 @@ export const Radio = ({
 	    onBlur,
 	    ...fields
 	}
-    }: any): JSX.Element =>
+    }: any): React.JSX.Element =>
 	<IonRadioGroup
 	    data-testid={testId}
 	    onIonChange={(event) => {
