@@ -1,23 +1,20 @@
-import {JSX} from 'react';
-import {
-    IonButton,
-    IonIcon
-} from '@ionic/react';
 import {
     addSharp,
     removeSharp
 } from 'ionicons/icons';
-import type {IonButton as IonButtonProps} from '../interfaces/ionic';
-
+import {
+    IonButton,
+    IonIcon
+} from '@ionic/react';
 import {useMap} from './MapContext';
 
-export interface ZoomButton extends Omit<IonButtonProps, 'disabled'>{
+export interface ZoomButton extends Omit<React.ComponentProps<typeof IonButton>, 'disabled'>{
     direction: '-' | '+'
 };
 
 export interface MapControl {
     className: string,
-    element: JSX.Element
+    element: React.JSX.Element
 };
 
 export const ZoomButton = ({
@@ -44,7 +41,7 @@ export const ZoomButton = ({
     </IonButton>
 }
 
-export const ZoomButtons: React.FC<Omit<IonButtonProps, 'disabled'>> = (props) => <>
+export const ZoomButtons: React.FC<Omit<React.ComponentProps<typeof IonButton>, 'disabled'>> = (props) => <>
     <ZoomButton direction='+' {...props} />
     <ZoomButton direction='-' {...props} />
 </>;

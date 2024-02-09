@@ -1,6 +1,6 @@
 import {fromLonLat} from 'ol/proj';
 import {Input} from '../../Input';
-import type {IonInput} from '../../Input';
+import {IonInput} from '@ionic/react';
 import {
     IonButton,
     IonCol,
@@ -22,7 +22,7 @@ import {z} from 'zod';
 import {zodResolver} from '@hookform/resolvers/zod';
 
 // use partial extend because name field is required by IonInput
-export interface GeocoderInput extends Partial<IonInput>{
+export interface GeocoderInput extends Partial<React.ComponentProps<typeof IonInput>>{
     onGeocode?: (props: onGeocode) => void,
     onGeocodeZoom?:  number
 };
