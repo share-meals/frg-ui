@@ -88,8 +88,6 @@ export const Map: FC<React.PropsWithChildren<MapProps>> = ({
 
     useEffect(() => {
 	if(zoom !== undefined){
-	    console.log(9999999);
-	    console.log(zoom);
 	    setView({
 		center: view.center,
 		zoom: zoom
