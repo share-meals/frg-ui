@@ -1,3 +1,4 @@
+export * from './Checkbox';
 export * from './HoursFormatter';
 export * from './Input';
 export * from './Map';
