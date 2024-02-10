@@ -1,0 +1,148 @@
+// todo: when clustering, RText is always rendered on top
+
+import {
+  createEmpty,
+  extend,
+  getHeight,
+  getWidth
+} from 'ol/extent';
+import {
+  RCircle,
+  RFill,
+  RIcon,
+  RStroke,
+  RStyle,
+  RText,
+} from 'rlayers/style';
+import {useCallback} from 'react';
+
+export interface LayerStyle {
+  fillColor?: string,
+  icon?: {
+    src: string,
+    scale: number
+  },
+  radius?: number,
+  strokeColor?: string,
+  textScale?: number,
+  textFillColor?: string,
+  textStrokeColor?: string,
+  textStrokeWidth?: number,
+  type: 'Cluster' | 'LineString' | 'Point' | 'Spotlight',
+  width?: number,
+  zoomPercentage?: number
+}
+
+const extentFeatures = (features: any, resolution: number) => {
+  const extent = createEmpty();
+  for (const f of features) extend(extent, f.getGeometry().getExtent());
+  return Math.round(0.25 * (getWidth(extent) + getHeight(extent))) / resolution;
+};
+
+const LineStringStyle: React.FC<Pick<LayerStyle, 'strokeColor' | 'width'>> = ({
+  strokeColor = '#106535',
+  width = 1
+}) => (<RStyle>
+  <RStroke
+    color={strokeColor}
+    width={width}
+  />
+</RStyle>);
+
+const PointStyle: React.FC<Pick<LayerStyle,
+      'fillColor'
+  | 'icon'
+  | 'radius'
+  | 'strokeColor'
+  | 'width'
+  | 'zoomPercentage'
+>> = ({
+  fillColor = '#106535',
+  icon,
+  radius = 1,
+  strokeColor = '#106535',
+  width = 1,
+  zoomPercentage = 1
+}) => {
+  if(icon === undefined){
+    return (
+      <RStyle>
+	<RCircle radius={radius * zoomPercentage}>
+	  <RStroke color={strokeColor} width={width * 0.25 * zoomPercentage} />
+	  <RFill color={fillColor} />
+	</RCircle>
+      </RStyle>
+    );
+  }else{
+    return (
+      <RStyle>
+	<RIcon
+	  src={icon.src}
+	  scale={icon.scale * zoomPercentage}
+	/>
+      </RStyle>
+    );
+  }
+}
+
+const ClusterStyle: React.FC<Pick<LayerStyle,
+      'fillColor'
+  | 'radius'
+  | 'strokeColor'
+  | 'textFillColor'
+  | 'textScale'
+  | 'textStrokeColor'
+  | 'textStrokeWidth'
+  | 'width'
+  | 'zoomPercentage'
+>> = ({
+  fillColor,
+  radius = 1,
+  strokeColor = '#106535',
+  textScale = 1,
+  textFillColor = '#ffffff',
+  textStrokeColor = '#000000',
+  textStrokeWidth = 1,
+  width = 1,
+  zoomPercentage = 1
+}) => (
+  <RStyle
+    render={useCallback((feature: any, resolution: number) => {
+      const size = feature.get('features').length;
+      const radiusFeatures = extentFeatures(
+	feature.get('features'),
+	resolution
+      );
+      return <>
+	<RCircle radius={radiusFeatures < radius ? radius : radiusFeatures}>
+	  <RFill color={fillColor} />
+	  <RStroke color={strokeColor} width={width} />
+	</RCircle>
+	<RText text={size.toString()} scale={textScale * zoomPercentage}>
+	  <RFill color={textFillColor} />
+	  <RStroke color={textStrokeColor} width={textStrokeWidth} />
+	</RText>
+      </>
+    }, [])}
+  />
+);
+
+export const LayerStyle: React.FC<LayerStyle> = ({
+  type,
+  ...props
+}) => {
+  switch(type){
+    case 'Cluster':
+      return <ClusterStyle {...props} />;
+      break;
+    case 'LineString':
+      return <LineStringStyle {...props} />;
+      break;
+    case 'Point':
+      return <PointStyle {...props} />;
+      break;
+    default:
+      return <></>;
+      break;
+  }
+}

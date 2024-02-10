@@ -15,20 +15,18 @@ export interface MapLayerIcon {
 }
 
 export interface MapLayer {
-    name: string,
-    geojson: GeoJSON.GeoJSON,
-    fillColor: string,
-    strokeColor: string,
-    icon?: MapLayerIcon
+  clusterDistance?: number
+  fillColor: string,
+  geojson: GeoJSON.GeoJSON,
+  icon?: MapLayerIcon,
+  name: string,
+  strokeColor: string,
+  type: 'cluster' | 'vector',
 };
 
-export interface VisibleMapLayer {
-    name: string,
-    visible: boolean,
-    fillColor: string,
-    strokeColor: string,
-    icon?: MapLayerIcon,
-    type: string
+export interface VisibleMapLayer extends Omit<MapLayer, 'geojson'> {
+  visible: boolean,
+  featureType: any
 }
 
 export interface VisibleMapLayers {
