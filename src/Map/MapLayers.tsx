@@ -15,12 +15,16 @@ export interface MapLayerIcon {
 }
 
 export interface MapLayer {
-  clusterDistance?: number
+  clusterDistance?: number,
   fillColor: string,
   geojson: GeoJSON.GeoJSON,
   icon?: MapLayerIcon,
   name: string,
   strokeColor: string,
+  textScale?: number,
+  textFillColor?: string,
+  textStrokeColor?: string,
+  textStrokeWidth?: number,
   type: 'cluster' | 'vector',
 };
 
