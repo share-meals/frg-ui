@@ -10,6 +10,8 @@ import {
   JSX
 } from 'react';
 
+import './Select.scss';
+
 export interface SelectOption {
   value: string,
   label: string
@@ -19,6 +21,7 @@ export interface Select extends React.ComponentProps<typeof IonSelect> {
   control: Control<any>,
   name: string,
   options: SelectOption[],
+  required?: boolean,
   testId?: string
 }
 
@@ -26,6 +29,7 @@ export const Select = ({
   control,
   name,
   options,
+  required = false,
   testId,
   ...props
 }: Select): JSX.Element =>
@@ -40,6 +44,7 @@ export const Select = ({
     }
   }: any): JSX.Element =>
     <IonSelect
+      required={required}
       data-testid={testId}
       onIonChange={(event) => {
 	onChange(event.detail.value);

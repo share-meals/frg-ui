@@ -99,3 +99,10 @@ export const LabelUndefined: Story = {
 	label: 'label undefined',
     }
 }
+
+export const Required: Story = {
+    args: {
+      label: 'label required',
+      required: true
+    }
+}
