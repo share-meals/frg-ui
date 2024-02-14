@@ -10,6 +10,8 @@ import {
   IonLabel,
 } from '@ionic/react';
 
+import './Input.scss'
+
 export interface Input extends Omit<React.ComponentProps<typeof IonInput>, 'labelPlacement'> {
   control: Control<any>,
   className?: string,

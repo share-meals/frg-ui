@@ -1,0 +1,3 @@
+ion-select[required='true']::part(label)::after{
+    content: "\00a0*";
+}
