@@ -108,3 +108,9 @@ export const WithDefaultValue: Story = {
 	defaultValue: 'caspian_sea'
     }
 };
+
+export const WithWrapperOptions: Story = {
+    args: {
+      wrapperOptions: {lines: 'none'}
+    }
+};
