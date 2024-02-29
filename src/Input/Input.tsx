@@ -42,7 +42,7 @@ export const Input = ({
 	onBlur,
 	...fields
       },
-      fieldState
+      fieldState,
     }: any): JSX.Element => {
       let classes: string[] = [];
       if(className){
@@ -57,21 +57,22 @@ export const Input = ({
 	classes.push('ion-touched');
       }
       // todo: label accessibility
+      const normalizedLabel = `${label}${props.required ? ' *' : ''}`;
       return <>
 	{
 	  labelPlacement === 'above' &&
 	  <IonLabel>
-	    {label}
+	    {normalizedLabel}
 	  </IonLabel>
 	}
 	<IonInput
-	aria-label={label}
+	aria-label={normalizedLabel}
 	className={classes.join(' ')}
 	data-testid={testId}
 	errorText={fieldState.error?.message}
 	onIonInput={onChange}
 	onIonBlur={onBlur}
-	label={labelPlacement === 'above' ? undefined : label}
+	label={labelPlacement === 'above' ? undefined : normalizedLabel}
 	labelPlacement={labelPlacement === 'above' ? undefined : labelPlacement}
 	{...{
 	  fill,

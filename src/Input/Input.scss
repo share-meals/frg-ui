@@ -1,6 +1,0 @@
-ion-input[required]
-> label
-> div.label-text-wrapper
-> div.label-text::after {
-    content: ' *';
-}
