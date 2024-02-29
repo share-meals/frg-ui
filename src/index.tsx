@@ -6,4 +6,5 @@ export * from './MultipleCheckbox';
 export * from './Radio';
 export * from './Select';
 export * from './StateButton';
+export * from './Textarea';
 export * from './Toggle';
