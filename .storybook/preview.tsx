@@ -43,7 +43,7 @@ const preview: Preview = {
 	(Story) => (
 	    <IonApp>
 		<IonPage>
-		    <IonContent>
+		    <IonContent className='ion-padding'>
 			<Story />
 		    </IonContent>
 		</IonPage>
