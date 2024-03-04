@@ -18,11 +18,13 @@ export default defineConfig({
     name: 'frg-ui',
     },
     rollupOptions: {
-      external: Object.keys(peerDependencies),
+      external: [
+	/^@material-symbols\/svg-400\/*/,
+	...Object.keys(peerDependencies)
+      ],
       output: {
 	globals: {
 	  '@ionic/react': 'IonicReact',
-	  '@material-symbols/svg-400': 'MaterialSymbolsSVG400',
 	  react: 'React',
 	  'react-dom': 'ReactDom',
 	  'react-hook-form': 'ReactHookForm',
