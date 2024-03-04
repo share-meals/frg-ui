@@ -11,3 +11,7 @@
     top: 1rem;
     z-index: 999;
 }
+
+.frg-ui-map-lock {
+    color: purple;
+}
