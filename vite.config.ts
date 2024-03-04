@@ -7,42 +7,43 @@ import react from '@vitejs/plugin-react-swc';
 import tsconfigPaths from 'vite-tsconfig-paths';
 
 export default defineConfig({
-    build: {
-	lib: {
-	    entry: path.resolve(__dirname, 'src/index.tsx'),
-	    formats: [
-		'es',
-		'umd'
-	    ],
-	    fileName: (format) => `frg-ui.${format}.js`,
-	    name: 'frg-ui',
-	},
-	rollupOptions: {
-	    external: Object.keys(peerDependencies),
-	    output: {
-		globals: {
-		    '@ionic/react': 'IonicReact',
-		    react: 'React',
-		    'react-dom': 'ReactDom',
-		    'react-hook-form': 'ReactHookForm',
-		}
-	    }
-	}
+  build: {
+    lib: {
+      entry: path.resolve(__dirname, 'src/index.tsx'),
+      formats: [
+	'es',
+	'umd'
+      ],
+      fileName: (format) => `frg-ui.${format}.js`,
+    name: 'frg-ui',
     },
-    plugins: [
-	cssInjectedByJsPlugin(),
-	dts({
-	    insertTypesEntry: true
-	}),
-	react(),
-	tsconfigPaths(),
-    ],
-    test: {
-	cache: {
-	    dir: './.vitest'
-	},
-	environment: 'jsdom',
-	globals: true,
-	setupFiles: './src/setupTests.ts'
+    rollupOptions: {
+      external: Object.keys(peerDependencies),
+      output: {
+	globals: {
+	  '@ionic/react': 'IonicReact',
+	  '@material-symbols/svg-400': 'MaterialSymbolsSVG400',
+	  react: 'React',
+	  'react-dom': 'ReactDom',
+	  'react-hook-form': 'ReactHookForm',
+	}
+      }
     }
+  },
+  plugins: [
+    cssInjectedByJsPlugin(),
+    dts({
+      insertTypesEntry: true
+    }),
+    react(),
+    tsconfigPaths(),
+  ],
+  test: {
+    cache: {
+      dir: './.vitest'
+    },
+    environment: 'jsdom',
+    globals: true,
+    setupFiles: './src/setupTests.ts'
+  }
 });
