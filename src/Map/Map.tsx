@@ -217,7 +217,7 @@ export const Map: FC<React.PropsWithChildren<MapProps>> = ({
       view={[view, setView]}
       width='100%'>
       {controls !== undefined && controls}
-      {locked && <div style={lockedDivStyle}>
+      {locked && <div style={lockedDivStyle} className='frg-ui-map-lock'>
 	<IonIcon src={LockIcon}  style={{width: '33%', height: '33%'}} />
       </div>}
       <ROSM />
