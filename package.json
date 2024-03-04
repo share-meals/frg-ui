@@ -79,6 +79,7 @@
     "packageManager": "yarn@4.1.0",
     "peerDependencies": {
         "@ionic/react": "*",
+        "@material-symbols/svg-400": "^0.16.0",
         "react": "*",
         "react-dom": "*",
         "react-hook-form": "*"
