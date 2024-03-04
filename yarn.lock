@@ -2529,13 +2529,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@material-symbols/svg-400@npm:^0.16.0":
-  version: 0.16.0
-  resolution: "@material-symbols/svg-400@npm:0.16.0"
-  checksum: 10c0/8bc59cc77229bbd9e722907d86ce5deca6b04063a47260731629577217a0587a0e74cade5aa948565ba6719bc2c6db9d8ab32bfb8c071f5996aabbe4c13e1304
-  languageName: node
-  linkType: hard
-
 "@mdx-js/react@npm:^2.1.5":
   version: 2.3.0
   resolution: "@mdx-js/react@npm:2.3.0"
@@ -3407,7 +3400,6 @@ __metadata:
     "@ionic/react": "npm:^7.5.3"
     "@ionic/react-test-utils": "npm:^0.4.0"
     "@loki/core": "npm:^0.33.0"
-    "@material-symbols/svg-400": "npm:^0.16.0"
     "@storybook/addon-a11y": "npm:^7.5.2"
     "@storybook/addon-actions": "npm:~7.5"
     "@storybook/addon-console": "npm:^2.0.0"
@@ -3455,6 +3447,7 @@ __metadata:
     zod: "npm:^3.22.4"
   peerDependencies:
     "@ionic/react": "*"
+    "@material-symbols/svg-400": ^0.16.0
     react: "*"
     react-dom: "*"
     react-hook-form: "*"
