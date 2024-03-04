@@ -26,14 +26,14 @@ type Story = StoryObj<typeof StateButton>;
 export const Default: Story = {
   args: {
     isLoading: false,
-    label: 'label'
+    label: 'default'
   }
 }
 
 export const DefaultLoading: Story = {
   args: {
     isLoading: true,
-    label: 'label'
+    label: 'default loading'
   }
 }
 
@@ -41,7 +41,7 @@ export const Success: Story = {
   args: {
     color: 'success',
     isLoading: false,
-    label: 'label'
+    label: 'success'
   }
 }
 
@@ -49,7 +49,7 @@ export const SuccessLoading: Story = {
   args: {
     color: 'success',
     isLoading: true,
-    label: 'label'
+    label: 'success loading'
   }
 }
 
@@ -57,7 +57,7 @@ export const Danger: Story = {
   args: {
     color: 'danger',
     isLoading: false,
-    label: 'label'
+    label: 'danger'
   }
 }
 
@@ -65,6 +65,36 @@ export const DangerLoading: Story = {
   args: {
     color: 'danger',
     isLoading: true,
-    label: 'label'
+    label: 'danger loading'
+  }
+}
+
+export const ExpandBlock: Story = {
+  args: {
+    expand: 'block',
+    label: 'expand block'
+  }
+}
+
+export const ExpandBlockLoading: Story = {
+  args: {
+    expand: 'block',
+    isLoading: true,
+    label: 'expand block loading'
+  }
+}
+
+export const ExpandFull: Story = {
+  args: {
+    expand: 'full',
+    label: 'expand full'
+  }
+}
+
+export const ExpandFullLoading: Story = {
+  args: {
+    expand: 'full',
+    isLoading: true,
+    label: 'expand full loading'
   }
 }
