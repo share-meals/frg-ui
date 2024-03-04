@@ -1,14 +1,4 @@
 import {
-  useEffect,
-  useRef,
-  useState
-} from 'react';
-import {RControl} from 'rlayers'
-import type {
-  Meta,
-  StoryObj
-} from '@storybook/react';
-import {
   IonButton,
   IonButtons,
   IonCol,
@@ -24,20 +14,26 @@ import {
   Map,
   MapProvider
 } from './Map';
-import {ZoomButtons} from './MapControls';
-import type {MapControl} from './MapControls';
-import {LayerToggles} from './MapLayers';
 import type {MapLayer} from './MapLayers';
+import type {
+  Meta,
+  StoryObj
+} from '@storybook/react';
+import {LayerToggles} from './MapLayers';
+import Lock from '@material-symbols/svg-400/sharp/lock-fill.svg';
 import {
   GeocoderInput,
   GeocoderProvider
 } from './Geocoder';
 import {Renderer} from './stories_data/Renderer';
-import {useWindowSize} from '@uidotdev/usehooks';
 import {
-  closeSharp,
-  layersSharp
-} from 'ionicons/icons';
+  useEffect,
+  useRef,
+  useState
+} from 'react';
+import {useWindowSize} from '@uidotdev/usehooks';
+import Close from '@material-symbols/svg-400/sharp/close.svg';
+import Layers from '@material-symbols/svg-400/sharp/layers.svg';
 
 import './Map.stories.css';
 
@@ -112,7 +108,7 @@ const InfoModal = ({trigger}: {trigger: string}) => {
       <IonToolbar>
 	<IonButtons slot='end'>
 	  <IonButton onClick={() => {setIsOpen(false);}}>
-	    <IonIcon slot='icon-only' icon={closeSharp} />
+	    <IonIcon slot='icon-only' icon={Close} />
 	  </IonButton>
 	</IonButtons>
       </IonToolbar>
@@ -130,7 +126,7 @@ const LayerTogglesModal = () => {
       <IonToolbar>
 	<IonButtons slot='end'>
 	  <IonButton onClick={() => {modal.current?.dismiss();}}>
-	    <IonIcon slot='icon-only' icon={closeSharp} />
+	    <IonIcon slot='icon-only' icon={Close} />
 	  </IonButton>
 	</IonButtons>
       </IonToolbar>
@@ -143,33 +139,22 @@ const LayerTogglesModal = () => {
 
 const meta: Meta<typeof Map> = {
   component: Map,
-  render: (props) => {
+  render: ({
+    controls,
+    ...props
+  }) => {
     const geocoderInput = <GeocoderInput
-    helperText='To find food near you, please enter your address, city, and zip code'
-    fill='outline'
-    onGeocodeZoom={17}
-    onGeocode={() => {	    
-    }}
+			    helperText='To find food near you, please enter your address, city, and zip code'
+			    fill='outline'
+			    onGeocodeZoom={17}
+			    onGeocode={() => {	    
+			    }}
     />;
     const size: {
       height: number | null,
       width: number | null
     } = useWindowSize();
     const isMobile: boolean = size.width === null ? false : size.width < 576; // if size is not available, assume desktop
-    const controls: MapControl[] = [
-      {
-	className: '',
-	element: <IonButton>
-	  hello world
-	</IonButton>
-      },
-      {
-	className: 'secondaryButtons',
-	element: <IonButton id='openLayerToggles'>
-	  <IonIcon slot='icon-only' icon={layersSharp} />
-	</IonButton>
-      }
-    ];
     const [infoTrigger, setInfoTrigger] = useState<string>('');
     useEffect(() => {
       if(!isMobile && infoTrigger !== ''){
@@ -193,11 +178,10 @@ const meta: Meta<typeof Map> = {
 	     <IonGrid>
 	       <IonRow style={{height: '100vh'}}>
 		 <IonCol>
-		   <Map {...props}>
-		     <RControl.RCustom className='primaryButtons'>
-		       <ZoomButtons size='small' />
-		     </RControl.RCustom>
-		   </Map>
+		   <Map
+		     controls={controls}
+		   {...props}
+		   />
 		 </IonCol>
 		 <IonCol>
 		   <LayerToggles />
@@ -209,20 +193,11 @@ const meta: Meta<typeof Map> = {
 	    }
 	    {isMobile && <>
 	      <Map
+		controls={controls}
 		{...props}
 		onMapClick={() => {
 		  setInfoTrigger((new Date()).toString());
-		}}>
-		<RControl.RCustom className='primaryButtons'>
-		  <ZoomButtons size='small' />
-		</RControl.RCustom>
-		<RControl.RCustom className='secondaryButtons'>
-		  <IonButton id='openLayerToggles' size='small'>
-		    <IonIcon slot='icon-only' icon={layersSharp} />
-		  </IonButton>
-		</RControl.RCustom>
-	      </Map>
-
+		}} />
 	      <InfoModal trigger={infoTrigger} />
 	      <LayerTogglesModal />
 	    </>}
@@ -248,5 +223,17 @@ export const Cluster: Story = {
     featureRadius: 20,
     featureWidth: 8,
     layers: layersCluster,
+  }
+}
+
+export const Locked: Story = {
+  args: {
+    controls: <div style={{position: 'absolute', zIndex: 999, right: '1rem', top: '1rem'}}>
+      <IonButton>
+	<IonIcon slot='icon-only' src={Lock} />
+      </IonButton>
+    </div>,
+    layers,
+    locked: true
   }
 }

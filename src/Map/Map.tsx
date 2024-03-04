@@ -1,20 +1,16 @@
-//import {Coordinate} from 'ol/coordinate';
 import {
   FC,
   useEffect,
   useMemo,
   useState
 } from 'react';
-//import {Feature} from 'ol';
 import {
   fromLonLat,
-//  toLonLat
 } from 'ol/proj';
 import GeoJSON from 'ol/format/GeoJSON';
+import {IonIcon} from '@ionic/react';
 import {LayerStyle} from './LayerStyle';
-//import {Point} from 'ol/geom';
 import {
-  RControl,
   RFeature,
   RLayerCluster,
   RLayerVector,
@@ -22,20 +18,21 @@ import {
   ROSM,
 } from 'rlayers';
 import type {RMapProps} from 'rlayers/RMap';
+import LockIcon from '@material-symbols/svg-400/rounded/lock-fill.svg';
 import {useMap} from './MapContext';
 
 import 'ol/ol.css';
 
 //import type {LatLng} from './interfaces';
-import type {MapControl} from './MapControls';
 import type {MapLayer} from './MapLayers';
 
 export * from './MapContext';
 
 export interface MapProps extends Partial<RMapProps> {
-  controls?: MapControl[],
+  controls?: React.ReactElement,
   featureRadius?: number,
   featureWidth?: number,
+  locked?: boolean,
   onMapCenter?: ({lat, lng, address}: {lat: number | null, lng: number | null, address: string}) => void,
 //  onMapClick?: (latlng: LatLng) => void,
   spotlightColor?: string,
@@ -63,12 +60,23 @@ const calculateZoomLevel = ({
   }
 };
 
+const lockedDivStyle: React.CSSProperties = {
+  alignItems: 'center',
+  backgroundColor: 'rgba(0, 0, 0, 0.5',
+  display: 'flex',
+  height: '100%',
+  justifyContent: 'center',
+  width: '100%',
+  position: 'absolute',
+  zIndex: 99
+};
 
 export const Map: FC<React.PropsWithChildren<MapProps>> = ({
   controls,
   featureRadius = 10,
   featureWidth = 10,
-//  onMapClick,
+  //  onMapClick,
+  locked = false,
   spotlightColor = 'red',
   spotlightRadius = 16,
 }: MapProps) => {
@@ -135,53 +143,6 @@ export const Map: FC<React.PropsWithChildren<MapProps>> = ({
     });
   }, []);
   
-  const controlsRendered = useMemo(() => {
-    if(controls){
-      return controls.map((control, index) => {
-	return <RControl.RCustom className={control.className} key={index}>
-	  {control.element}
-	</RControl.RCustom>
-      });
-    }else{
-      return <></>;
-    }
-  }, [controls]);
-
-  /*
-  const handleClick = (event: any) => {
-    const features: Feature[] = event.map.getFeaturesAtPixel(
-      event.pixel,
-      {hitTolerance: 10 * zoomPercentage}
-    );
-    if(features.length > 0){
-      const featureProperties = features.filter((feature) => {
-	return (feature.getProperties()).id !== undefined;
-      }).map((feature: Feature, index: number) => {
-	const geometry: any = feature.getGeometry();
-	const coords: Coordinate = toLonLat(
-	  geometry.getCoordinates()
-	);
-	const latlng: LatLng = {
-	  lat: coords[1],
-	  lng: coords[0]
-	};
-	if(index == 0){
-	  setSpotlight(new Point(fromLonLat(coords)));
-	  if(onMapClick !== undefined){
-	    onMapClick(latlng);
-	  }
-	}
-
-	return {
-	  coords: latlng,
-	  ...(feature.getProperties())
-	}
-      });
-      setClickedFeatures(featureProperties);
-    }
-  }
-  */
-
   const layersRendered = useMemo(() => {
     return (Object.values(visibleLayers).map((
       layer: any, // todo: better typing
@@ -244,10 +205,10 @@ export const Map: FC<React.PropsWithChildren<MapProps>> = ({
     }
     )).reverse();
   }, [features, visibleLayers, zoomPercentage]);
-
   // wrap in a relative div so controls can be positioned absolute inside
   return <div style={{position: 'relative', height: '100%'}}>
     <RMap
+      enableRotation={false}
       height='100%'
       initial={view}
       maxZoom={maxZoom}
@@ -255,8 +216,11 @@ export const Map: FC<React.PropsWithChildren<MapProps>> = ({
       noDefaultControls={true}
       view={[view, setView]}
       width='100%'>
+      {controls !== undefined && controls}
+      {locked && <div style={lockedDivStyle}>
+	<IonIcon src={LockIcon}  style={{width: '33%', height: '33%'}} />
+      </div>}
       <ROSM />
-      {controlsRendered}
       {layersRendered}
       <RLayerVector zIndex={2}>
 	<LayerStyle
