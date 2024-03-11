@@ -40,18 +40,26 @@ export const Textarea = ({
 	onBlur,
 	...fields
       },
-      fieldState,
+      fieldState: {
+	error,
+	invalid,
+	isTouched
+      },
+      formState: {
+	isSubmitted
+      }
     }: any): JSX.Element => {
       let classes: string[] = [];
       if(className){
 	classes.push(className);
       }
-      if(fieldState.invalid){
+      if(invalid){
 	classes.push('ion-invalid');
       }else{
 	classes.push('ion-valid');
       }
-      if(fieldState.isTouched){
+      if(isTouched
+	 || isSubmitted){
 	classes.push('ion-touched');
       }
       // todo: label accessibility
@@ -67,7 +75,7 @@ export const Textarea = ({
 	  aria-label={normalizedLabel}
 	  className={classes.join(' ')}
 	  data-testid={testId}
-	  errorText={fieldState.error?.message}
+	  errorText={error?.message}
 	  fill={fill}
 	  onIonInput={onChange}
 	  onIonBlur={onBlur}
