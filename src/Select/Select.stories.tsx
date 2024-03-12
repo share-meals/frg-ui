@@ -155,7 +155,7 @@ export const Multiple: Story = {
   }
 }
 
-export const MultipleRequired: Story = {
+export const RequiredMultiple: Story = {
   args: {    
     label: 'multiple',
     multiple: true,
