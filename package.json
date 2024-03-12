@@ -13,6 +13,7 @@
         "@ionic/react": "^7.5.3",
         "@ionic/react-test-utils": "^0.4.0",
         "@loki/core": "^0.33.0",
+        "@material-symbols/svg-400": "^0.16.0",
         "@storybook/addon-a11y": "^7.5.2",
         "@storybook/addon-actions": "~7.5",
         "@storybook/addon-console": "^2.0.0",
