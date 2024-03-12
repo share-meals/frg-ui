@@ -45,7 +45,6 @@ const meta: Meta<typeof Datetime> = {
       control,
       name: 'field'
     });
-    console.log(typeof field);
     return (
       <>
 	<Datetime

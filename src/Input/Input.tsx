@@ -10,8 +10,6 @@ import {
   IonLabel,
 } from '@ionic/react';
 
-import './Input.scss'
-
 export interface Input extends Omit<React.ComponentProps<typeof IonInput>, 'labelPlacement'> {
   control: Control<any>,
   className?: string,
@@ -42,18 +40,25 @@ export const Input = ({
 	onBlur,
 	...fields
       },
-      fieldState,
+      fieldState: {
+	error,
+	invalid,
+	isTouched
+      },
+      formState: {
+	isSubmitted
+      }
     }: any): JSX.Element => {
       let classes: string[] = [];
       if(className){
 	classes.push(className);
       }
-      if(fieldState.invalid){
+      if(invalid){
 	classes.push('ion-invalid');
       }else{
 	classes.push('ion-valid');
       }
-      if(fieldState.isTouched){
+      if(isTouched || isSubmitted){
 	classes.push('ion-touched');
       }
       // todo: label accessibility
@@ -69,7 +74,7 @@ export const Input = ({
 	aria-label={normalizedLabel}
 	className={classes.join(' ')}
 	data-testid={testId}
-	errorText={fieldState.error?.message}
+	errorText={error?.message}
 	onIonInput={onChange}
 	onIonBlur={onBlur}
 	label={labelPlacement === 'above' ? undefined : normalizedLabel}

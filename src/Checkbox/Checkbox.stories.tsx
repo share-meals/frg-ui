@@ -1,3 +1,6 @@
+import {
+  IonButton
+} from '@ionic/react';
 import type {
   Meta,
   StoryObj
@@ -30,10 +33,11 @@ const meta: Meta<typeof Checkbox> = {
     ...props
   }) => {
     const schema = z.object({
-      field: z.boolean()
+      field: props.required ? z.literal<boolean>(true) : z.boolean()
     });
     const {
-      control
+      control,
+      handleSubmit
     } = useForm<z.infer<typeof schema>>({
       defaultValues: {
 	field: defaultValue
@@ -45,18 +49,26 @@ const meta: Meta<typeof Checkbox> = {
       control,
       name: 'field'
     });
+    const onSubmit = handleSubmit((data) => {
+      console.log(data);
+    });
     return (
-      <>
+      <form
+	noValidate
+	onSubmit={onSubmit}>
 	<Checkbox
 	{...props}
 	  control={control}
-	label='field'
 	  name='field'
 	/>
 	<div className='ion-margin-top'>
 	  value of field: {field ? 'true' : 'false'}
 	</div>
-      </>
+	<IonButton
+	  type='submit'>
+	  Submit
+	</IonButton>
+      </form>
     );
   },
   title: 'Components/Checkbox'
@@ -66,17 +78,43 @@ export default meta;
 type Story = StoryObj<typeof Checkbox>;
 
 export const Default: Story = {
-  args: {}
+  args: {
+    label: 'default'
+  }
 }
 
 export const WithDefaultValue: Story = {
   args: {
-    defaultValue: true
+    defaultValue: true,
+    label: 'default true'
   }
 }
 
 export const WithLabelAtEnd: Story = {
   args: {
+    label: 'label at end',
     labelPlacement: 'end'
+  }
+}
+
+export const RequiredDark: Story = {
+  args: {
+    color: 'dark',
+    label: 'label required secondary',
+    required: true
+  }
+}
+
+export const Required: Story = {
+  args: {
+    label: 'label required',
+    required: true
+  }
+}
+
+export const Disabled: Story = {
+  args: {
+    label: 'disabled',
+    disabled: true
   }
 }

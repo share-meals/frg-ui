@@ -1,3 +1,6 @@
+import {
+  IonButton
+} from '@ionic/react';
 import type {
   Meta,
   StoryObj
@@ -21,7 +24,8 @@ const meta: Meta<typeof Input> = {
     });
     type schemaType = z.infer<typeof schema>;
     const {
-      control
+      control,
+      handleSubmit
     } = useForm<schemaType>({
       mode: 'onChange',
       resolver: zodResolver(schema)
@@ -30,8 +34,13 @@ const meta: Meta<typeof Input> = {
       control,
       name: 'field'
     });
+    const onSubmit = handleSubmit((data) => {
+      console.log(data);
+    });
     return (
-      <>
+      <form
+	noValidate
+	onSubmit={onSubmit}>
 	<Textarea
 	{...props}
 	  control={control}
@@ -40,7 +49,11 @@ const meta: Meta<typeof Input> = {
 	<div className='ion-margin-top'>
 	  value of field: {field}
 	</div>
-      </>
+	<IonButton
+	  type='submit'>
+	  Submit
+	</IonButton>
+      </form>
     );
   },
   title: 'Components/Textarea',

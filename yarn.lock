@@ -1929,6 +1929,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@hookform/error-message@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "@hookform/error-message@npm:2.0.1"
+  peerDependencies:
+    react: ">=16.8.0"
+    react-dom: ">=16.8.0"
+    react-hook-form: ^7.0.0
+  checksum: 10c0/6b608bcdbd797ddb7c6cfc8c42b6bbac40066181a0c582b1f1a342bfa65fa7e8329cdb8e869a76e33988cd46fe8623d521ea597231b9d33e1f0ba3288e36c58e
+  languageName: node
+  linkType: hard
+
 "@hookform/resolvers@npm:^3.3.2":
   version: 3.3.4
   resolution: "@hookform/resolvers@npm:3.3.4"
@@ -3403,6 +3414,7 @@ __metadata:
   resolution: "@share-meals/frg-ui@workspace:."
   dependencies:
     "@babel/runtime": "npm:^7.23.2"
+    "@hookform/error-message": "npm:^2.0.1"
     "@hookform/resolvers": "npm:^3.3.2"
     "@ionic/react": "npm:^7.5.3"
     "@ionic/react-test-utils": "npm:^0.4.0"
@@ -3454,6 +3466,7 @@ __metadata:
     vitest: "npm:^0.34.6"
     zod: "npm:^3.22.4"
   peerDependencies:
+    "@hookform/error-message": "*"
     "@ionic/react": "*"
     "@material-symbols/svg-400": ^0.16.0
     react: "*"

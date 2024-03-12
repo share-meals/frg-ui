@@ -1,3 +1,6 @@
+import {
+  IonButton
+} from '@ionic/react';
 import type {
   Meta,
   StoryObj
@@ -50,11 +53,18 @@ const meta: Meta<SelectProps & {defaultValue: string}> = {
     ...props
   }) => {
     const schema = z.object({
-      field: z.string()
+      field: props.multiple
+	   ? props.required
+	   ? z.array(z.string()).nonempty() // multiple required
+	   : z.array(z.string()).optional() // multiple
+	   : props.required
+	   ? z.string() // single required
+	   : z.string().optional() // single
     });
     type schemaType = z.infer<typeof schema>;
     const {
-      control
+      control,
+      handleSubmit
     } = useForm<schemaType>({
       defaultValues: {
 	field: defaultValue
@@ -66,17 +76,28 @@ const meta: Meta<SelectProps & {defaultValue: string}> = {
       control,
       name: 'field'
     });
+    const onSubmit = handleSubmit((data) => {
+      console.log(data);
+    });
+
     return (
-      <>
+      <form
+	noValidate
+	onSubmit={onSubmit}>
 	<Select
 	{...props}
 	  control={control}
 	  name='field'
 	options={options}
 	/>
-	<br />
-	value of field: {field}
-      </>
+	<div className='ion-margin-top'>
+	  value of field: {field}
+	</div>
+	<IonButton
+	  type='submit'>
+	  Submit
+	</IonButton>
+      </form>
     );
   },
   title: 'Components/Select'
@@ -105,9 +126,39 @@ export const WithDefaultValue: Story = {
   }
 };
 
-export const LabelRequired: Story = {
+export const Required: Story = {
   args: {
-    label: 'label required',
+    label: 'required',
     required: true
   }
 };
+
+export const RequiredOutline: Story = {
+  args: {
+    fill: 'outline',
+    label: 'required',
+    required: true
+  }
+};
+
+export const Outline: Story = {
+  args: {
+    fill: 'outline',
+    label: 'outlined',
+  }
+}
+
+export const Multiple: Story = {
+  args: {    
+    label: 'multiple',
+    multiple: true
+  }
+}
+
+export const RequiredMultiple: Story = {
+  args: {    
+    label: 'multiple',
+    multiple: true,
+    required: true
+  }
+}

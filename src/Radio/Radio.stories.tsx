@@ -57,7 +57,6 @@ const meta: Meta<RadioProps & {defaultValue: string}> = {
 	defaultValue,
 	...props
     }) => {
-	console.log(props);
 	const schema = z.object({
 	    field: z.string()
 	});
