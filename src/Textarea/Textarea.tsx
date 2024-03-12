@@ -2,17 +2,13 @@ import {
   Control,
   Controller
 } from 'react-hook-form';
-import {
-  IonLabel,
-  IonTextarea,
-} from '@ionic/react';
+import {IonTextarea} from '@ionic/react';
 
 
 export interface TextareaProps
-extends Omit<React.ComponentProps<typeof IonTextarea>, 'labelPlacement'>{
+extends React.ComponentProps<typeof IonTextarea>{
   control: Control<any>,
   className?: string,
-  labelPlacement?: 'above' | 'end' | 'fixed' | 'floating' | 'stacked' | 'start',
   name: string,
   testId?: string
 }
@@ -21,9 +17,7 @@ export const Textarea = ({
   className,
   control,
   disabled,
-  fill = 'outline',
   label,
-  labelPlacement = 'floating',
   name,
   testId,
   ...props
@@ -49,7 +43,7 @@ export const Textarea = ({
 	isSubmitted
       }
     }: any): JSX.Element => {
-      let classes: string[] = [];
+      let classes: string[] = ['frg-ui-textarea'];
       if(className){
 	classes.push(className);
       }
@@ -64,26 +58,16 @@ export const Textarea = ({
       }
       // todo: label accessibility
       const normalizedLabel = `${label}${props.required ? ' *' : ''}`;
-      return <>
-	{
-	  labelPlacement === 'above' &&
-	  <IonLabel>
-	    {normalizedLabel}
-	  </IonLabel>
-	}
-	<IonTextarea
+      return <IonTextarea
 	  aria-label={normalizedLabel}
 	  className={classes.join(' ')}
 	  data-testid={testId}
 	  errorText={error?.message}
-	  fill={fill}
 	  onIonInput={onChange}
 	  onIonBlur={onBlur}
-	  label={labelPlacement === 'above' ? undefined : normalizedLabel}
-	  labelPlacement={labelPlacement === 'above' ? undefined : labelPlacement}
+	  label={normalizedLabel}
 	  {...props}
 	{...fields}
-	/>
-      </>;
+	/>;
     }}
   />;

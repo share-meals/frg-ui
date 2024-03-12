@@ -43,7 +43,7 @@ export const Input = ({
 	isSubmitted
       }
     }: any): JSX.Element => {
-      let classes: string[] = [];
+      let classes: string[] = ['frg-ui-input'];
       if(className){
 	classes.push(className);
       }

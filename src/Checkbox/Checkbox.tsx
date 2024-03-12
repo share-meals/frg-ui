@@ -46,7 +46,7 @@ export const Checkbox: React.FC<CheckboxProps> = ({
 	   }) => {
 	     const normalizedLabel = `${label}${required ? ' *' : ''}`;
 	     const showErrors = invalid && isSubmitted;
-	     return <div style={showErrors ? {color: 'var(--ion-color-danger)'} : {}}>
+	     return <div className='frg-ui-checkbox' style={showErrors ? {color: 'var(--ion-color-danger)'} : {}}>
 	       <IonCheckbox
 		 checked={value}
 		 data-testid={testId}

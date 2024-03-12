@@ -79,13 +79,6 @@ export const AsPassword: Story = {
   }
 }
 
-export const LabelAbove: Story = {
-  args: {
-    label: 'label above',
-    labelPlacement: 'above'
-  }
-}
-
 export const LabelFixed: Story = {
   args: {
     label: 'label fixed',
