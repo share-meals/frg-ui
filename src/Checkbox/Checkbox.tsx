@@ -29,6 +29,12 @@ export const Checkbox: React.FC<CheckboxProps> = ({
 	   name={name}
 	   render={
 	   ({
+	     field: {
+	       onBlur,
+	       onChange,
+	       value,
+	       ...fields
+	     },
 	     fieldState: {
 	       invalid,
 	     },
@@ -36,12 +42,6 @@ export const Checkbox: React.FC<CheckboxProps> = ({
 	       isSubmitted,
 	       errors
 	     },
-	     field: {
-	       onBlur,
-	       onChange,
-	       value,
-	       ...fields
-	     }
 	   }) => {
 	     const normalizedLabel = `${label}${required ? ' *' : ''}`;
 	     const showErrors = invalid && isSubmitted;
