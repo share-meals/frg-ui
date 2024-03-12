@@ -53,7 +53,13 @@ const meta: Meta<SelectProps & {defaultValue: string}> = {
     ...props
   }) => {
     const schema = z.object({
-      field: props.required ? z.string() : z.string().optional()
+      field: props.multiple
+	   ? props.required
+	   ? z.array(z.string()).nonempty() // multiple required
+	   : z.array(z.string()).optional() // multiple
+	   : props.required
+	   ? z.string() // single required
+	   : z.string().optional() // single
     });
     type schemaType = z.infer<typeof schema>;
     const {
@@ -139,5 +145,20 @@ export const Outline: Story = {
   args: {
     fill: 'outline',
     label: 'outlined',
+  }
+}
+
+export const Multiple: Story = {
+  args: {    
+    label: 'multiple',
+    multiple: true
+  }
+}
+
+export const MultipleRequired: Story = {
+  args: {    
+    label: 'multiple',
+    multiple: true,
+    required: true
   }
 }
