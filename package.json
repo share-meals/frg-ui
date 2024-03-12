@@ -8,6 +8,7 @@
     },
     "devDependencies": {
         "@babel/runtime": "^7.23.2",
+        "@hookform/error-message": "^2.0.1",
         "@hookform/resolvers": "^3.3.2",
         "@ionic/react": "^7.5.3",
         "@ionic/react-test-utils": "^0.4.0",
@@ -78,6 +79,7 @@
     "name": "@share-meals/frg-ui",
     "packageManager": "yarn@4.1.0",
     "peerDependencies": {
+        "@hookform/error-message": "*",
         "@ionic/react": "*",
         "@material-symbols/svg-400": "^0.16.0",
         "react": "*",
