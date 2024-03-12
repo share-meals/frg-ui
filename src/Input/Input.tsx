@@ -5,15 +5,11 @@ import {
   Control,
   Controller
 } from 'react-hook-form';
-import {
-  IonInput,
-  IonLabel,
-} from '@ionic/react';
+import {IonInput} from '@ionic/react';
 
-export interface Input extends Omit<React.ComponentProps<typeof IonInput>, 'labelPlacement'> {
+export interface Input extends React.ComponentProps<typeof IonInput> {
   control: Control<any>,
   className?: string,
-  labelPlacement?: 'above' | 'end' | 'fixed' | 'floating' | 'stacked' | 'start',
   name: string, // redefine prop as required
   testId?: string
 }
@@ -21,9 +17,7 @@ export const Input = ({
   className,
   control,
   disabled,
-  fill = 'outline',
   label,
-  labelPlacement = 'floating',
   name,
   testId,
   ...props
@@ -63,28 +57,16 @@ export const Input = ({
       }
       // todo: label accessibility
       const normalizedLabel = `${label}${props.required ? ' *' : ''}`;
-      return <>
-	{
-	  labelPlacement === 'above' &&
-	  <IonLabel>
-	    {normalizedLabel}
-	  </IonLabel>
-	}
-	<IonInput
+      return <IonInput
 	aria-label={normalizedLabel}
 	className={classes.join(' ')}
 	data-testid={testId}
 	errorText={error?.message}
 	onIonInput={onChange}
 	onIonBlur={onBlur}
-	label={labelPlacement === 'above' ? undefined : normalizedLabel}
-	labelPlacement={labelPlacement === 'above' ? undefined : labelPlacement}
-	{...{
-	  fill,
-	}}
+	label={normalizedLabel}
 	{...props}
 	{...fields}
-	/>
-      </>;
+	/>;
     }}
   />;
