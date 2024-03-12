@@ -55,7 +55,7 @@ export const Select = ({
       const normalizedLabel = `${label}${required ? ' *' : ''}`;
       const showErrors = invalid && isSubmitted;
       // todo: arrow icon is not colored on error
-      return <div style={showErrors ? {color: 'var(--ion-color-danger)'} : {}}>
+      return <div className='frg-ui-select' style={showErrors ? {color: 'var(--ion-color-danger)'} : {}}>
 	<IonSelect
 	  data-testid={testId}
 	  label={normalizedLabel}

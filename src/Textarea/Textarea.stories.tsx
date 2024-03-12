@@ -27,7 +27,7 @@ const meta: Meta<typeof Input> = {
       control,
       handleSubmit
     } = useForm<schemaType>({
-      mode: 'onChange',
+      mode: 'onBlur',
       resolver: zodResolver(schema)
     });
     const field: string = useWatch({
