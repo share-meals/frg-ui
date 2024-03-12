@@ -5,7 +5,8 @@ import {
 import {ErrorMessage} from '@hookform/error-message';
 import {
   IonCheckbox,
-  IonNote
+  IonNote,
+  IonText,
 } from '@ionic/react';
 
 export interface CheckboxProps extends React.ComponentProps<typeof IonCheckbox> {
@@ -48,17 +49,20 @@ export const Checkbox: React.FC<CheckboxProps> = ({
 	     return <div style={showErrors ? {color: 'var(--ion-color-danger)'} : {}}>
 	       <IonCheckbox
 		 checked={value}
-		 style={showErrors ? {'--border-color': 'var(--ion-color-danger)'} : {}}
 		 data-testid={testId}
 		 onIonChange={(event) => {
 		   onChange(event.detail.checked);
 		 }}
+		 style={showErrors ? {'--border-color': 'var(--ion-color-danger)'} : {}}
 		 {...fields}
 		 {...props}>
 		 {normalizedLabel}
 	       </IonCheckbox>
-	       {errors[name] && showErrors && <IonNote style={{display: 'block', color: 'var(--ion-color-danger)'}}>
-		 <ErrorMessage errors={errors} name={name} />
+	       {errors[name] && showErrors
+	       && <IonNote className='ion-margin-top' style={{display: 'block'}}>
+		 <IonText color='danger'>
+		   <ErrorMessage errors={errors} name={name} />
+		 </IonText>
 	       </IonNote>}
 	     </div>
 	   }}
