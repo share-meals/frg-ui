@@ -1,3 +1,6 @@
+import {
+  IonButton
+} from '@ionic/react';
 import type {
   Meta,
   StoryObj
@@ -50,11 +53,12 @@ const meta: Meta<SelectProps & {defaultValue: string}> = {
     ...props
   }) => {
     const schema = z.object({
-      field: z.string()
+      field: props.required ? z.string() : z.string().optional()
     });
     type schemaType = z.infer<typeof schema>;
     const {
-      control
+      control,
+      handleSubmit
     } = useForm<schemaType>({
       defaultValues: {
 	field: defaultValue
@@ -66,17 +70,28 @@ const meta: Meta<SelectProps & {defaultValue: string}> = {
       control,
       name: 'field'
     });
+    const onSubmit = handleSubmit((data) => {
+      console.log(data);
+    });
+
     return (
-      <>
+      <form
+	noValidate
+	onSubmit={onSubmit}>
 	<Select
 	{...props}
 	  control={control}
 	  name='field'
 	options={options}
 	/>
-	<br />
-	value of field: {field}
-      </>
+	<div className='ion-margin-top'>
+	  value of field: {field}
+	</div>
+	<IonButton
+	  type='submit'>
+	  Submit
+	</IonButton>
+      </form>
     );
   },
   title: 'Components/Select'
@@ -105,9 +120,24 @@ export const WithDefaultValue: Story = {
   }
 };
 
-export const LabelRequired: Story = {
+export const Required: Story = {
   args: {
-    label: 'label required',
+    label: 'required',
     required: true
   }
 };
+
+export const RequiredOutline: Story = {
+  args: {
+    fill: 'outline',
+    label: 'required',
+    required: true
+  }
+};
+
+export const Outline: Story = {
+  args: {
+    fill: 'outline',
+    label: 'outlined',
+  }
+}
