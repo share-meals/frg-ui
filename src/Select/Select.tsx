@@ -65,8 +65,8 @@ export const Select = ({
 	  style={showErrors ? {'--border-color': 'var(--ion-color-danger)'} : {}}
 	  {...props}
 	  {...fields}>
-	  {options.map((option: SelectOption) => 
-	    <IonSelectOption value={option.value} key={option.value}>
+	  {options.map((option: SelectOption, index: number) => 
+	    <IonSelectOption value={option.value} key={index}>
 	      {option.label}
 	    </IonSelectOption>)
 	  }
