@@ -66,7 +66,7 @@ export const Select = ({
 	  {...props}
 	  {...fields}>
 	  {options.map((option: SelectOption, index: number) => 
-	    <IonSelectOption value={option.value} key={number}>
+	    <IonSelectOption value={option.value} key={index}>
 	      {option.label}
 	    </IonSelectOption>)
 	  }
