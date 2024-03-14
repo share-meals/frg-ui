@@ -14,7 +14,8 @@ export interface CheckboxProps extends React.ComponentProps<typeof IonCheckbox> 
   label: string,
   name: string, // redefine prop as required
   required?: boolean,
-  testId?: string
+  testId?: string,
+  labelWrapper?: React.FC<{children: JSX.Element | string}>
 }
 
 export const Checkbox: React.FC<CheckboxProps> = ({
@@ -23,6 +24,7 @@ export const Checkbox: React.FC<CheckboxProps> = ({
   name,
   required,
   testId,
+  labelWrapper: LabelWrapper = ({children}) => children,
   ...props
 }) => {
   return <Controller
@@ -46,25 +48,28 @@ export const Checkbox: React.FC<CheckboxProps> = ({
 	   }) => {
 	     const normalizedLabel = `${label}${required ? ' *' : ''}`;
 	     const showErrors = invalid && isSubmitted;
-	     return <div className='frg-ui-checkbox' style={showErrors ? {color: 'var(--ion-color-danger)'} : {}}>
-	       <IonCheckbox
-		 checked={value}
-		 data-testid={testId}
-		 onIonChange={(event) => {
-		   onChange(event.detail.checked);
-		 }}
-		 style={showErrors ? {'--border-color': 'var(--ion-color-danger)'} : {}}
-		 {...fields}
-		 {...props}>
-		 {normalizedLabel}
-	       </IonCheckbox>
+	     return <>
+	       
+		 <IonCheckbox
+		   checked={value}
+		   data-testid={testId}
+		   onIonChange={(event) => {
+		     onChange(event.detail.checked);
+		   }}
+		   style={showErrors ? {'--border-color': 'var(--ion-color-danger)', color: 'var(--ion-color-danger)'} : {}}
+		   {...fields}
+		   {...props}>
+		   <LabelWrapper>
+		     {normalizedLabel}
+		   </LabelWrapper>
+		 </IonCheckbox>
 	       {errors[name] && showErrors
 	       && <IonNote className='ion-margin-top' style={{display: 'block'}}>
 		 <IonText color='danger'>
 		   <ErrorMessage errors={errors} name={name} />
 		 </IonText>
 	       </IonNote>}
-	     </div>
+	     </>
 	   }}
   />;
 }
