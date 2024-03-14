@@ -1,5 +1,5 @@
 import {
-  IonButton
+  IonButton,
 } from '@ionic/react';
 import type {
   Meta,
@@ -117,4 +117,24 @@ export const Disabled: Story = {
     label: 'disabled',
     disabled: true
   }
+}
+
+export const WithLongLabel: Story = {
+  args: {
+    label: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod orci vel ante ultricies, id ultrices arcu porttitor. Pellentesque scelerisque dolor ut est ullamcorper mollis. Nulla facilisi. Curabitur nisl purus, dapibus auctor rhoncus at, congue eget est. Sed vel pellentesque ligula. Phasellus euismod lorem ut enim accumsan, vulputate ultrices ante suscipit. Maecenas posuere iaculis blandit. Nulla hendrerit sollicitudin fringilla. Mauris nisi libero, malesuada finibus nisl sit amet, ultrices pulvinar leo. Donec luctus laoreet orci, id dictum ex porta ut. Suspendisse potenti. Fusce vitae efficitur augue.'
+  }
+}
+
+export const WithLongLabelAndLabelWrapper: Story = {
+  args: {
+    label: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod orci vel ante ultricies, id ultrices arcu porttitor. Pellentesque scelerisque dolor ut est ullamcorper mollis. Nulla facilisi. Curabitur nisl purus, dapibus auctor rhoncus at, congue eget est. Sed vel pellentesque ligula. Phasellus euismod lorem ut enim accumsan, vulputate ultrices ante suscipit. Maecenas posuere iaculis blandit. Nulla hendrerit sollicitudin fringilla. Mauris nisi libero, malesuada finibus nisl sit amet, ultrices pulvinar leo. Donec luctus laoreet orci, id dictum ex porta ut. Suspendisse potenti. Fusce vitae efficitur augue.',
+    labelWrapper: ({children}) => <div className='ion-text-wrap'>{children}</div>
+  }
+}
+
+
+export const WithLabelWrapper: Story = {
+    args: {
+	labelWrapper: ({children}) => <div>{children}</div>
+    }
 }
