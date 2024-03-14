@@ -16,9 +16,12 @@ import {Input} from './Input';
 
 const meta: Meta<typeof Input> = {
   component: Input,
-  render: (props) => {
+  render: ({
+    validation,
+    ...props
+  }) => {
     const schema = z.object({
-      field: z.string()
+      field: validation ?? z.string()
 	      .min(3)
 	      .max(100)
     });
@@ -27,7 +30,7 @@ const meta: Meta<typeof Input> = {
       control,
       handleSubmit
     } = useForm<schemaType>({
-      mode: 'onSubmit',
+      mode: 'onBlur',
       resolver: zodResolver(schema)
     });
     const field: string = useWatch({
@@ -110,5 +113,13 @@ export const Required: Story = {
   args: {
     label: 'label required',
     required: true
+  }
+}
+
+export const Number: Story = {
+  args: {
+    label: 'number',
+    type: 'number',
+    validation: z.number()
   }
 }
