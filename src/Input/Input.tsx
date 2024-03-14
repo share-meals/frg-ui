@@ -58,15 +58,20 @@ export const Input = ({
       // todo: label accessibility
       const normalizedLabel = `${label}${props.required ? ' *' : ''}`;
       return <IonInput
-	aria-label={normalizedLabel}
-	className={classes.join(' ')}
-	data-testid={testId}
-	errorText={error?.message}
-	onIonInput={onChange}
-	onIonBlur={onBlur}
-	label={normalizedLabel}
-	{...props}
-	{...fields}
-	/>;
+	       aria-label={normalizedLabel}
+	       className={classes.join(' ')}
+	       data-testid={testId}
+	       errorText={error?.message}
+	       onIonInput={(event) => {
+		 if(props.type === 'number'){
+		   event.target.value = Number(event.target.value);
+		 }
+		 onChange(event);
+	       }}
+	       onIonBlur={onBlur}
+	       label={normalizedLabel}
+	       {...props}
+      {...fields}
+      />;
     }}
   />;
