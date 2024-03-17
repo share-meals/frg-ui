@@ -72,11 +72,11 @@ export const Select = ({
 	  }
 	</IonSelect>
 	{errors[name] && showErrors
-	&& <IonNote className='ion-margin-top' style={{display: 'block'}}>
-	  <IonText color='danger'>
-	    <ErrorMessage errors={errors} name={name} />
-	  </IonText>
-	</IonNote>}
+	&& <IonNote className='input-bottom sc-ion-input-md'>
+	    <IonText color='danger'>
+	      <ErrorMessage errors={errors} name={name} />
+	    </IonText>
+	  </IonNote>}
       </div>
     }}
   />;
