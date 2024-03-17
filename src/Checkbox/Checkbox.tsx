@@ -15,7 +15,7 @@ export interface CheckboxProps extends React.ComponentProps<typeof IonCheckbox> 
   name: string, // redefine prop as required
   required?: boolean,
   testId?: string,
-  labelWrapper?: React.FC<{children: JSX.Element | string}>
+  labelWrapper?: React.FC<React.PropsWithChildren>
 }
 
 export const Checkbox: React.FC<CheckboxProps> = ({
