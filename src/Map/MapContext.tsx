@@ -4,6 +4,7 @@ import {
   PropsWithChildren,
   SetStateAction,
   useContext,
+  useEffect,
   useState
 } from 'react';
 import {fromLonLat} from 'ol/proj';
@@ -106,6 +107,20 @@ export const MapProvider = ({
   });
   const [zoom, setZoom] = useState<number>(zoomFromProps || 10);
 
+  useEffect(() => {
+    const adjustedLngLat = fromLonLat([
+	center.lng,
+	center.lat
+    ]);
+    if(view.center[0] !== adjustedLngLat[0]
+      && view.center[1] !== adjustedLngLat[1]){
+      setView({
+	center: adjustedLngLat,
+	zoom: zoom
+      });
+    }
+  }, [center]);
+  
   return <MapContext.Provider value={{
     internalCenter,
     clickedFeatures,
