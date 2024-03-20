@@ -141,7 +141,7 @@ export const Map: FC<React.PropsWithChildren<MapProps>> = ({
       }
       return features;
     });
-  }, []);
+  }, [layers]);
   
   const layersRendered = useMemo(() => {
     return (Object.values(visibleLayers).map((
@@ -185,6 +185,7 @@ export const Map: FC<React.PropsWithChildren<MapProps>> = ({
 		     });
 		     setClickedFeatures(features);
 		   }}
+		   visible={layer.visible}
 		 >
 	    <LayerStyle
 	      fillColor={layer.fillColor}

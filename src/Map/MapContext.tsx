@@ -74,6 +74,21 @@ export interface MapProvider {
   zoom?: number,
 }
 
+const convertToGeojson = (
+  layer: MapLayer,
+  visible: boolean = true
+) => {
+  const {geojson, ...layerProps} = layer;
+  return [
+    layerProps.name,
+    {
+      ...layerProps,
+      visible,
+      featureType: generateMapLayerType(layer.geojson)
+    }
+  ];
+};
+
 export const MapProvider = ({
   center,
   children,
@@ -83,21 +98,15 @@ export const MapProvider = ({
   zoom: zoomFromProps,
 }: PropsWithChildren<MapProvider>) => {
   const [internalCenter, setInternalCenter] = useState<MapContext['internalCenter']>(center);
+  const [propsCenter, setPropsCenter] = useState<MapContext['internalCenter']>(center);
+  const [propsLayers, setPropsLayers] = useState<MapContext['layers']>(JSON.stringify(layers));
   const [clickedFeatures, setClickedFeatures] = useState<MapContext['clickedFeatures']>([]);
   const [spotlight, setSpotlight] = useState<MapContext['spotlight']>();
-  const [visibleLayers, setVisibleLayers] = useState<MapContext['visibleLayers']>(Object.fromEntries(Object.values(layers).map((
-    layer: MapLayer
-  ) => {
-    const {geojson, ...layerProps} = layer;
-    return [
-      layerProps.name,
-      {
-	...layerProps,
-	visible: true,
-	featureType: generateMapLayerType(layer.geojson)
-      }
-    ];
-  })));
+  const [visibleLayers, setVisibleLayers] = useState<MapContext['visibleLayers']>(Object.fromEntries(Object.values(layers).map(
+    (l) => {
+      return convertToGeojson(l);
+    }
+  )));
   const [view, setView] = useState<RView>({
     center: fromLonLat([
       center.lng,
@@ -108,18 +117,30 @@ export const MapProvider = ({
   const [zoom, setZoom] = useState<number>(zoomFromProps || 10);
 
   useEffect(() => {
-    const adjustedLngLat = fromLonLat([
-	center.lng,
-	center.lat
-    ]);
-    if(view.center[0] !== adjustedLngLat[0]
-      && view.center[1] !== adjustedLngLat[1]){
+    if(propsCenter.lat !== center.lat
+       || propsCenter.lng !== center.lng){
+      setPropsCenter(center);
+      setInternalCenter(center);
       setView({
-	center: adjustedLngLat,
+	center: fromLonLat([
+	  center.lng,
+	  center.lat
+	]),
 	zoom: zoom
       });
     }
   }, [center]);
+
+  useEffect(() => {
+    if(propsLayers !== JSON.stringify(layers)){
+      setPropsLayers(JSON.stringify(layers));
+      setVisibleLayers(Object.fromEntries(Object.values(layers).map(
+	(l) => {
+	  return convertToGeojson(l, visibleLayers[l.name]?.visible);
+	}
+      )));
+    }
+  }, [layers]);
   
   return <MapContext.Provider value={{
     internalCenter,

@@ -53,4 +53,3 @@ export default meta;
 type Story = StoryObj<typeof Map>;
 
 export const DynamicCenter: Story = {};
-

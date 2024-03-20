@@ -1,4 +1,8 @@
 import {
+  GeocoderInput,
+  GeocoderProvider
+} from './Geocoder';
+import {
   IonButton,
   IonButtons,
   IonCol,
@@ -10,6 +14,8 @@ import {
   IonRow,
   IonToolbar
 } from '@ionic/react';
+import {LayerToggles} from './MapLayers';
+import Lock from '@material-symbols/svg-400/sharp/lock-fill.svg';
 import {
   Map,
   MapProvider
@@ -19,12 +25,6 @@ import type {
   Meta,
   StoryObj
 } from '@storybook/react';
-import {LayerToggles} from './MapLayers';
-import Lock from '@material-symbols/svg-400/sharp/lock-fill.svg';
-import {
-  GeocoderInput,
-  GeocoderProvider
-} from './Geocoder';
 import {Renderer} from './stories_data/Renderer';
 import {
   useEffect,
@@ -32,6 +32,7 @@ import {
   useState
 } from 'react';
 import {useWindowSize} from '@uidotdev/usehooks';
+
 import Close from '@material-symbols/svg-400/sharp/close.svg';
 import Layers from '@material-symbols/svg-400/sharp/layers.svg';
 
