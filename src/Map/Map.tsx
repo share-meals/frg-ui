@@ -148,10 +148,12 @@ export const Map: FC<React.PropsWithChildren<MapProps>> = ({
       layer: any, // todo: better typing
       index: number
     ) => {
+      // need to append a new number to key prop
+      // to force refresh on changes
       switch(layer.type){
 	case 'vector':
 	  return <RLayerVector
-		   key={layer.name}
+		   key={`${layer.name}${Date.now()}`}
 		   features={features[index]}
 		   onClick={(event) => {
 		     // todo: convert this to useCallback
@@ -176,7 +178,7 @@ export const Map: FC<React.PropsWithChildren<MapProps>> = ({
 	  return <RLayerCluster
 		   distance={layer.clusterDistance}
 		   features={features[index]}
-		   key={layer.name}
+		   key={`${layer.name}${Date.now()}`}
 		   onClick={(event) => {
 		     // todo: convert this to useCallback
 		     const features = event.target.get('features').map((f: any) => {
