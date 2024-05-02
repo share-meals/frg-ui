@@ -10,32 +10,32 @@ dayjs.extend(customParseFormat);
 dayjs.extend(timezone);
 dayjs.extend(utc);
 
-const daysRegex = /^[1-7]+$/;
+const daysRegex = /^^(?:Mo|Tu|We|Th|Fr|Sa|Su)+$$/;
 //const timeRegex = /[0]?[0-9]:[0-6][0-9]/;
 //fconst notesRegex = '"(.*)"';
 
 export interface Hours {
     days: string | null,
-    time_start: string | null,
-    time_end: string | null,
+    timeStart: string | null,
+    timeEnd: string | null,
     notes: string | null,
-    time_zone: string | null
+    timeZone: string | null
 }
 
 export const isValid = ({
     days,
-    time_start,
-    time_end,
+    timeStart,
+    timeEnd,
 //    notes,
-//    time_zone
+//    timeZone
 }: Hours): boolean => {
-    const start = dayjs(time_start, 'H:mm');
-    const end = dayjs(time_end, 'H:mm');
+    const start = dayjs(timeStart, 'H:mm');
+    const end = dayjs(timeEnd, 'H:mm');
     return ((days !== null && daysRegex.test(days)) || days === null)
-	&& (start.isValid() || time_start === null)
-	&& (end.isValid() || time_end === null)
-	&& !(time_start === null && time_end !== null)
-	&& (start.isBefore(end) || time_start == null || time_end == null);
+	&& (start.isValid() || timeStart === null)
+	&& (end.isValid() || timeEnd === null)
+	&& !(timeStart === null && timeEnd !== null)
+	&& (start.isBefore(end) || timeStart == null || timeEnd == null);
 };
 
 export interface Dictionary {
@@ -44,13 +44,13 @@ export interface Dictionary {
     and?: string,
     comma?: string,
     lastComma?: string,
-    1?: string,
-    2?: string,
-    3?: string,
-    4?: string,
-    5?: string,
-    6?: string,
-    7?: string
+    Mo?: string,
+    Tu?: string,
+    We?: string,
+    Th?: string,
+    Fr?: string,
+    Sa?: string,
+    Su?: string
     */
 }
 
@@ -58,13 +58,13 @@ const defaultDictionary = {
     and: ' and ',
     comma: ', ',
     lastComma: ', and ',
-    1: 'Mo',
-    2: 'Tu',
-    3: 'We',
-    4: 'Th',
-    5: 'Fr',
-    6: 'Sa',
-    7: 'Su'
+    Mo: 'Mo',
+    Tu: 'Tu',
+    We: 'We',
+    Th: 'Th',
+    Fr: 'Fr',
+    Sa: 'Sa',
+    Su: 'Su'
 };
 
 export const formatDays = ({
@@ -78,13 +78,13 @@ export const formatDays = ({
     if(!daysRegex.test(days)){
 	return '';
     }
-    if(days.length === 1){
+    if(days.length === 2){
 	return mergedDictionary[days];
     }
-    if(days.length === 2){
-	return `${mergedDictionary[days[0]]}${mergedDictionary.and}${mergedDictionary[days[1]]}`;
+    if(days.length === 4){
+	return `${mergedDictionary[days.slice(0, 2)]}${mergedDictionary.and}${mergedDictionary[days.slice(-2)]}`;
     }
-    let tempDays = days.split('').map((s) => mergedDictionary[s]);
+  let tempDays = days.match(/.{1,2}/g).map((s) => mergedDictionary[s]);
     tempDays[tempDays.length-2] = `${tempDays[tempDays.length-2]}${mergedDictionary.lastComma}${tempDays[tempDays.length-1]}`;
     tempDays.pop();
     return tempDays.join(mergedDictionary.comma);
@@ -92,21 +92,21 @@ export const formatDays = ({
 
 interface FormatHour {
     time: string,
-    time_zone: string,
-    time_zone_display?: string,
+    timeZone: string,
+    timeZone_display?: string,
     format: string
 }
 
 export const formatHour = ({
     time,
-    time_zone,
-    time_zone_display,
+    timeZone,
+    timeZone_display,
     format
 }: FormatHour): string => {
-    const t = dayjs(`${time} ${time_zone}`, 'H:mm z');
+    const t = dayjs(`${time} ${timeZone}`, 'H:mm z');
     if(!t.isValid()){
 	throw new Error('invalid date');
     }else{
-	return t.tz(time_zone_display || time_zone).format(format);
+	return t.tz(timeZone_display || timeZone).format(format);
     }
 }

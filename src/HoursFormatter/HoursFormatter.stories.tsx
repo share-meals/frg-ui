@@ -30,9 +30,9 @@ export default {
 
 
 interface ITime {
-    time_start: string,
-    time_end?: string,
-    time_zone: string
+    timeStart: string,
+    timeEnd?: string,
+    timeZone: string
 }
 
 const TimeDisplay = ({
@@ -42,34 +42,34 @@ const TimeDisplay = ({
 }) => {
     let payload_New_York = '';
     payload_New_York += formatHour({
-	time: time.time_start,
+	time: time.timeStart,
 	format: 'h:mmA',
-	time_zone: time.time_zone,
-	//time_zone_display: 'America/New_York'
+	timeZone: time.timeZone,
+	//timeZone_display: 'America/New_York'
     });
-    if(time.time_end){
+    if(time.timeEnd){
 	payload_New_York += ' - ';
 	payload_New_York += formatHour({
-	    time: time.time_end,
+	    time: time.timeEnd,
 	    format: 'h:mmA',
-	    time_zone: time.time_zone,
-	    //time_zone_display: 'America/New_York'
+	    timeZone: time.timeZone,
+	    //timeZone_display: 'America/New_York'
 	});
     }
     let payload_Berlin = '';
     payload_Berlin += formatHour({
-	time: time.time_start,
+	time: time.timeStart,
 	format: 'h:mmA',
-	time_zone: time.time_zone,
-	time_zone_display: 'Europe/Berlin'
+	timeZone: time.timeZone,
+	timeZone_display: 'Europe/Berlin'
     });
-    if(time.time_end){
+    if(time.timeEnd){
 	payload_Berlin += ' - ';
 	payload_Berlin += formatHour({
-	    time: time.time_end,
+	    time: time.timeEnd,
 	    format: 'h:mmA',
-	    time_zone: time.time_zone,
-	    time_zone_display: 'Europe/Berlin'
+	    timeZone: time.timeZone,
+	    timeZone_display: 'Europe/Berlin'
 	});
     }
     return <>
@@ -102,7 +102,7 @@ const HoursRow = ({
 		    {days}
 		</IonCol>
 		<IonCol size='2'>
-		    {hour.time_start !== null && hour.time_zone !== null && <TimeDisplay time={hour as ITime} />}
+		    {hour.timeStart !== null && hour.timeZone !== null && <TimeDisplay time={hour as ITime} />}
 		</IonCol>
 		<IonCol size='3'>
 		    {hour.notes}
@@ -166,102 +166,95 @@ const Template: ComponentStory<typeof Wrapper> = (
 
 const hoursData = [
     {
-	days: 'x6',
-	time_start: '12:00',
-	time_end: '14:00',
+	days: 'FR',
+	timeStart: '12:00',
+	timeEnd: '14:00',
 	notes: null,
-	time_zone: 'America/New_York'
+	timeZone: 'America/New_York'
     },
     {
 	days: null,
-	time_start: '9:00',
-	time_end:'11:00',
+	timeStart: '9:00',
+	timeEnd:'11:00',
 	notes: 'Once a month, usually on Friday',
-	time_zone: 'America/New_York'
+	timeZone: 'America/New_York'
     },
     {
-	days: '1234',
-	time_start: '10:00',
-	time_end:'14:00',
+	days: 'Mo-Fr',
+	timeStart: '10:00',
+	timeEnd:'14:00',
 	notes: null,
-	time_zone: 'America/New_York'
+	timeZone: 'America/New_York'
     },
     {
-	days: '5',
-	time_start: '10:00',
-	time_end: '12:00',
+	days: 'Fr',
+	timeStart: '10:00',
+	timeEnd: '12:00',
 	notes: null,
-	time_zone: 'America/New_York'
+	timeZone: 'America/New_York'
     },
     {
-	days: '2',
-	time_start: '11:30',
-	time_end:'13:00',
+	days: 'Tu',
+	timeStart: '11:30',
+	timeEnd:'13:00',
 	notes: '',
-	time_zone: 'America/New_York'
+	timeZone: 'America/New_York'
     },
     {
-	days: '14',
-	time_start: '11:00',
-	time_end: '13:00',
+	days: 'MoTh',
+	timeStart: '11:00',
+	timeEnd: '13:00',
 	notes: null,
-	time_zone: 'America/New_York'
+	timeZone: 'America/New_York'
     },
     {
-	days: '12345',
-	time_start: null,
-	time_end: null,
+	days: 'MoWe',
+	timeStart: null,
+	timeEnd: null,
 	notes: 'Eat-In Meals',
-	time_zone: 'America/New_York'
+	timeZone: 'America/New_York'
     },
     {
-	days: '12345',
-	time_start: '12:00',
-	time_end: '13:00',
-	notes: 'Eat-In Meals',
-	time_zone: 'America/New_York'
-    },
-    {
-	days: '12345',
-	time_start: '13:00',
-	time_end: '13:30',
+	days: 'FrMoTuSu',
+	timeStart: '13:00',
+	timeEnd: '13:30',
 	notes: 'Grab-and-Go Meal Distribution',
-	time_zone: 'America/New_York'
+	timeZone: 'America/New_York'
     },
     {
-	days: '02345',
-	time_start: '12:00',
-	time_end: '13:00',
+	days: 'MWF',
+	timeStart: '12:00',
+	timeEnd: '13:00',
 	notes: 'Eat-In Meals',
-	time_zone: 'America/New_York'
+	timeZone: 'America/New_York'
     },
     {
-	days: '12345',
-	time_start: '13:00',
-	time_end: '13:30',
+	days: 'MoTuWeThFr',
+	timeStart: '13:00',
+	timeEnd: '13:30',
 	notes: 'Grab-and-Go Meal Distribution',
-	time_zone: 'America/New_York'
+	timeZone: 'America/New_York'
     },
     {
-	days: '123456',
-	time_start: '9:00',
-	time_end: '10:30',
+	days: 'MoTuWeThFrSaSu',
+	timeStart: '9:00',
+	timeEnd: '10:30',
 	notes: 'Breakfast',
-	time_zone: 'America/New_York'
+	timeZone: 'America/New_York'
     },
     {
-	days: '123456',
-	time_start: '11:00',
-	time_end: '13:30',
+	days: 'MoTuWeThFrSaSu',
+	timeStart: '11:00',
+	timeEnd: '13:30',
 	notes: null,
-	time_zone: 'America/New_York'
+	timeZone: 'America/New_York'
     },
     {
-	days: '123',
-	time_start: '15:00',
-	time_end: '13:30',
+	days: 'MoTuWe',
+	timeStart: '15:00',
+	timeEnd: '13:30',
 	notes: null,
-	time_zone: 'America/New_York'
+	timeZone: 'America/New_York'
     }
 ];
 
@@ -273,12 +266,12 @@ Primary.args = {
 	and: ' and ',
 	comma: ', ',
 	lastComma: ', and ',
-	'1': 'Mondays',
-	'2': 'Tuesdays',
-	'3': 'Wednesdays',
-	'4': 'Thursdays',
-	'5': 'Fridays',
-	'6': 'Saturdays',
-	'7': 'Sundays'
+	'Mo': 'Mondays',
+	'Tu': 'Tuesdays',
+	'We': 'Wednesdays',
+	'Th': 'Thursdays',
+	'Fr': 'Fridays',
+	'Sa': 'Saturdays',
+	'Su': 'Sundays'
     }
 };
