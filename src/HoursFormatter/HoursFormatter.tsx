@@ -10,7 +10,7 @@ dayjs.extend(customParseFormat);
 dayjs.extend(timezone);
 dayjs.extend(utc);
 
-const daysRegex = /^^(?:Mo|Tu|We|Th|Fr|Sa|Su)+$$/;
+const daysRegex = /^(?:Mo|Tu|We|Th|Fr|Sa|Su)+$/;
 //const timeRegex = /[0]?[0-9]:[0-6][0-9]/;
 //fconst notesRegex = '"(.*)"';
 
