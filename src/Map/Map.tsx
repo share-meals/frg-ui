@@ -6,6 +6,7 @@ import {
 } from 'react';
 import {
   fromLonLat,
+  toLonLat,
 } from 'ol/proj';
 import GeoJSON from 'ol/format/GeoJSON';
 import {IonIcon} from '@ionic/react';
@@ -23,7 +24,6 @@ import {useMap} from './MapContext';
 
 import 'ol/ol.css';
 
-//import type {LatLng} from './interfaces';
 import type {MapLayer} from './MapLayers';
 
 export * from './MapContext';
@@ -34,7 +34,7 @@ export interface MapProps extends Partial<RMapProps> {
   featureWidth?: number,
   locked?: boolean,
   onMapCenter?: ({lat, lng, address}: {lat: number | null, lng: number | null, address: string}) => void,
-//  onMapClick?: (latlng: LatLng) => void,
+  onFeatureClick?: ({data, lat, lng}: {data: any, lat: number, lng: number}) => void,
   spotlightColor?: string,
   spotlightRadius?: number,
 };
@@ -75,8 +75,8 @@ export const Map: FC<React.PropsWithChildren<MapProps>> = ({
   controls,
   featureRadius = 10,
   featureWidth = 10,
-  //  onMapClick,
   locked = false,
+  onFeatureClick,
   spotlightColor = 'red',
   spotlightRadius = 16,
 }: MapProps) => {
@@ -157,7 +157,17 @@ export const Map: FC<React.PropsWithChildren<MapProps>> = ({
 		   features={features[index]}
 		   onClick={(event) => {
 		     // todo: convert this to useCallback
-		     setClickedFeatures([event.target.getProperties()]);
+		     // todo: when features are stacked, this gets called multiple times for each feature
+		     const data = event.target.getProperties();
+		     setClickedFeatures([data]);
+		     if(onFeatureClick){
+		       const [lng, lat] = toLonLat(event.coordinate);
+		       onFeatureClick({
+			 data,
+			 lat,
+			 lng
+		       });
+		     }
 		     // todo: set spotlight
 		     // todo: log action
 		   }}
@@ -186,6 +196,14 @@ export const Map: FC<React.PropsWithChildren<MapProps>> = ({
 		       return props;
 		     });
 		     setClickedFeatures(features);
+		     if(onFeatureClick){
+		       const [lng, lat] = toLonLat(event.coordinate);
+		       onFeatureClick({
+			 data: features,
+			 lat,
+			 lng
+		       });
+		     }
 		   }}
 		   visible={layer.visible}
 		 >
