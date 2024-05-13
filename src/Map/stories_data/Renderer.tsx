@@ -43,20 +43,20 @@ const dictionary: Dictionary = {
 const formatHours = (hours: any) => {
     return hours.map((h: Hours) => {
 	const days = h.days ? formatDays({days: h.days, dictionary}) : null;
-	const time_start = h.time_start ? formatHour({time: h.time_start, time_zone: h.time_zone!, format: 'h:mma'}) : null;
-	const time_end = h.time_end ? formatHour({time: h.time_end, time_zone: h.time_zone!, format: 'h:mma'}) : null;
+	const timeStart = h.timeStart ? formatHour({time: h.timeStart, timeZone: h.timeZone!, format: 'h:mma'}) : null;
+	const timeEnd = h.timeEnd ? formatHour({time: h.timeEnd, timeZone: h.timeZone!, format: 'h:mma'}) : null;
 	let payload = '- ';
 	if(days)payload += days;
-	if(time_start){
+	if(timeStart){
 	    if(days)payload += '  \n';
-	    payload += time_start;
+	    payload += timeStart;
 	}
-	if(time_end){
-	    if(time_start)payload += ' - ';
-	    payload += time_end;
+	if(timeEnd){
+	    if(timeStart)payload += ' - ';
+	    payload += timeEnd;
 	}
 	if(h.notes){
-	    if(days || time_start)payload += '  \n';
+	    if(days || timeStart)payload += '  \n';
 	    payload += h.notes;
 	}
 	return payload;

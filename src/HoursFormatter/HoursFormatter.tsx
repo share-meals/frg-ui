@@ -74,20 +74,21 @@ export const formatDays = ({
     days: string,
     dictionary?: Dictionary
 }): string => {
-    const mergedDictionary: Dictionary = merge(defaultDictionary, dictionary);
-    if(!daysRegex.test(days)){
-	return '';
-    }
-    if(days.length === 2){
-	return mergedDictionary[days];
-    }
-    if(days.length === 4){
-	return `${mergedDictionary[days.slice(0, 2)]}${mergedDictionary.and}${mergedDictionary[days.slice(-2)]}`;
-    }
-  let tempDays = days.match(/.{1,2}/g).map((s) => mergedDictionary[s]);
-    tempDays[tempDays.length-2] = `${tempDays[tempDays.length-2]}${mergedDictionary.lastComma}${tempDays[tempDays.length-1]}`;
-    tempDays.pop();
-    return tempDays.join(mergedDictionary.comma);
+  const mergedDictionary: Dictionary = merge(defaultDictionary, dictionary);
+  if(!daysRegex.test(days)){
+    return '';
+  }
+  if(days.length === 2){
+    return mergedDictionary[days];
+  }
+  if(days.length === 4){
+    return `${mergedDictionary[days.slice(0, 2)]}${mergedDictionary.and}${mergedDictionary[days.slice(-2)]}`;
+  }
+  // todo: double check that ! assertions are correct
+  let tempDays = days!.match(/.{1,2}/g)!.map((s) => mergedDictionary[s]);
+  tempDays[tempDays.length-2] = `${tempDays[tempDays.length-2]}${mergedDictionary.lastComma}${tempDays[tempDays.length-1]}`;
+  tempDays.pop();
+  return tempDays.join(mergedDictionary.comma);
 }
 
 interface FormatHour {
