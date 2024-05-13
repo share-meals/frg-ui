@@ -238,3 +238,23 @@ export const Locked: Story = {
     locked: true
   }
 }
+
+export const OnFeatureClickVector: Story = {
+  args: {
+    layers,
+    onFeatureClick: ({lat, lng, data}) => {
+      console.log(lat, lng, data);
+    }
+  }
+}
+
+export const OnFeatureClickCluster: Story = {
+  args: {
+    featureRadius: 20,
+    featureWidth: 8,
+    layers: layersCluster,
+    onFeatureClick: ({lat, lng, data}) => {
+      console.log(lat, lng, data);
+    }
+  }
+}
