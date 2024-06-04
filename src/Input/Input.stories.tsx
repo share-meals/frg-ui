@@ -20,10 +20,9 @@ const meta: Meta<typeof Input> = {
     validation,
     ...props
   }) => {
+    
     const schema = z.object({
-      field: validation ?? z.string()
-	      .min(3)
-	      .max(100)
+      field: validation ?? (props.required ? z.string() : z.string().optional())
     });
     type schemaType = z.infer<typeof schema>;
     const {
@@ -121,5 +120,16 @@ export const Number: Story = {
     label: 'number',
     type: 'number',
     validation: z.number()
+  }
+}
+
+export const Labeless: Story = {
+  args: {
+  }
+}
+
+export const LabelessRequired: Story = {
+  args: {
+    required: true,
   }
 }

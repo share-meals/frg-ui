@@ -56,7 +56,7 @@ export const Input = ({
 	classes.push('ion-touched');
       }
       // todo: label accessibility
-      const normalizedLabel = `${label}${props.required ? ' *' : ''}`;
+      const normalizedLabel = label ? `${label}${props.required ? ' *' : ''}` : undefined;
       return <IonInput
 	       aria-label={normalizedLabel}
 	       className={classes.join(' ')}
