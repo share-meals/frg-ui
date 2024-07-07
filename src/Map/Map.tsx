@@ -38,7 +38,7 @@ export interface MapProps extends Partial<RMapProps> {
   onMapCenter?: ({lat, lng, address}: {lat: number | null, lng: number | null, address: string}) => void,
   onFeatureClick?: ({data, lat, lng}: {data: any, lat: number, lng: number}) => void,
   protomapsApiKey: string,
-  protomapsStyles: number,
+  protomapsStyles: any,
   spotlightColor?: string,
   spotlightRadius?: number,
 };
