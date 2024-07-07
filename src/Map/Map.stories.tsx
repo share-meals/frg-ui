@@ -25,6 +25,7 @@ import type {
   Meta,
   StoryObj
 } from '@storybook/react';
+import protomapsStyles from './stories_data/protomapsStyles.json';
 import {Renderer} from './stories_data/Renderer';
 import {
   useEffect,
@@ -170,8 +171,8 @@ const meta: Meta<typeof Map> = {
 	    lng: -74.0060152
 	  }}
 	  layers={props.layers}
-	  maxZoom={20}
-	  minZoom={10}>
+	  maxZoom={16}
+	  minZoom={12}>
 	  <GeocoderProvider
 	    platform='nominatim'
 	    url='https://nominatim.openstreetmap.org/search'>
@@ -181,6 +182,8 @@ const meta: Meta<typeof Map> = {
 		 <IonCol>
 		   <Map
 		     controls={controls}
+		     protomapsApiKey='64a4cc037916729f'
+		     protomapsStyles={protomapsStyles}
 		   {...props}
 		   />
 		 </IonCol>
@@ -195,6 +198,8 @@ const meta: Meta<typeof Map> = {
 	    {isMobile && <>
 	      <Map
 		controls={controls}
+		protomapsApiKey='64a4cc037916729f'
+		protomapsStyles={protomapsStyles}
 		{...props}
 		onMapClick={() => {
 		  setInfoTrigger((new Date()).toString());

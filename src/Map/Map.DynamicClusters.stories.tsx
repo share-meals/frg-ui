@@ -19,6 +19,7 @@ import type {
   Meta,
   StoryObj
 } from '@storybook/react';
+import protomapsStyles from './stories_data/protomapsStyles.json';
 import {useState} from 'react';
 
 import cpds from './stories_data/cpds.json';
@@ -78,19 +79,21 @@ const meta: Meta<typeof Map> = {
 	  <IonLabel>MMs</IonLabel>
 	</IonSegmentButton>
       </IonSegment>
-	<div style={{height: '50vh', width: '100vw'}}>
-      <MapProvider
-	center={{
-	  lat: 40.66019478378121,
-	  lng: -73.96947593651886	    
-	}}
-	layers={[features === 'cpds' ? cpdsLayer : mmsLayer, fpsLayer]}
-	maxZoom={20}
-	minZoom={12}>
+      <div style={{height: '100vh', width: '100vw'}}>
+	<MapProvider
+	  center={{
+	    lat: 40.66019478378121,
+	    lng: -73.96947593651886	    
+	  }}
+	  layers={[features === 'cpds' ? cpdsLayer : mmsLayer, fpsLayer]}
+	  maxZoom={16}
+	  minZoom={12}>
 	  <IonGrid>
 	    <IonRow style={{height: '50vh'}}>
 	      <IonCol size='8'>
 		<Map
+		protomapsApiKey='64a4cc037916729f'
+		protomapsStyles={protomapsStyles}
 		{...props}
 		/>
 	      </IonCol>
@@ -106,8 +109,8 @@ const meta: Meta<typeof Map> = {
 	      </IonCol>
 	    </IonRow>
 	  </IonGrid>
-      </MapProvider>
-	</div>
+	</MapProvider>
+      </div>
     </>;
   },
   title: 'Components/Map'

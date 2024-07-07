@@ -19,6 +19,7 @@ import type {
   Meta,
   StoryObj
 } from '@storybook/react';
+import protomapsStyles from './stories_data/protomapsStyles.json';
 import {useState} from 'react';
 
 const highland = {
@@ -109,12 +110,14 @@ const meta: Meta<typeof Map> = {
 	  lng: -73.96947593651886	    
 	}}
 	layers={[parks[park], highland]}
-	maxZoom={20}
+	maxZoom={16}
 	minZoom={12}>
 	  <IonGrid>
 	    <IonRow style={{height: '50vh'}}>
 	      <IonCol size='8'>
 		<Map
+		protomapsApiKey='64a4cc037916729f'
+		protomapsStyles={protomapsStyles}
 		{...props}
 		/>
 	      </IonCol>

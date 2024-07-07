@@ -1,8 +1,9 @@
+import {apply} from 'ol-mapbox-style';
 import {
-  FC,
   useEffect,
   useMemo,
-  useState
+  useRef,
+  useState,
 } from 'react';
 import {
   fromLonLat,
@@ -15,9 +16,10 @@ import {
   RFeature,
   RLayerCluster,
   RLayerVector,
+  RLayerVectorTile,
   RMap,
-  ROSM,
 } from 'rlayers';
+import { MVT } from 'ol/format';
 import type {RMapProps} from 'rlayers/RMap';
 import LockIcon from '@material-symbols/svg-400/rounded/lock-fill.svg';
 import {useMap} from './MapContext';
@@ -35,6 +37,8 @@ export interface MapProps extends Partial<RMapProps> {
   locked?: boolean,
   onMapCenter?: ({lat, lng, address}: {lat: number | null, lng: number | null, address: string}) => void,
   onFeatureClick?: ({data, lat, lng}: {data: any, lat: number, lng: number}) => void,
+  protomapsApiKey: string,
+  protomapsStyles: number,
   spotlightColor?: string,
   spotlightRadius?: number,
 };
@@ -71,15 +75,25 @@ const lockedDivStyle: React.CSSProperties = {
   zIndex: 99
 };
 
-export const Map: FC<React.PropsWithChildren<MapProps>> = ({
+export const Map: React.FC<React.PropsWithChildren<MapProps>> = ({
   controls,
   featureRadius = 10,
   featureWidth = 10,
   locked = false,
   onFeatureClick,
+  protomapsApiKey,
+  protomapsStyles,
   spotlightColor = 'red',
   spotlightRadius = 16,
 }: MapProps) => {
+  const mapRef = useRef<any>();
+  useEffect(() => {
+    if(mapRef.current){
+      // todo: this gets called twice, possibly because it's run in dev mode?
+      apply(mapRef.current.ol, protomapsStyles);
+    }
+  }, [mapRef.current]);
+  const parser = useMemo(() => new MVT(), []);
   const {
     internalCenter: center,
     layers,
@@ -235,13 +249,16 @@ export const Map: FC<React.PropsWithChildren<MapProps>> = ({
       maxZoom={maxZoom}
       minZoom={minZoom}
       noDefaultControls={true}
+      ref={mapRef}
       view={[view, setView]}
       width='100%'>
       {controls !== undefined && controls}
       {locked && <div style={lockedDivStyle} className='frg-ui-map-lock'>
 	<IonIcon src={LockIcon}  style={{width: '33%', height: '33%'}} />
       </div>}
-      <ROSM />
+      <RLayerVectorTile
+	url={`https://api.protomaps.com/tiles/v3/{z}/{x}/{y}.mvt?key=${protomapsApiKey}`}
+	format={parser} />
       {layersRendered}
       <RLayerVector zIndex={2}>
 	<LayerStyle
