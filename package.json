@@ -4,6 +4,7 @@
         "dayjs": "^1.11.10",
         "deepmerge": "^4.3.1",
         "ol": "^8.1.0",
+        "ol-mapbox-style": "^12.3.4",
         "rlayers": "^2.1.0"
     },
     "devDependencies": {
@@ -111,5 +112,5 @@
     },
     "type": "module",
     "types": "dist/index.d.ts",
-    "version": "0.0.17"
+    "version": "0.0.18"
 }

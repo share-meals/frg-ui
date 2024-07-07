@@ -47,8 +47,8 @@ const MapContext = createContext<MapContext>({
     lng: 0
   },
   layers: [],
-  maxZoom: 20,
-  minZoom: 20,
+  maxZoom: 16,
+  minZoom: 12,
   setClickedFeatures: () => {},
   setInternalCenter: () => {},
   setSpotlight: () => {},
@@ -93,8 +93,8 @@ export const MapProvider = ({
   center,
   children,
   layers = [],
-  maxZoom = 20,
-  minZoom = 10,
+  maxZoom = 16,
+  minZoom = 12,
   zoom: zoomFromProps,
 }: PropsWithChildren<MapProvider>) => {
   const [internalCenter, setInternalCenter] = useState<MapContext['internalCenter']>(center);

@@ -11,6 +11,7 @@ import type {
   Meta,
   StoryObj
 } from '@storybook/react';
+import protomapsStyles from './stories_data/protomapsStyles.json';
 import {useState} from 'react';
 
 const parks = {
@@ -37,10 +38,12 @@ const meta: Meta<typeof Map> = {
 	<MapProvider
 	  center={parks[park]}
 	  layers={[]}
-	  maxZoom={20}
-	  minZoom={14}>
+	  maxZoom={16}
+	  minZoom={12}>
 	  <Map
-	    {...props}
+	    protomapsApiKey='64a4cc037916729f'
+	    protomapsStyles={protomapsStyles}
+	  {...props}
 	  />
 	</MapProvider>
       </div>

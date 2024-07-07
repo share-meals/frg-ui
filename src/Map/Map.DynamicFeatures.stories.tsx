@@ -19,6 +19,7 @@ import type {
   Meta,
   StoryObj
 } from '@storybook/react';
+import protomapsStyles from './stories_data/protomapsStyles.json';
 import {useState} from 'react';
 
 const coordinates = {
@@ -61,12 +62,14 @@ const meta: Meta<typeof Map> = {
 	    strokeColor: 'blue',
 	    type: 'vector'
 	  }]}
-	  maxZoom={20}
+	  maxZoom={16}
 	  minZoom={12}>
 	  <IonGrid>
 	    <IonRow style={{height: '50vh'}}>
 	      <IonCol size='8'>
 		<Map
+		protomapsApiKey='64a4cc037916729f'
+		protomapsStyles={protomapsStyles}
 		{...props}
 		/>
 	      </IonCol>
