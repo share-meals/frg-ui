@@ -71,6 +71,8 @@ const layers: MapLayer[] = [
   },
   {
     name: 'Food Pantries',
+    featureRadius: 10,
+    featureWidth: 10,
     geojson: food_pantries,
     fillColor: '#64a70b',
     strokeColor: 'white',
@@ -78,6 +80,8 @@ const layers: MapLayer[] = [
   },
   {
     name: 'Soup Kitchens',
+    featureRadius: 10,
+    featureWidth: 10,
     geojson: soup_kitchens,
     fillColor: '#893B67',
     strokeColor: 'white',

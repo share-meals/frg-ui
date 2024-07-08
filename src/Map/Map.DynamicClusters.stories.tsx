@@ -26,15 +26,21 @@ import cpds from './stories_data/cpds.json';
 import mms from './stories_data/mms.json';
 import food_pantries from './stories_data/food_pantries.json';
 
+const FILL_OPACITY = 0.5;
+const STROKE_OPACITY = 1;
+const FEATURE_WIDTH = 4;
+const TEXT_STROKE_WIDTH = 2;
+
 const cpdsLayer = {
   name: 'Community Partner Distributors',
   geojson: cpds,
-  fillColor: 'rgba(167, 100, 11, 0.9)',
-  strokeColor: 'rgba(255, 255, 255, 0.9)',
+  featureWidth: FEATURE_WIDTH,
+  fillColor: `rgba(167, 100, 11, ${FILL_OPACITY})`,
+  strokeColor: `rgba(255, 255, 255, ${STROKE_OPACITY})`,
   textScale: 1.5,
   textFillColor: '#ffffff',
   textStrokeColor: '#000000',
-  textStrokeWidth: 4,
+  textStrokeWidth: TEXT_STROKE_WIDTH,
   type: 'cluster',
   clusterDistance: 50
 };
@@ -42,12 +48,13 @@ const cpdsLayer = {
 const mmsLayer = {
   name: 'Mobile Markets',
   geojson: mms,
-  fillColor: 'rgba(11, 167, 100, 0.9)',
-  strokeColor: 'rgba(255, 255, 255, 0.9)',
+  featureWidth: FEATURE_WIDTH,
+  fillColor: `rgba(11, 167, 100, ${FILL_OPACITY})`,
+  strokeColor: `rgba(255, 255, 255, ${STROKE_OPACITY})`,
   textScale: 1.5,
   textFillColor: '#ffffff',
   textStrokeColor: '#000000',
-  textStrokeWidth: 4,
+  textStrokeWidth: TEXT_STROKE_WIDTH,
   type: 'cluster',
   clusterDistance: 50
 };
@@ -55,12 +62,13 @@ const mmsLayer = {
 const fpsLayer = {
   name: 'Food Pantries',
   geojson: food_pantries,
-  fillColor: 'rgba(100, 167, 11, 0.9)',
-  strokeColor: 'rgba(255, 255, 255, 0.9)',
+  featureWidth: FEATURE_WIDTH,
+  fillColor: `rgba(100, 167, 11, ${FILL_OPACITY})`,
+  strokeColor: `rgba(255, 255, 255, ${STROKE_OPACITY})`,
   textScale: 1.5,
   textFillColor: '#ffffff',
   textStrokeColor: '#000000',
-  textStrokeWidth: 4,
+  textStrokeWidth: TEXT_STROKE_WIDTH,
   type: 'cluster',
   clusterDistance: 50
 };
@@ -69,7 +77,6 @@ const meta: Meta<typeof Map> = {
   component: Map,
   render: (props) => {
     const [features, setFeatures] = useState<['cpds', 'mms']>('cpds');
-    
     return <>
       <IonSegment value={features} onIonChange={(event) => {setFeatures(event.detail.value);}}>
 	<IonSegmentButton value='cpds'>

@@ -33,10 +33,18 @@ export interface LayerStyle {
   zoomPercentage?: number
 }
 
+const SINGLE_CLUSTER_SIZE = 15
+const MINIMUM_CLUSTER_SIZE = 25;
+
+
 const extentFeatures = (features: any, resolution: number) => {
   const extent = createEmpty();
   for (const f of features) extend(extent, f.getGeometry().getExtent());
-  return Math.round(0.25 * (getWidth(extent) + getHeight(extent))) / resolution;
+  if(features.length === 1){
+    return SINGLE_CLUSTER_SIZE;
+  }
+  const size = Math.round((getWidth(extent) + getHeight(extent)) / resolution  * 0.25);
+  return size < MINIMUM_CLUSTER_SIZE ? MINIMUM_CLUSTER_SIZE : size;
 };
 
 const LineStringStyle: React.FC<Pick<LayerStyle, 'strokeColor' | 'width'>> = ({
@@ -118,10 +126,12 @@ const ClusterStyle: React.FC<Pick<LayerStyle,
 	  <RFill color={fillColor} />
 	  <RStroke color={strokeColor} width={width} />
 	</RCircle>
-	<RText text={size.toString()} scale={textScale * zoomPercentage}>
-	  <RFill color={textFillColor} />
-	  <RStroke color={textStrokeColor} width={textStrokeWidth} />
-	</RText>
+	{size > 1 &&
+	 <RText text={size.toString()} scale={textScale * zoomPercentage}>
+	   <RFill color={textFillColor} />
+	   <RStroke color={textStrokeColor} width={textStrokeWidth} />
+	 </RText>
+	}
       </>
     }, [])}
   />

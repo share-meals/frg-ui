@@ -23,6 +23,7 @@ import protomapsStyles from './stories_data/protomapsStyles.json';
 import {useState} from 'react';
 
 const highland = {
+  featureRadius: 20,
   fillColor: 'orange',
   geojson: {
     type: 'FeatureCollection',
@@ -46,6 +47,7 @@ const highland = {
 
 const parks = {
   prospect: {
+    featureRadius: 20,
     fillColor: 'red',
     geojson: {
       type: 'FeatureCollection',
@@ -67,6 +69,7 @@ const parks = {
     type: 'vector'
   },
   central: {
+    featureRadius: 20,
     fillColor: 'purple',
     geojson: {
       type: 'FeatureCollection',

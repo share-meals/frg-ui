@@ -45,6 +45,8 @@ const meta: Meta<typeof Map> = {
 	<MapProvider
 	  center={{lat: coordinates[park][1], lng: coordinates[park][0]}}
 	  layers={[{
+	    featureRadius: 20,
+	    featureWidth: 20,
 	    fillColor: 'red',
 	    geojson: {
 	      type: 'FeatureCollection',
