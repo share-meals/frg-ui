@@ -83,7 +83,6 @@ export const Map: React.FC<React.PropsWithChildren<MapProps>> = ({
 }: MapProps) => {
   const baseMapRef = useRef<any>();
   useEffect(() => {
-    console.log(baseMapRef.current.ol);
     if(baseMapRef.current && baseMapRef.current.ol){
       applyStyle(baseMapRef.current.ol, protomapsStyles);
     }
