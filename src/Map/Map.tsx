@@ -31,8 +31,6 @@ export * from './MapContext';
 
 export interface MapProps extends Partial<RMapProps> {
   controls?: React.ReactElement,
-  featureRadius?: number,
-  featureWidth?: number,
   locked?: boolean,
   onMapCenter?: ({lat, lng, address}: {lat: number | null, lng: number | null, address: string}) => void,
   onFeatureClick?: ({data, lat, lng}: {data: any, lat: number, lng: number}) => void,
@@ -76,8 +74,6 @@ const lockedDivStyle: React.CSSProperties = {
 
 export const Map: React.FC<React.PropsWithChildren<MapProps>> = ({
   controls,
-  featureRadius = 10,
-  featureWidth = 10,
   locked = false,
   onFeatureClick,
   protomapsApiKey,
@@ -189,10 +185,10 @@ export const Map: React.FC<React.PropsWithChildren<MapProps>> = ({
 	    <LayerStyle
 	      fillColor={layer.fillColor}
 	      icon={layer.icon}
-	      radius={featureRadius}
+	      radius={layer.featureRadius}
 	      strokeColor={layer.strokeColor}
 	      type={layer.featureType}
-	      width={featureWidth}
+	      width={layer.featureWidth}
 	      zoomPercentage={zoomPercentage}
 	    />
 	  </RLayerVector>;
@@ -223,13 +219,13 @@ export const Map: React.FC<React.PropsWithChildren<MapProps>> = ({
 	    <LayerStyle
 	      fillColor={layer.fillColor}
 	      type='Cluster'
-	      radius={featureRadius}
+	      radius={layer.featureRadius}
 	      strokeColor={layer.strokeColor}
 	      textScale={layer.textScale}
 	      textFillColor={layer.textFillColor}
 	      textStrokeColor={layer.textStrokeColor}
 	      textStrokeWidth={layer.textStrokeWidth}
-	      width={featureWidth}
+	      width={layer.featureWidth}
 	    />
 	  </RLayerCluster>;
 	  break;
