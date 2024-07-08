@@ -3490,14 +3490,14 @@ __metadata:
     jest-image-snapshot: "npm:^6.2.0"
     jsdom: "npm:^22.1.0"
     loki: "npm:^0.33.0"
-    ol: "npm:^8.1.0"
-    ol-mapbox-style: "npm:^12.3.4"
+    ol: "npm:9.1.0"
+    ol-mapbox-style: "npm:9.7.0"
     prop-types: "npm:^15.8.1"
     react: "npm:^18.2.0"
     react-dom: "npm:^18.2.0"
     react-hook-form: "npm:^7.47.0"
     react-markdown: "npm:^9.0.0"
-    rlayers: "npm:^2.1.0"
+    rlayers: "npm:^2.3.2"
     sass: "npm:^1.70.0"
     storybook: "npm:^7.5.2"
     storybook-dark-mode: "npm:^3.0.1"
@@ -10254,6 +10254,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"lru-cache@npm:^10.2.0":
+  version: 10.4.0
+  resolution: "lru-cache@npm:10.4.0"
+  checksum: 10c0/2ea052e95431b50d82ac5d657e0308fed3e58031ec6153a7e019c586fc1255521273b6b14b9598745c869556338d5f31d4059f648ea2475e88df49ea140d9e07
+  languageName: node
+  linkType: hard
+
 "lru-cache@npm:^4.0.1":
   version: 4.1.5
   resolution: "lru-cache@npm:4.1.5"
@@ -10279,13 +10286,6 @@ __metadata:
   dependencies:
     yallist: "npm:^4.0.0"
   checksum: 10c0/cb53e582785c48187d7a188d3379c181b5ca2a9c78d2bce3e7dee36f32761d1c42983da3fe12b55cb74e1779fa94cdc2e5367c028a9b35317184ede0c07a30a9
-  languageName: node
-  linkType: hard
-
-"lru-cache@npm:^7.10.0":
-  version: 7.18.3
-  resolution: "lru-cache@npm:7.18.3"
-  checksum: 10c0/b3a452b491433db885beed95041eb104c157ef7794b9c9b4d647be503be91769d11206bb573849a16b4cc0d03cbd15ffd22df7960997788b74c1d399ac7a4fed
   languageName: node
   linkType: hard
 
@@ -11289,21 +11289,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ol-mapbox-style@npm:^12.3.4":
-  version: 12.3.4
-  resolution: "ol-mapbox-style@npm:12.3.4"
+"ol-mapbox-style@npm:9.7.0":
+  version: 9.7.0
+  resolution: "ol-mapbox-style@npm:9.7.0"
   dependencies:
     "@mapbox/mapbox-gl-style-spec": "npm:^13.23.1"
     mapbox-to-css-font: "npm:^2.4.1"
-  peerDependencies:
-    ol: "*"
-  checksum: 10c0/4cf77bbc1f40b6d575f7da85a02f42d92f6a59ddac42f440cae305859e14bd0c68b46f6c11bb7df6170290e40d82cf5e88d7bd65106db1c2d3f19017e34ccaf7
+  checksum: 10c0/a952e7f3d8f3ad5edcde6a44882bef6bdddc5e9a468e35de7a496427babd4bc289d927c3a8ec48582d0964ebc303af9e2fb710f07ae9863ffc9c215e06097bf4
   languageName: node
   linkType: hard
 
-"ol@npm:^8.1.0":
-  version: 8.2.0
-  resolution: "ol@npm:8.2.0"
+"ol@npm:9.1.0":
+  version: 9.1.0
+  resolution: "ol@npm:9.1.0"
   dependencies:
     color-rgba: "npm:^3.0.0"
     color-space: "npm:^2.0.1"
@@ -11311,7 +11309,7 @@ __metadata:
     geotiff: "npm:^2.0.7"
     pbf: "npm:3.2.1"
     rbush: "npm:^3.0.1"
-  checksum: 10c0/46e1cf2b73da2ab1b30a7e596e2ce2d2c8891e3abf1a3274f933dcf2d76ff0c38ba0a2087a681997977f688a998d933e818975db8a7dfe198b9e2639bdd2d0df
+  checksum: 10c0/f6b158e442a23b934ef24acb6f86748b3a35b93d6b7af5b64b6cb46c6b9f878178087e15dc80c5feb48533b272dd23def608921b6e53cf40f47e092c21eaf290
   languageName: node
   linkType: hard
 
@@ -12681,16 +12679,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rlayers@npm:^2.1.0":
-  version: 2.2.0
-  resolution: "rlayers@npm:2.2.0"
+"rlayers@npm:^2.3.2":
+  version: 2.3.2
+  resolution: "rlayers@npm:2.3.2"
   dependencies:
-    lru-cache: "npm:^7.10.0"
+    lru-cache: "npm:^10.2.0"
   peerDependencies:
-    ol: ">=6.10.0 <=8.2.0"
+    ol: ">=6.10.0 <9.2.0"
     react: ">=16.8"
     react-dom: ">=16.8"
-  checksum: 10c0/54365ff849ecb68f3515bf06151931f2e601cc2faf9382cebfda818dc153458cc167aaaab8eec9b8c66ca186df919aac92b34445e4f85f71ac1cbf2aa036c8e4
+  checksum: 10c0/6cbcb26e36d47468695098f487140694fcab3d759116979cd35ca72b8449ea13c9f4e7d3f021d690a3dc4ea5b0330a701752c7a82a6760933aafe600984e52d3
   languageName: node
   linkType: hard
 

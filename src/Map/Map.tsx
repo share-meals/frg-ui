@@ -1,4 +1,4 @@
-import {apply} from 'ol-mapbox-style';
+import {applyStyle} from 'ol-mapbox-style';
 import {
   useEffect,
   useMemo,
@@ -23,7 +23,6 @@ import { MVT } from 'ol/format';
 import type {RMapProps} from 'rlayers/RMap';
 import LockIcon from '@material-symbols/svg-400/rounded/lock-fill.svg';
 import {useMap} from './MapContext';
-
 import 'ol/ol.css';
 
 import type {MapLayer} from './MapLayers';
@@ -86,13 +85,13 @@ export const Map: React.FC<React.PropsWithChildren<MapProps>> = ({
   spotlightColor = 'red',
   spotlightRadius = 16,
 }: MapProps) => {
-  const mapRef = useRef<any>();
+  const baseMapRef = useRef<any>();
   useEffect(() => {
-    if(mapRef.current){
-      // todo: this gets called twice, possibly because it's run in dev mode?
-      apply(mapRef.current.ol, protomapsStyles);
+    console.log(baseMapRef.current.ol);
+    if(baseMapRef.current && baseMapRef.current.ol){
+      applyStyle(baseMapRef.current.ol, protomapsStyles);
     }
-  }, [mapRef.current]);
+  }, [baseMapRef.current]);
   const parser = useMemo(() => new MVT(), []);
   const {
     internalCenter: center,
@@ -240,6 +239,19 @@ export const Map: React.FC<React.PropsWithChildren<MapProps>> = ({
     }
     )).reverse();
   }, [features, visibleLayers, zoomPercentage]);
+  
+  const spotlightLayer = useMemo(() => (
+    <RLayerVector zIndex={2}>
+      <LayerStyle
+	strokeColor={spotlightColor}
+	type='Spotlight'
+	radius={spotlightRadius}
+	zoomPercentage={zoomPercentage}
+      />
+      <RFeature geometry={spotlight} />
+    </RLayerVector>
+  ), [spotlightColor, spotlightRadius, zoomPercentage, spotlight]);
+  
   // wrap in a relative div so controls can be positioned absolute inside
   return <div style={{position: 'relative', height: '100%'}}>
     <RMap
@@ -249,7 +261,6 @@ export const Map: React.FC<React.PropsWithChildren<MapProps>> = ({
       maxZoom={maxZoom}
       minZoom={minZoom}
       noDefaultControls={true}
-      ref={mapRef}
       view={[view, setView]}
       width='100%'>
       {controls !== undefined && controls}
@@ -257,18 +268,12 @@ export const Map: React.FC<React.PropsWithChildren<MapProps>> = ({
 	<IonIcon src={LockIcon}  style={{width: '33%', height: '33%'}} />
       </div>}
       <RLayerVectorTile
+	format={parser}
+	ref={baseMapRef}
 	url={`https://api.protomaps.com/tiles/v3/{z}/{x}/{y}.mvt?key=${protomapsApiKey}`}
-	format={parser} />
+      />
       {layersRendered}
-      <RLayerVector zIndex={2}>
-	<LayerStyle
-	strokeColor={spotlightColor}
-	type='Spotlight'
-	radius={spotlightRadius}
-	zoomPercentage={zoomPercentage}
-	/>
-	<RFeature geometry={spotlight} />
-      </RLayerVector>
+      {spotlightLayer}
     </RMap>
   </div>;
 };
