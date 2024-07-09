@@ -38,13 +38,16 @@ export interface VisibleMapLayers {
 }
 
 export const generateMapLayerType = (geojson: GeoJSON.GeoJSON): GeoJSON.GeoJsonTypes => {
-    switch(geojson.type){
-	case 'FeatureCollection':
-	    return geojson.features[0].geometry.type;
-	default:
-	    // todo: process other GeoJsonTypes
-	    return 'Point';
-    }
+  switch(geojson.type){
+    case 'FeatureCollection':
+      if(geojson.features.length === 0){
+	return 'Point';
+      }
+      return geojson.features[0].geometry.type;
+    default:
+      // todo: process other GeoJsonTypes
+      return 'Point';
+  }
 }
 
 export const LayerToggles = () => {

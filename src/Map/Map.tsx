@@ -83,9 +83,13 @@ export const Map: React.FC<React.PropsWithChildren<MapProps>> = ({
 }: MapProps) => {
   const baseMapRef = useRef<any>();
   useEffect(() => {
-    console.log(baseMapRef.current.ol);
     if(baseMapRef.current && baseMapRef.current.ol){
-      applyStyle(baseMapRef.current.ol, protomapsStyles);
+      if(baseMapRef.current.ol.getPreload() !== Infinity){
+	baseMapRef.current.ol.setPreload(Infinity);
+      }else{
+	// setting preload retriggers this useEffect
+	applyStyle(baseMapRef.current.ol, protomapsStyles);
+      }
     }
   }, [baseMapRef.current]);
   const parser = useMemo(() => new MVT(), []);
@@ -156,7 +160,7 @@ export const Map: React.FC<React.PropsWithChildren<MapProps>> = ({
     return (Object.values(visibleLayers).map((
       layer: any, // todo: better typing
       index: number
-    ) => {
+    ) => {      
       // need to append a new number to key prop
       // to force refresh on changes
       switch(layer.type){

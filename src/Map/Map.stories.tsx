@@ -236,6 +236,23 @@ export const Cluster: Story = {
   }
 }
 
+export const EmptyLayer: Story = {
+  args: {
+    layers: [{
+      name: 'Food Pantries',
+      featureRadius: 10,
+      featureWidth: 10,
+      geojson: {
+	features: [],
+	type: 'FeatureCollection'
+      },
+      fillColor: '#64a70b',
+      strokeColor: 'white',
+      type: 'vector'
+    }]
+  }
+}
+
 export const Locked: Story = {
   args: {
     controls: <div style={{position: 'absolute', zIndex: 999, right: '1rem', top: '1rem'}}>
