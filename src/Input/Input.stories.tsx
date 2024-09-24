@@ -20,7 +20,6 @@ const meta: Meta<typeof Input> = {
     validation,
     ...props
   }) => {
-    
     const schema = z.object({
       field: validation ?? (props.required ? z.string() : z.string().optional())
     });
@@ -81,6 +80,17 @@ export const AsPassword: Story = {
   }
 }
 
+export const Labeless: Story = {
+  args: {
+  }
+}
+
+export const LabelessRequired: Story = {
+  args: {
+    required: true,
+  }
+}
+
 export const LabelFixed: Story = {
   args: {
     label: 'label fixed',
@@ -108,13 +118,6 @@ export const LabelUndefined: Story = {
   }
 }
 
-export const Required: Story = {
-  args: {
-    label: 'label required',
-    required: true
-  }
-}
-
 export const Number: Story = {
   args: {
     label: 'number',
@@ -123,13 +126,9 @@ export const Number: Story = {
   }
 }
 
-export const Labeless: Story = {
+export const Required: Story = {
   args: {
-  }
-}
-
-export const LabelessRequired: Story = {
-  args: {
-    required: true,
+    label: 'label required',
+    required: true
   }
 }
