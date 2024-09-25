@@ -18,14 +18,14 @@ import {
 } from './MapLayers';
 
 import type {
-  MapLayer,
+  MapLayerProps,
   VisibleMapLayers
 } from './MapLayers';
 
 interface MapContext {
   clickedFeatures: any[],
   internalCenter: LatLng,
-  layers: MapLayer[],
+  layers: MapLayerProps[],
   maxZoom: number,
   minZoom: number,
   setClickedFeatures: Dispatch<SetStateAction<any>>
@@ -66,16 +66,16 @@ const MapContext = createContext<MapContext>({
 
 export const useMap = () => useContext(MapContext);
 
-export interface MapProvider {
+export interface MapProviderProps {
   center: LatLng,
-  layers: MapLayer[],
+  layers: MapLayerProps[],
   maxZoom: number,
   minZoom: number,
   zoom?: number,
 }
 
 const convertToGeojson = (
-  layer: MapLayer,
+  layer: MapLayerProps,
   visible: boolean = true
 ) => {
   const {geojson, ...layerProps} = layer;
@@ -96,7 +96,7 @@ export const MapProvider = ({
   maxZoom = 16,
   minZoom = 12,
   zoom: zoomFromProps,
-}: PropsWithChildren<MapProvider>) => {
+}: PropsWithChildren<MapProviderProps>) => {
   const [internalCenter, setInternalCenter] = useState<MapContext['internalCenter']>(center);
   const [propsCenter, setPropsCenter] = useState<MapContext['internalCenter']>(center);
   const [propsLayers, setPropsLayers] = useState<string>(JSON.stringify(layers));

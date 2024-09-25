@@ -36,7 +36,7 @@ const meta: Meta<typeof Datetime> = {
       control
     } = useForm<z.infer<typeof schema>>({
       defaultValues: {
-	field: defaultValue
+	field: defaultValue as string
       },
       mode: 'onChange',
       resolver: zodResolver(schema)
@@ -50,7 +50,6 @@ const meta: Meta<typeof Datetime> = {
 	<Datetime
 	{...props}
 	  control={control}
-	label='field'
 	  name='field'
 	/>
 	<div className='ion-margin-top'>

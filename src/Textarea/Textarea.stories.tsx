@@ -14,7 +14,7 @@ import {zodResolver} from '@hookform/resolvers/zod';
 
 import {Textarea} from './Textarea';
 
-const meta: Meta<typeof Input> = {
+const meta: Meta<typeof Textarea> = {
   component: Textarea,
   render: (props) => {
     const schema = z.object({
@@ -68,13 +68,6 @@ export const Default: Story = {
   }
 }
 
-export const LabelAbove: Story = {
-  args: {
-    label: 'label above',
-    labelPlacement: 'above'
-  }
-}
-
 export const LabelFixed: Story = {
   args: {
     label: 'label fixed',
@@ -112,7 +105,7 @@ export const Required: Story = {
 
 export const Autogrow: Story = {
   args: {
-    'auto-grow': true,
+    autoGrow: true,
     label: 'autogrow',
     labelPlacement: 'floating',
     required: true
@@ -137,6 +130,6 @@ export const RowsAndAutogrow: Story = {
   args: {
     label: 'rows = 5 and autogrow',
     rows: 5,
-    'auto-grow': true
+    autoGrow: true
   }
 }

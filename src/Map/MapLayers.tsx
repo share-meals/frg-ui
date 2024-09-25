@@ -10,25 +10,27 @@ import {
 } from './MapContext';
 
 export interface MapLayerIcon {
-    src: string,
-    scale: number    
+    src: string;
+    scale: number;
 }
 
-export interface MapLayer {
-  clusterDistance?: number,
-  fillColor: string,
-  geojson: GeoJSON.GeoJSON,
-  icon?: MapLayerIcon,
-  name: string,
-  strokeColor: string,
-  textScale?: number,
-  textFillColor?: string,
-  textStrokeColor?: string,
-  textStrokeWidth?: number,
-  type: 'cluster' | 'vector',
+export interface MapLayerProps {
+  clusterDistance?: number;
+  featureRadius?: number;
+  featureWidth?: number;
+  fillColor: string;
+  geojson: GeoJSON.GeoJSON;
+  icon?: MapLayerIcon;
+  name: string;
+  strokeColor: string;
+  textScale?: number;
+  textFillColor?: string;
+  textStrokeColor?: string;
+  textStrokeWidth?: number;
+  type: string; // 'cluster' | 'vector'
 };
 
-export interface VisibleMapLayer extends Omit<MapLayer, 'geojson'> {
+export interface VisibleMapLayer extends Omit<MapLayerProps, 'geojson'> {
   visible: boolean,
   featureType: any
 }

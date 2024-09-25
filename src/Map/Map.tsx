@@ -1,17 +1,13 @@
 import {applyStyle} from 'ol-mapbox-style';
 import {
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
-import {
   fromLonLat,
   toLonLat,
 } from 'ol/proj';
 import GeoJSON from 'ol/format/GeoJSON';
 import {IonIcon} from '@ionic/react';
 import {LayerStyle} from './LayerStyle';
+import type {MapLayerProps} from './MapLayers';
+import { MVT } from 'ol/format';
 import {
   RFeature,
   RLayerCluster,
@@ -19,21 +15,30 @@ import {
   RLayerVectorTile,
   RMap,
 } from 'rlayers';
-import { MVT } from 'ol/format';
 import type {RMapProps} from 'rlayers/RMap';
-import LockIcon from '@material-symbols/svg-400/rounded/lock-fill.svg';
+import {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import {useMap} from './MapContext';
+
+import LockIcon from '@material-symbols/svg-400/rounded/lock-fill.svg';
 import 'ol/ol.css';
 
-import type {MapLayer} from './MapLayers';
-
 export * from './MapContext';
+export interface MapOnFeatureClickProps {
+  data: any,
+  lat: number,
+  lng: number,
+}
 
 export interface MapProps extends Partial<RMapProps> {
   controls?: React.ReactElement,
   locked?: boolean,
   onMapCenter?: ({lat, lng, address}: {lat: number | null, lng: number | null, address: string}) => void,
-  onFeatureClick?: ({data, lat, lng}: {data: any, lat: number, lng: number}) => void,
+  onFeatureClick?: (arg0: MapOnFeatureClickProps) => void,
   protomapsApiKey: string,
   protomapsStyles: any,
   spotlightColor?: string,
@@ -142,9 +147,9 @@ export const Map: React.FC<React.PropsWithChildren<MapProps>> = ({
 
   const features = useMemo(() => {
     return layers.map((
-      layer: MapLayer,
+      layer: MapLayerProps,
     ) => {
-      const features: any = new GeoJSON({
+      const features = new GeoJSON({
 	featureProjection: 'EPSG:3857',
       }).readFeatures(layer.geojson);
       for(const feature of features){
@@ -158,7 +163,7 @@ export const Map: React.FC<React.PropsWithChildren<MapProps>> = ({
   
   const layersRendered = useMemo(() => {
     return (Object.values(visibleLayers).map((
-      layer: any, // todo: better typing
+      layer: any, //LayerStyle,
       index: number
     ) => {      
       // need to append a new number to key prop

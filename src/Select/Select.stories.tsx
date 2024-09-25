@@ -72,7 +72,7 @@ const meta: Meta<SelectProps & {defaultValue: string}> = {
       mode: 'onChange',
       resolver: zodResolver(schema)
     });
-    const field: string = useWatch({
+    const field = useWatch({
       control,
       name: 'field'
     });

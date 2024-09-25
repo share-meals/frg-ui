@@ -18,9 +18,14 @@ import {LayerToggles} from './MapLayers';
 import Lock from '@material-symbols/svg-400/sharp/lock-fill.svg';
 import {
   Map,
-  MapProvider
+  MapProvider,
+  MapProviderProps,
 } from './Map';
-import type {MapLayer} from './MapLayers';
+import type {MapLayerProps} from './MapLayers';
+import type {
+  MapOnFeatureClickProps,
+  MapProps
+} from './Map';
 import type {
   Meta,
   StoryObj
@@ -35,7 +40,6 @@ import {
 import {useWindowSize} from '@uidotdev/usehooks';
 
 import Close from '@material-symbols/svg-400/sharp/close.svg';
-import Layers from '@material-symbols/svg-400/sharp/layers.svg';
 
 import './Map.stories.css';
 
@@ -46,10 +50,10 @@ import mm_truck from './stories_data/mm_truck.png';
 import cpds from './stories_data/cpds.json';
 import cpd_truck from './stories_data/cpd_truck.png';
 
-const layers: MapLayer[] = [
+const layers: MapLayerProps[] = [
   {
     name: 'Community Partner Distributions',
-    geojson: cpds,
+    geojson: cpds as GeoJSON.GeoJSON,
     fillColor: '#54688b',
     strokeColor: 'white',
     icon: {
@@ -60,7 +64,7 @@ const layers: MapLayer[] = [
   },
   {
     name: 'Mobile Markets',
-    geojson: mms,
+    geojson: mms as GeoJSON.GeoJSON,
     fillColor: '#006747',
     strokeColor: 'white',
     icon: {
@@ -73,7 +77,7 @@ const layers: MapLayer[] = [
     name: 'Food Pantries',
     featureRadius: 10,
     featureWidth: 10,
-    geojson: food_pantries,
+    geojson: food_pantries as GeoJSON.GeoJSON,
     fillColor: '#64a70b',
     strokeColor: 'white',
     type: 'vector'
@@ -82,17 +86,17 @@ const layers: MapLayer[] = [
     name: 'Soup Kitchens',
     featureRadius: 10,
     featureWidth: 10,
-    geojson: soup_kitchens,
+    geojson: soup_kitchens as GeoJSON.GeoJSON,
     fillColor: '#893B67',
     strokeColor: 'white',
     type: 'vector'
   }
 ];
 
-const layersCluster: MapLayer[] = [
+const layersCluster: MapLayerProps[] = [
   {
     name: 'Food Pantries',
-    geojson: food_pantries,
+    geojson: food_pantries as GeoJSON.GeoJSON,
     fillColor: 'rgba(100, 167, 11, 0.9)',
     strokeColor: 'rgba(255, 255, 255, 0.9)',
     textScale: 1.5,
@@ -103,6 +107,8 @@ const layersCluster: MapLayer[] = [
     clusterDistance: 50
   }
 ];
+
+type MapStoryProps = MapProps & MapProviderProps;
 
 const InfoModal = ({trigger}: {trigger: string}) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -143,10 +149,13 @@ const LayerTogglesModal = () => {
   </IonModal>;
 }
 
-const meta: Meta<typeof Map> = {
+const meta: Meta<MapStoryProps> = {
+  // @ts-ignore
   component: Map,
   render: ({
     controls,
+    protomapsApiKey,
+    protomapsStyles: protomapsStylesProp,
     ...props
   }) => {
     const geocoderInput = <GeocoderInput
@@ -204,10 +213,7 @@ const meta: Meta<typeof Map> = {
 		controls={controls}
 		protomapsApiKey='64a4cc037916729f'
 		protomapsStyles={protomapsStyles}
-		{...props}
-		onMapClick={() => {
-		  setInfoTrigger((new Date()).toString());
-		}} />
+		{...props} />
 	      <InfoModal trigger={infoTrigger} />
 	      <LayerTogglesModal />
 	    </>}
@@ -220,7 +226,7 @@ const meta: Meta<typeof Map> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof Map>;
+type Story = StoryObj<MapStoryProps>;
 
 export const Default: Story = {
   args: {
@@ -230,8 +236,6 @@ export const Default: Story = {
 
 export const Cluster: Story = {
   args: {
-    featureRadius: 20,
-    featureWidth: 8,
     layers: layersCluster,
   }
 }
@@ -268,7 +272,7 @@ export const Locked: Story = {
 export const OnFeatureClickVector: Story = {
   args: {
     layers,
-    onFeatureClick: ({lat, lng, data}) => {
+    onFeatureClick: ({lat, lng, data}: MapOnFeatureClickProps) => {
       console.log(lat, lng, data);
     }
   }
@@ -276,10 +280,8 @@ export const OnFeatureClickVector: Story = {
 
 export const OnFeatureClickCluster: Story = {
   args: {
-    featureRadius: 20,
-    featureWidth: 8,
     layers: layersCluster,
-    onFeatureClick: ({lat, lng, data}) => {
+    onFeatureClick: ({lat, lng, data}: MapOnFeatureClickProps) => {
       console.log(lat, lng, data);
     }
   }

@@ -16,10 +16,7 @@ import {Input} from './Input';
 
 const meta: Meta<typeof Input> = {
   component: Input,
-  render: ({
-    validation,
-    ...props
-  }) => {
+  render: () => {
     const schema = z.object({
       field: z.string().optional()
     });
@@ -39,11 +36,11 @@ const meta: Meta<typeof Input> = {
       resolver: zodResolver(schema)
     });
     
-    const fieldPrimary: string = useWatch({
+    const fieldPrimary = useWatch({
       control: controlPrimary,
       name: 'field'
     });
-    const fieldSecondary: string = useWatch({
+    const fieldSecondary = useWatch({
       control: controlSecondary,
       name: 'field'
     });
@@ -56,43 +53,43 @@ const meta: Meta<typeof Input> = {
     });
     return (
       <>
-      <form
-      id='primary-form'
+	<form
+	  id='primary-form'
 	noValidate
-      onSubmit={onSubmitPrimary} />
-      <form
-      id='secondary-form'
-      noValidate
-      onSubmit={onSubmitSecondary} />
-      <Input
-      control={controlPrimary}
-      field='primary-form'
-      fill='outline'
-      label='primary'
-      name='field'
-      />
-      <Input
-      control={controlSecondary}
-      field='secondary-form'
-      fill='outline'
-      label='secondary'
-      name='field'
-      />
-      <div className='ion-margin-top'>
-	value of primary field: {fieldPrimary}
-	<br />
-	value of secondary field: {fieldSecondary}
-      </div>
-      <IonButton
-	form='primary-form'
+	  onSubmit={onSubmitPrimary} />
+	<form
+	  id='secondary-form'
+	  noValidate
+	  onSubmit={onSubmitSecondary} />
+	<Input
+	  control={controlPrimary}
+	  fill='outline'
+	  form='primary-form'
+	  label='primary'
+	  name='field'
+	/>
+	<Input
+	control={controlSecondary}
+	fill='outline'
+	form='secondary-form'
+	label='secondary'
+	name='field'
+	/>
+	<div className='ion-margin-top'>
+	  value of primary field: {fieldPrimary}
+	  <br />
+	  value of secondary field: {fieldSecondary}
+	</div>
+	<IonButton
+	  form='primary-form'
 	  type='submit'>
 	  Submit Primary
-      </IonButton>
-      <IonButton
-	form='secondary-form'
+	</IonButton>
+	<IonButton
+	  form='secondary-form'
 	  type='submit'>
 	  Submit Secondary
-      </IonButton>
+	</IonButton>
       </>
     );
   },
