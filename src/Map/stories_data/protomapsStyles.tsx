@@ -1,11 +1,11 @@
-{
+export default {
     "version": 8,
     "sources": {
         "protomaps": {
             "type": "vector",
             "attribution": "<a href=\"https://github.com/protomaps/basemaps\">Protomaps</a> © <a href=\"https://openstreetmap.org\">OpenStreetMap</a>",
             "tiles": [
-		"https://api.protomaps.com/tiles/v3/{z}/{x}/{y}.mvt?key=64a4cc037916729f"
+		`https://api.protomaps.com/tiles/v3/{z}/{x}/{y}.mvt?key=${import.meta.env.VITE_PROTOMAPS_API_KEY}`
 	    ]
         }
     },

@@ -16,7 +16,7 @@ import type {
   Meta,
   StoryObj
 } from '@storybook/react';
-import protomapsStyles from './stories_data/protomapsStyles.json';
+import protomapsStyles from './stories_data/protomapsStyles';
 import {useState} from 'react';
 
 import cpds from './stories_data/cpds.json';
@@ -96,7 +96,7 @@ const meta: Meta<typeof Map> = {
 	    <IonRow style={{height: '50vh'}}>
 	      <IonCol size='8'>
 		<Map
-		protomapsApiKey='64a4cc037916729f'
+		protomapsApiKey={import.meta.env.VITE_PROTOMAPS_API_KEY}
 		protomapsStyles={protomapsStyles}
 		{...props}
 		/>
