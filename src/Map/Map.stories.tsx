@@ -30,7 +30,7 @@ import type {
   Meta,
   StoryObj
 } from '@storybook/react';
-import protomapsStyles from './stories_data/protomapsStyles.json';
+import protomapsStyles from './stories_data/protomapsStyles';
 import {Renderer} from './stories_data/Renderer';
 import {
   useEffect,
@@ -195,7 +195,7 @@ const meta: Meta<MapStoryProps> = {
 		 <IonCol>
 		   <Map
 		     controls={controls}
-		     protomapsApiKey='64a4cc037916729f'
+		     protomapsApiKey={import.meta.env.VITE_PROTOMAPS_API_KEY as string}
 		     protomapsStyles={protomapsStyles}
 		   {...props}
 		   />
@@ -211,7 +211,7 @@ const meta: Meta<MapStoryProps> = {
 	    {isMobile && <>
 	      <Map
 		controls={controls}
-		protomapsApiKey='64a4cc037916729f'
+		protomapsApiKey={import.meta.env.VITE_PROTOMAPS_API_KEY as string}
 		protomapsStyles={protomapsStyles}
 		{...props} />
 	      <InfoModal trigger={infoTrigger} />
