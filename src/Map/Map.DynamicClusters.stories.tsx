@@ -1,7 +1,4 @@
-import {
-  GeocoderInput,
-  GeocoderProvider
-} from './Geocoder';
+import {GeocoderInput} from './Geocoder';
 import {
   IonCol,
   IonGrid,
@@ -33,7 +30,7 @@ const TEXT_STROKE_WIDTH = 2;
 
 const cpdsLayer = {
   name: 'Community Partner Distributors',
-  geojson: cpds,
+  geojson: cpds as GeoJSON.GeoJSON,
   featureWidth: FEATURE_WIDTH,
   fillColor: `rgba(167, 100, 11, ${FILL_OPACITY})`,
   strokeColor: `rgba(255, 255, 255, ${STROKE_OPACITY})`,
@@ -47,7 +44,7 @@ const cpdsLayer = {
 
 const mmsLayer = {
   name: 'Mobile Markets',
-  geojson: mms,
+  geojson: mms as GeoJSON.GeoJSON,
   featureWidth: FEATURE_WIDTH,
   fillColor: `rgba(11, 167, 100, ${FILL_OPACITY})`,
   strokeColor: `rgba(255, 255, 255, ${STROKE_OPACITY})`,
@@ -61,7 +58,7 @@ const mmsLayer = {
 
 const fpsLayer = {
   name: 'Food Pantries',
-  geojson: food_pantries,
+  geojson: food_pantries as GeoJSON.GeoJSON,
   featureWidth: FEATURE_WIDTH,
   fillColor: `rgba(100, 167, 11, ${FILL_OPACITY})`,
   strokeColor: `rgba(255, 255, 255, ${STROKE_OPACITY})`,
@@ -75,10 +72,10 @@ const fpsLayer = {
 
 const meta: Meta<typeof Map> = {
   component: Map,
-  render: (props) => {
-    const [features, setFeatures] = useState<['cpds', 'mms']>('cpds');
+  render: ({protomapsApiKey, protomapsStyles: protomapsStylesProp, ...props}) => {
+    const [features, setFeatures] = useState<string>('cpds');
     return <>
-      <IonSegment value={features} onIonChange={(event) => {setFeatures(event.detail.value);}}>
+      <IonSegment value={features} onIonChange={(event) => {setFeatures(event.detail.value as string);}}>
 	<IonSegmentButton value='cpds'>
 	  <IonLabel>CPDs</IonLabel>
 	</IonSegmentButton>

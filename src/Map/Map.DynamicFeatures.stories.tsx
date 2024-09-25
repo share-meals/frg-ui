@@ -1,6 +1,6 @@
 import {
   GeocoderInput,
-  GeocoderProvider
+//  GeocoderProvider
 } from './Geocoder';
 import {
   IonCol,
@@ -22,18 +22,18 @@ import type {
 import protomapsStyles from './stories_data/protomapsStyles.json';
 import {useState} from 'react';
 
-const coordinates = {
+const coordinates: {[key: string]: number[]} = {
   prospect: [-73.96947593651886, 40.66019478378121],
   central: [-73.96539607078506, 40.78249320246721]
 };
 
 const meta: Meta<typeof Map> = {
   component: Map,
-  render: (props) => {
-    const [park, setPark] = useState<['prospect', 'central']>('prospect');
+  render: ({protomapsApiKey, protomapsStyles: protomapsStylesProp, ...props}) => {
+    const [park, setPark] = useState<string>('prospect');
     
     return <>
-      <IonSegment value={park} onIonChange={(event) => {setPark(event.detail.value);}}>
+      <IonSegment value={park} onIonChange={(event) => {setPark(event.detail.value as string);}}>
 	<IonSegmentButton value='prospect'>
 	  <IonLabel>Prospect Park</IonLabel>
 	</IonSegmentButton>
@@ -45,8 +45,6 @@ const meta: Meta<typeof Map> = {
 	<MapProvider
 	  center={{lat: coordinates[park][1], lng: coordinates[park][0]}}
 	  layers={[{
-	    featureRadius: 20,
-	    featureWidth: 20,
 	    fillColor: 'red',
 	    geojson: {
 	      type: 'FeatureCollection',
@@ -56,7 +54,8 @@ const meta: Meta<typeof Map> = {
 		  geometry: {
 		    type: 'Point',
 		    coordinates: coordinates[park]
-		  }
+		  },
+		  properties: {}
 		}
 	      ]
 	    },

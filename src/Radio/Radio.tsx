@@ -45,7 +45,7 @@ export const Radio = ({
 	onBlur,
 	...fields
       }
-    }: any): React.JSX.Element =>
+    }): React.JSX.Element =>
       <IonRadioGroup
 	data-testid={testId}
 	onIonChange={(event) => {

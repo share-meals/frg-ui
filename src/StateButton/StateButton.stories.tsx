@@ -3,9 +3,14 @@ import type {
     StoryObj
 } from '@storybook/react';
 
+import type {StateButtonProps} from './StateButton';
 import {StateButton} from './StateButton';
 
-const meta: Meta<typeof StateButton> = {
+interface StateButtonStoryType extends StateButtonProps {
+  label: string
+};
+
+const meta: Meta<StateButtonStoryType> = {
   component: StateButton,
   render: (props) => {
     const {label, ...stateButtonProps} = props;
@@ -21,7 +26,7 @@ const meta: Meta<typeof StateButton> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof StateButton>;
+type Story = StoryObj<StateButtonStoryType>;
 
 export const Default: Story = {
   args: {

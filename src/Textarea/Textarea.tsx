@@ -42,7 +42,7 @@ export const Textarea = ({
       formState: {
 	isSubmitted
       }
-    }: any): JSX.Element => {
+    }): JSX.Element => {
       let classes: string[] = ['frg-ui-textarea'];
       if(className){
 	classes.push(className);
@@ -56,7 +56,6 @@ export const Textarea = ({
 	 || isSubmitted){
 	classes.push('ion-touched');
       }
-      // todo: label accessibility
       const normalizedLabel = `${label}${props.required ? ' *' : ''}`;
       return <IonTextarea
 	  aria-label={normalizedLabel}

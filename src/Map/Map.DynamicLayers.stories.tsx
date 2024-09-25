@@ -1,6 +1,6 @@
 import {
   GeocoderInput,
-  GeocoderProvider
+//  GeocoderProvider
 } from './Geocoder';
 import {
   IonCol,
@@ -45,7 +45,7 @@ const highland = {
   type: 'vector'
 };
 
-const parks = {
+const parks: {[key: string]: any} = {
   prospect: {
     featureRadius: 20,
     fillColor: 'red',
@@ -94,11 +94,11 @@ const parks = {
 
 const meta: Meta<typeof Map> = {
   component: Map,
-  render: (props) => {
-    const [park, setPark] = useState<['prospect', 'central']>('prospect');
+  render: ({protomapsApiKey, protomapsStyles: protopmapsStylesProp, ...props}) => {
+    const [park, setPark] = useState<string>('prospect');
     
     return <>
-      <IonSegment value={park} onIonChange={(event) => {setPark(event.detail.value);}}>
+      <IonSegment value={park} onIonChange={(event) => {setPark(event.detail.value as string);}}>
 	<IonSegmentButton value='prospect'>
 	  <IonLabel>Prospect Park</IonLabel>
 	</IonSegmentButton>

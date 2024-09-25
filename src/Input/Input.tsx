@@ -8,11 +8,13 @@ import {
 import {IonInput} from '@ionic/react';
 
 export interface Input extends React.ComponentProps<typeof IonInput> {
-  control: Control<any>,
-  className?: string,
-  name: string, // redefine prop as required
-  testId?: string
+  control: Control<any>;
+  className?: string;
+  form?: string;
+  name: string; // redefine prop as required
+  testId?: string;
 }
+
 export const Input = ({
   className,
   control,
@@ -42,7 +44,7 @@ export const Input = ({
       formState: {
 	isSubmitted
       }
-    }: any): JSX.Element => {
+    }): JSX.Element => {
       let classes: string[] = ['frg-ui-input'];
       if(className){
 	classes.push(className);

@@ -63,8 +63,7 @@
 	"emitDecoratorMetadata": true,         /* Enables experimental support for emitting type metadata for decorators. */
     },
     "exclude": [
-	"./src/setupTests.ts",
-	"**/*.stories.tsx"
+	"./src/setupTests.ts"
     ],
     "include": ["src"],
     "references": [{ "path": "./tsconfig.node.json" }]

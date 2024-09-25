@@ -16,12 +16,9 @@ import {Input} from './Input';
 
 const meta: Meta<typeof Input> = {
   component: Input,
-  render: ({
-    validation,
-    ...props
-  }) => {
+  render: (props) => {
     const schema = z.object({
-      field: validation ?? (props.required ? z.string() : z.string().optional())
+      field: props.required ? z.string() : z.string().optional()
     });
     type schemaType = z.infer<typeof schema>;
     const {
@@ -31,7 +28,7 @@ const meta: Meta<typeof Input> = {
       mode: 'onBlur',
       resolver: zodResolver(schema)
     });
-    const field: string = useWatch({
+    const field: string | undefined = useWatch({
       control,
       name: 'field'
     });
@@ -121,8 +118,7 @@ export const LabelUndefined: Story = {
 export const Number: Story = {
   args: {
     label: 'number',
-    type: 'number',
-    validation: z.number()
+    type: 'number'
   }
 }
 

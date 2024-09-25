@@ -29,7 +29,7 @@ const meta: Meta<typeof Checkbox> = {
   },
   component: Checkbox,
   render: ({
-    defaultValue = false,
+    checked = false,
     ...props
   }) => {
     const schema = z.object({
@@ -40,12 +40,12 @@ const meta: Meta<typeof Checkbox> = {
       handleSubmit
     } = useForm<z.infer<typeof schema>>({
       defaultValues: {
-	field: defaultValue
+	field: checked
       },
       mode: 'onChange',
       resolver: zodResolver(schema)
     });
-    const field: string[] = useWatch({
+    const field: boolean = useWatch({
       control,
       name: 'field'
     });
@@ -85,7 +85,7 @@ export const Default: Story = {
 
 export const WithDefaultValue: Story = {
   args: {
-    defaultValue: true,
+    checked: true,
     label: 'default true'
   }
 }

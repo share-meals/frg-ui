@@ -29,7 +29,7 @@ export const Toggle: React.FC<ToggleProps> = ({
 	    value,
 	    ...fields
 	  },
-	}: any): JSX.Element => (
+	}): JSX.Element => (
 	  <IonToggle
 	    checked={value}
 	    data-testid={testId}

@@ -51,7 +51,7 @@ export const Select = ({
 	isSubmitted,
 	errors
       },
-    }: any): JSX.Element => {
+    }): JSX.Element => {
       const normalizedLabel = `${label}${required ? ' *' : ''}`;
       const showErrors = invalid && isSubmitted;
       // todo: arrow icon is not colored on error
