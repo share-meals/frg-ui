@@ -9,6 +9,7 @@ export interface TextareaProps
 extends React.ComponentProps<typeof IonTextarea>{
   control: Control<any>,
   className?: string,
+  form?: string,
   name: string,
   testId?: string
 }

@@ -15,7 +15,7 @@ import {zodResolver} from '@hookform/resolvers/zod';
 
 import {Select} from './Select';
 import type {
-  Select as SelectProps,
+  SelectProps,
   SelectOption
 } from './Select';
 

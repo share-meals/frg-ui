@@ -20,8 +20,9 @@ export interface SelectOption {
   label: string
 };
 
-export interface Select extends React.ComponentProps<typeof IonSelect> {
+export interface SelectProps extends React.ComponentProps<typeof IonSelect> {
   control: Control<any>,
+  form?: string,
   name: string,
   options: SelectOption[],
   required?: boolean,
@@ -36,7 +37,7 @@ export const Select = ({
   required,
   testId,
   ...props
-}: Select): JSX.Element =>
+}: SelectProps): JSX.Element =>
   <Controller
     control={control}
     name={name}
