@@ -1,13 +1,16 @@
+import {IonIcon} from '@ionic/react';
 import type {
     Meta,
     StoryObj
 } from '@storybook/react';
 
+import MyLocationIcon from '@material-symbols/svg-400/rounded/my_location-fill.svg';
+
 import type {StateButtonProps} from './StateButton';
 import {StateButton} from './StateButton';
 
 interface StateButtonStoryType extends StateButtonProps {
-  label: string
+  label: string | React.ReactNode
 };
 
 const meta: Meta<StateButtonStoryType> = {
@@ -17,6 +20,10 @@ const meta: Meta<StateButtonStoryType> = {
     return (
       <>
 	<StateButton {...stateButtonProps}>
+	  {label}
+	</StateButton>
+	<br />
+	<StateButton {...stateButtonProps} isLoading={true}>
 	  {label}
 	</StateButton>
       </>
@@ -30,47 +37,20 @@ type Story = StoryObj<StateButtonStoryType>;
 
 export const Default: Story = {
   args: {
-    isLoading: false,
     label: 'default'
   }
 }
 
-export const DefaultLoading: Story = {
+export const WithIcon: Story = {
   args: {
-    isLoading: true,
-    label: 'default loading'
+    label: <IonIcon src={MyLocationIcon} />
   }
 }
 
 export const Success: Story = {
   args: {
     color: 'success',
-    isLoading: false,
     label: 'success'
-  }
-}
-
-export const SuccessLoading: Story = {
-  args: {
-    color: 'success',
-    isLoading: true,
-    label: 'success loading'
-  }
-}
-
-export const Danger: Story = {
-  args: {
-    color: 'danger',
-    isLoading: false,
-    label: 'danger'
-  }
-}
-
-export const DangerLoading: Story = {
-  args: {
-    color: 'danger',
-    isLoading: true,
-    label: 'danger loading'
   }
 }
 
@@ -81,25 +61,9 @@ export const ExpandBlock: Story = {
   }
 }
 
-export const ExpandBlockLoading: Story = {
-  args: {
-    expand: 'block',
-    isLoading: true,
-    label: 'expand block loading'
-  }
-}
-
 export const ExpandFull: Story = {
   args: {
     expand: 'full',
     label: 'expand full'
-  }
-}
-
-export const ExpandFullLoading: Story = {
-  args: {
-    expand: 'full',
-    isLoading: true,
-    label: 'expand full loading'
   }
 }
