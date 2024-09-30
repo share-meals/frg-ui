@@ -86,7 +86,7 @@ const PointStyle: React.FC<Pick<LayerStyle,
       <RStyle>
 	<RIcon
 	  src={icon.src}
-	  scale={icon.scale * zoomPercentage}
+	  scale={(icon.scale ?? 1) * zoomPercentage}
 	/>
       </RStyle>
     );
