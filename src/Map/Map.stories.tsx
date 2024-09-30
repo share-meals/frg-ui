@@ -2,6 +2,7 @@ import {
   GeocoderInput,
   GeocoderProvider
 } from './Geocoder';
+import {getMapStyle} from './MapStyle';
 import {
   IonButton,
   IonButtons,
@@ -15,7 +16,6 @@ import {
   IonToolbar
 } from '@ionic/react';
 import {LayerToggles} from './MapLayers';
-import Lock from '@material-symbols/svg-400/sharp/lock-fill.svg';
 import {
   Map,
   MapProvider,
@@ -30,7 +30,6 @@ import type {
   Meta,
   StoryObj
 } from '@storybook/react';
-import protomapsStyles from './stories_data/protomapsStyles';
 import {Renderer} from './stories_data/Renderer';
 import {
   useEffect,
@@ -40,6 +39,7 @@ import {
 import {useWindowSize} from '@uidotdev/usehooks';
 
 import Close from '@material-symbols/svg-400/sharp/close.svg';
+import Lock from '@material-symbols/svg-400/sharp/lock-fill.svg';
 
 import './Map.stories.css';
 
@@ -196,7 +196,7 @@ const meta: Meta<MapStoryProps> = {
 		   <Map
 		     controls={controls}
 		     protomapsApiKey={import.meta.env.VITE_PROTOMAPS_API_KEY as string}
-		     protomapsStyles={protomapsStyles}
+		     protomapsStyles={getMapStyle({apiKey: import.meta.env.VITE_PROTOMAPS_API_KEY, theme: 'grayscale'})}
 		   {...props}
 		   />
 		 </IonCol>
@@ -212,7 +212,10 @@ const meta: Meta<MapStoryProps> = {
 	      <Map
 		controls={controls}
 		protomapsApiKey={import.meta.env.VITE_PROTOMAPS_API_KEY as string}
-		protomapsStyles={protomapsStyles}
+		protomapsStyles={getMapStyle({
+		  apiKey: import.meta.env.VITE_PROTOMAPS_API_KEY as string,
+		  theme: 'grayscale'
+		})}
 		{...props} />
 	      <InfoModal trigger={infoTrigger} />
 	      <LayerTogglesModal />

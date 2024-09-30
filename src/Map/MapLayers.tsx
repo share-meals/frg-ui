@@ -11,7 +11,7 @@ import {
 
 export interface MapLayerIcon {
     src: string;
-    scale: number;
+    scale?: number;
 }
 
 export interface MapLayerProps {

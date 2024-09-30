@@ -1,3 +1,4 @@
+export * from './Geocoder';
 export * from './Map';
 export * from './MapLayers';
-export * from './Geocoder';
+export * from './MapStyle';

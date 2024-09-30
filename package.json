@@ -5,6 +5,7 @@
         "deepmerge": "^4.3.1",
         "ol": "9.1.0",
         "ol-mapbox-style": "9.7.0",
+        "protomaps-themes-base": "^3.1.0",
         "rlayers": "^2.3.2"
     },
     "devDependencies": {
@@ -14,6 +15,7 @@
         "@ionic/react": "^7.5.3",
         "@ionic/react-test-utils": "^0.4.0",
         "@loki/core": "^0.33.0",
+        "@maplibre/maplibre-gl-style-spec": "^20.3.1",
         "@material-symbols/svg-400": "^0.16.0",
         "@storybook/addon-a11y": "^7.5.2",
         "@storybook/addon-actions": "~7.5",
