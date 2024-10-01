@@ -9,7 +9,6 @@ import {LayerStyle} from './LayerStyle';
 import type {MapLayerProps} from './MapLayers';
 import { MVT } from 'ol/format';
 import {
-  RFeature,
   RLayerCluster,
   RLayerVector,
   RLayerVectorTile,
