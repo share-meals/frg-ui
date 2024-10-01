@@ -21,14 +21,18 @@ import type {
   VisibleMapLayers
 } from './MapLayers';
 
+export interface TimestampedLatLng extends LatLng {
+  timestamp?: Date
+}
+
 interface MapContext {
   clickedFeatures: any[],
-  internalCenter: LatLng,
+  internalCenter: TimestampedLatLng,
   layers: MapLayerProps[],
   maxZoom: number,
   minZoom: number,
   setClickedFeatures: Dispatch<SetStateAction<any>>
-  setInternalCenter: Dispatch<SetStateAction<LatLng>>,
+  setInternalCenter: Dispatch<SetStateAction<TimestampedLatLng>>,
   setView: Dispatch<SetStateAction<RView>>,
   setVisibleLayers: Dispatch<SetStateAction<VisibleMapLayers>>,
   setZoom: Dispatch<SetStateAction<number>>,
@@ -41,7 +45,8 @@ const MapContext = createContext<MapContext>({
   clickedFeatures: [],
   internalCenter: {
     lat: 0,
-    lng: 0
+    lng: 0,
+    timestamp: new Date()
   },
   layers: [],
   maxZoom: 16,
@@ -62,7 +67,7 @@ const MapContext = createContext<MapContext>({
 export const useMap = () => useContext(MapContext);
 
 export interface MapProviderProps {
-  center: LatLng,
+  center: TimestampedLatLng,
   layers: MapLayerProps[],
   maxZoom: number,
   minZoom: number,
@@ -111,8 +116,7 @@ export const MapProvider = ({
   const [zoom, setZoom] = useState<number>(zoomFromProps || 10);
 
   useEffect(() => {
-    if(propsCenter.lat !== center.lat
-       || propsCenter.lng !== center.lng){
+    if(propsCenter.timestamp !== center.timestamp){
       setPropsCenter(center);
       setInternalCenter(center);
       setView({
