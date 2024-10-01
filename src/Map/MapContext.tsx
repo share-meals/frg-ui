@@ -30,11 +30,9 @@ interface MapContext {
   minZoom: number,
   setClickedFeatures: Dispatch<SetStateAction<any>>
   setInternalCenter: Dispatch<SetStateAction<LatLng>>,
-  setSpotlight: Dispatch<SetStateAction<Point | undefined>>,
   setView: Dispatch<SetStateAction<RView>>,
   setVisibleLayers: Dispatch<SetStateAction<VisibleMapLayers>>,
   setZoom: Dispatch<SetStateAction<number>>,
-  spotlight: Point | undefined,
   visibleLayers: VisibleMapLayers,
   view: RView,
   zoom?: number
@@ -51,11 +49,9 @@ const MapContext = createContext<MapContext>({
   minZoom: 12,
   setClickedFeatures: () => {},
   setInternalCenter: () => {},
-  setSpotlight: () => {},
   setView: () => {},
   setVisibleLayers: () => {},
   setZoom: () => {},
-  spotlight: undefined,
   visibleLayers: {},
   view: {
     center: fromLonLat([0, 0]),
@@ -101,7 +97,6 @@ export const MapProvider = ({
   const [propsCenter, setPropsCenter] = useState<MapContext['internalCenter']>(center);
   const [propsLayers, setPropsLayers] = useState<string>(JSON.stringify(layers));
   const [clickedFeatures, setClickedFeatures] = useState<MapContext['clickedFeatures']>([]);
-  const [spotlight, setSpotlight] = useState<MapContext['spotlight']>();
   const [visibleLayers, setVisibleLayers] = useState<MapContext['visibleLayers']>(Object.fromEntries(Object.values(layers).map(
     (l) => {
       return convertToGeojson(l);
@@ -151,11 +146,9 @@ export const MapProvider = ({
     minZoom,
     setClickedFeatures,
     setInternalCenter,
-    setSpotlight,
     setView,
     setVisibleLayers,
     setZoom,
-    spotlight,
     visibleLayers,
     view,
     zoom
