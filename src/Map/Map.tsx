@@ -28,42 +28,42 @@ import LockIcon from '@material-symbols/svg-400/rounded/lock-fill.svg';
 import 'ol/ol.css';
 
 export * from './MapContext';
+
+const getClosestValue = (haystack: {[key: number]: number}, needle: number) => {
+  const keys = Object.keys(haystack).map(Number).sort((a, b) => a - b);
+  const normalizedNeedle = Math.floor(needle);
+  let closestValue = 0;
+  // base case
+  if(keys[0] > normalizedNeedle){
+    return keys[0];
+  }
+  for(const key of keys){
+    if(key <= normalizedNeedle){
+      closestValue = haystack[key];
+    } else {
+      break;
+    }
+  }
+  return closestValue;
+}
+
+
 export interface MapOnFeatureClickProps {
-  data: any,
-  lat: number,
-  lng: number,
+  data: any;
+  lat: number;
+  lng: number;
 }
 
 export interface MapProps extends Partial<RMapProps> {
-  controls?: React.ReactElement,
-  locked?: boolean,
-  onMapCenter?: ({lat, lng, address}: {lat: number | null, lng: number | null, address: string}) => void,
-  onFeatureClick?: (arg0: MapOnFeatureClickProps) => void,
-  protomapsApiKey: string,
-  protomapsStyles: any,
-  spotlightColor?: string,
-  spotlightRadius?: number,
-};
-
-const calculateZoomLevel = ({
-  zoom,
-  minZoom,
-  maxZoom
-}: {
-  zoom: number,
-  minZoom: number,
-  maxZoom: number
-}): number => {
-  const newZoomPercentage: number = (zoom - minZoom) / (maxZoom - minZoom);
-  if(newZoomPercentage <= 0.25){
-    return 0.5;
-  }else if(newZoomPercentage <= 0.5){
-    return 0.75;
-  }else if(newZoomPercentage <= 0.75){
-    return 1;
-  }else{
-    return 1.5;
-  }
+  controls?: React.ReactElement;
+  locked?: boolean;
+  onMapCenter?: ({lat, lng, address}: {lat: number | null, lng: number | null, address: string}) => void;
+  onFeatureClick?: (arg0: MapOnFeatureClickProps) => void;
+  protomapsApiKey: string;
+  protomapsStyles: any;
+  scalingLookup?: {[key: number]: number};
+  spotlightColor?: string;
+  spotlightRadius?: number;
 };
 
 const lockedDivStyle: React.CSSProperties = {
@@ -83,10 +83,12 @@ export const Map: React.FC<React.PropsWithChildren<MapProps>> = ({
   onFeatureClick,
   protomapsApiKey,
   protomapsStyles,
+  scalingLookup = {0: 1},
   spotlightColor = 'red',
   spotlightRadius = 16,
 }: MapProps) => {
   const baseMapRef = useRef<any>();
+  const [scale, setScale] = useState<number>(0);
   useEffect(() => {
     if(baseMapRef.current && baseMapRef.current.ol){
       if(baseMapRef.current.ol.getPreload() !== Infinity){
@@ -106,23 +108,11 @@ export const Map: React.FC<React.PropsWithChildren<MapProps>> = ({
     setClickedFeatures,
     //setSpotlight,
     setView,
-    setZoom,
     spotlight,
     visibleLayers,
     view,
-    zoom
   } = useMap();
-  const [zoomPercentage, setZoomPercentage] = useState<number>(1);
 
-  useEffect(() => {
-    if(zoom !== undefined){
-      setView({
-	center: view.center,
-	zoom: zoom
-      });
-    }
-  }, [zoom]);
-  
   useEffect(() => {
     setView({
       center: fromLonLat([
@@ -132,19 +122,16 @@ export const Map: React.FC<React.PropsWithChildren<MapProps>> = ({
       zoom: view.zoom
     });
   }, [center, setView]);
-  
-  useEffect(() => {
-    const newZoomPercentage: number = calculateZoomLevel({
-      zoom: view.zoom,
-      minZoom,
-      maxZoom
-    });
-    setZoom(view.zoom);
-    if(newZoomPercentage !== zoomPercentage){
-      setZoomPercentage(newZoomPercentage);
-    }
-  }, [view]);
 
+  useEffect(() => {
+    const newZoom = view.zoom;
+    const newScale = getClosestValue(scalingLookup, newZoom)
+    if(scale !== newScale){
+      setScale(newScale);
+    }
+  }, [setScale, view]);
+  /////
+  
   const features = useMemo(() => {
     return layers.map((
       layer: MapLayerProps,
@@ -195,10 +182,10 @@ export const Map: React.FC<React.PropsWithChildren<MapProps>> = ({
 	      fillColor={layer.fillColor}
 	      icon={layer.icon}
 	      radius={layer.featureRadius}
+	      scale={scale}
 	      strokeColor={layer.strokeColor}
 	      type={layer.featureType}
 	      width={layer.featureWidth}
-	      zoomPercentage={zoomPercentage}
 	    />
 	  </RLayerVector>;
 	  break;
@@ -229,6 +216,7 @@ export const Map: React.FC<React.PropsWithChildren<MapProps>> = ({
 	      fillColor={layer.fillColor}
 	      type='Cluster'
 	      radius={layer.featureRadius}
+	      scale={scale}
 	      strokeColor={layer.strokeColor}
 	      textScale={layer.textScale}
 	      textFillColor={layer.textFillColor}
@@ -243,19 +231,19 @@ export const Map: React.FC<React.PropsWithChildren<MapProps>> = ({
       }
     }
     )).reverse();
-  }, [features, visibleLayers, zoomPercentage]);
+  }, [features, scale, visibleLayers]);
   
   const spotlightLayer = useMemo(() => (
     <RLayerVector zIndex={2}>
       <LayerStyle
+	radius={spotlightRadius}
+	scale={scale}
 	strokeColor={spotlightColor}
 	type='Spotlight'
-	radius={spotlightRadius}
-	zoomPercentage={zoomPercentage}
       />
       <RFeature geometry={spotlight} />
     </RLayerVector>
-  ), [spotlightColor, spotlightRadius, zoomPercentage, spotlight]);
+  ), [scale, spotlightColor, spotlightRadius, spotlight]);
   
   // wrap in a relative div so controls can be positioned absolute inside
   return <div style={{position: 'relative', height: '100%'}}>

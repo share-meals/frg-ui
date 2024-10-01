@@ -56,10 +56,7 @@ const layers: MapLayerProps[] = [
     geojson: cpds as GeoJSON.GeoJSON,
     fillColor: '#54688b',
     strokeColor: 'white',
-    icon: {
-      src: cpd_truck,
-      scale: 0.13312
-    },
+    icon: cpd_truck,
     type: 'vector'
   },
   {
@@ -67,10 +64,7 @@ const layers: MapLayerProps[] = [
     geojson: mms as GeoJSON.GeoJSON,
     fillColor: '#006747',
     strokeColor: 'white',
-    icon: {
-      src: mm_truck,
-      scale: 0.065
-    },
+    icon: mm_truck,
     type: 'vector'
   },
   {
@@ -184,8 +178,8 @@ const meta: Meta<MapStoryProps> = {
 	    lng: -74.0060152
 	  }}
 	  layers={props.layers}
-	  maxZoom={16}
-	  minZoom={12}>
+	  maxZoom={15}
+	  minZoom={5}>
 	  <GeocoderProvider
 	    platform='nominatim'
 	    url='https://nominatim.openstreetmap.org/search'>
@@ -236,6 +230,22 @@ export const Default: Story = {
     layers
   }
 };
+
+export const WithScalingLookup: Story = {
+  args: {
+    layers,
+    scalingLookup: {
+      0: 0.4,
+      3: 0.5,
+      5: 0.6,
+      8: 0.7,
+      10: 0.8,
+      13: 0.9,
+      15: 1
+    }
+  }
+};
+
 
 export const Cluster: Story = {
   args: {
