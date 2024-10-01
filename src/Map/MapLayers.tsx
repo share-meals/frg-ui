@@ -9,18 +9,13 @@ import {
     useMap
 } from './MapContext';
 
-export interface MapLayerIcon {
-    src: string;
-    scale?: number;
-}
-
 export interface MapLayerProps {
   clusterDistance?: number;
   featureRadius?: number;
   featureWidth?: number;
   fillColor: string;
   geojson: GeoJSON.GeoJSON;
-  icon?: MapLayerIcon;
+  icon?: string;
   name: string;
   strokeColor: string;
   textScale?: number;

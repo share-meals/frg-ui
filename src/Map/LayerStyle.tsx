@@ -18,11 +18,9 @@ import {useCallback} from 'react';
 
 export interface LayerStyle {
   fillColor?: string,
-  icon?: {
-    src: string,
-    scale: number
-  },
+  icon?: string,
   radius?: number,
+  scale?: number,
   strokeColor?: string,
   textScale?: number,
   textFillColor?: string,
@@ -30,12 +28,10 @@ export interface LayerStyle {
   textStrokeWidth?: number,
   type: 'Cluster' | 'LineString' | 'Point' | 'Spotlight',
   width?: number,
-  zoomPercentage?: number
 }
 
 const SINGLE_CLUSTER_SIZE = 15
 const MINIMUM_CLUSTER_SIZE = 25;
-
 
 const extentFeatures = (features: any, resolution: number) => {
   const extent = createEmpty();
@@ -61,22 +57,22 @@ const PointStyle: React.FC<Pick<LayerStyle,
       'fillColor'
   | 'icon'
   | 'radius'
+  | 'scale'
   | 'strokeColor'
   | 'width'
-  | 'zoomPercentage'
 >> = ({
   fillColor = '#106535',
   icon,
   radius = 1,
+  scale = 1,
   strokeColor = '#106535',
-  width = 1,
-  zoomPercentage = 1
+  width = 1
 }) => {
   if(icon === undefined){
     return (
       <RStyle>
-	<RCircle radius={radius * zoomPercentage}>
-	  <RStroke color={strokeColor} width={width * 0.25 * zoomPercentage} />
+	<RCircle radius={radius * scale}>
+	  <RStroke color={strokeColor} width={width * 0.25 * scale} />
 	  <RFill color={fillColor} />
 	</RCircle>
       </RStyle>
@@ -85,8 +81,8 @@ const PointStyle: React.FC<Pick<LayerStyle,
     return (
       <RStyle>
 	<RIcon
-	  src={icon.src}
-	  scale={(icon.scale ?? 1) * zoomPercentage}
+	  src={icon}
+	  scale={scale}
 	/>
       </RStyle>
     );
@@ -96,23 +92,23 @@ const PointStyle: React.FC<Pick<LayerStyle,
 const ClusterStyle: React.FC<Pick<LayerStyle,
       'fillColor'
   | 'radius'
+  | 'scale'
   | 'strokeColor'
   | 'textFillColor'
   | 'textScale'
   | 'textStrokeColor'
   | 'textStrokeWidth'
   | 'width'
-  | 'zoomPercentage'
 >> = ({
   fillColor,
   radius = 1,
+  scale = 1,
   strokeColor = '#106535',
   textScale = 1,
   textFillColor = '#ffffff',
   textStrokeColor = '#000000',
   textStrokeWidth = 1,
   width = 1,
-  zoomPercentage = 1
 }) => (
   <RStyle
     render={useCallback((feature: any, resolution: number) => {
@@ -127,7 +123,7 @@ const ClusterStyle: React.FC<Pick<LayerStyle,
 	  <RStroke color={strokeColor} width={width} />
 	</RCircle>
 	{size > 1 &&
-	 <RText text={size.toString()} scale={textScale * zoomPercentage}>
+	 <RText text={size.toString()} scale={textScale * scale}>
 	   <RFill color={textFillColor} />
 	   <RStroke color={textStrokeColor} width={textStrokeWidth} />
 	 </RText>
