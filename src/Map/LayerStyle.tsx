@@ -1,4 +1,5 @@
-// todo: when clustering, RText is always rendered on top
+// TODO: when clustering, RText is always rendered on top
+// TODO: add anchor prop for icons
 
 import {
   createEmpty,

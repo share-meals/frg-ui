@@ -169,7 +169,7 @@ export const Map: React.FC<React.PropsWithChildren<MapProps>> = ({
 		     // TODO: log action
 		   }}
 		   visible={layer.visible}
-		   zIndex={1}>
+		   zIndex={layer.zIndex ?? 1}>
 	    <LayerStyle
 	      fillColor={layer.fillColor}
 	      icon={layer.icon}
@@ -203,6 +203,7 @@ export const Map: React.FC<React.PropsWithChildren<MapProps>> = ({
 		     }
 		   }}
 		   visible={layer.visible}
+		   zIndex={layer.zIndex ?? 1}
 		 >
 	    <LayerStyle
 	      fillColor={layer.fillColor}

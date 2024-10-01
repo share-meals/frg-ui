@@ -23,6 +23,7 @@ export interface MapLayerProps {
   textStrokeColor?: string;
   textStrokeWidth?: number;
   type: string; // 'cluster' | 'vector'
+  zIndex?: number;
 };
 
 export interface VisibleMapLayer extends Omit<MapLayerProps, 'geojson'> {
