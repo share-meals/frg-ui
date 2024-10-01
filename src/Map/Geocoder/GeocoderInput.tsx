@@ -9,7 +9,6 @@ import {
     IonRow,
 } from '@ionic/react';
 import type {LatLng} from '../interfaces';
-import {Point} from 'ol/geom';
 import SearchIcon from '@material-symbols/svg-400/rounded/search.svg';
 import {
     useForm
@@ -103,7 +102,6 @@ export const GeocoderInput = ({
     } = useGeocoder();
     const {
 	setInternalCenter,
-	setSpotlight,
 	setView
     } = useMap();
     const onSubmit = handleSubmit(async (data) => {
@@ -137,14 +135,6 @@ export const GeocoderInput = ({
 	    }else{
 		setInternalCenter(latlng);
 	    }
-	    setSpotlight(
-		new Point(
-		    fromLonLat([
-			latlng.lng,
-			latlng.lat
-		    ])
-		)
-	    );
 	    if(onGeocode){
 		onGeocode({
 		    latlng,

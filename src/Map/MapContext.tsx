@@ -12,7 +12,6 @@ import type {
   LatLng,
 } from './interfaces';
 import {RView} from 'rlayers/RMap';
-import {Point} from 'ol/geom';
 import {
   generateMapLayerType,
 } from './MapLayers';
