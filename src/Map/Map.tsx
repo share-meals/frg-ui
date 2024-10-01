@@ -62,8 +62,6 @@ export interface MapProps extends Partial<RMapProps> {
   protomapsApiKey: string;
   protomapsStyles: any;
   scalingLookup?: {[key: number]: number};
-  spotlightColor?: string;
-  spotlightRadius?: number;
 };
 
 const lockedDivStyle: React.CSSProperties = {
@@ -84,8 +82,6 @@ export const Map: React.FC<React.PropsWithChildren<MapProps>> = ({
   protomapsApiKey,
   protomapsStyles,
   scalingLookup = {0: 1},
-  spotlightColor = 'red',
-  spotlightRadius = 16,
 }: MapProps) => {
   const baseMapRef = useRef<any>();
   const [scale, setScale] = useState<number>(0);
@@ -106,9 +102,7 @@ export const Map: React.FC<React.PropsWithChildren<MapProps>> = ({
     maxZoom,
     minZoom,
     setClickedFeatures,
-    //setSpotlight,
     setView,
-    spotlight,
     visibleLayers,
     view,
   } = useMap();
@@ -161,8 +155,8 @@ export const Map: React.FC<React.PropsWithChildren<MapProps>> = ({
 		   key={`${layer.name}${Date.now()}`}
 		   features={features[index]}
 		   onClick={(event) => {
-		     // todo: convert this to useCallback
-		     // todo: when features are stacked, this gets called multiple times for each feature
+		     // TODO: convert this to useCallback
+		     // TODO: when features are stacked, this gets called multiple times for each feature
 		     const data = event.target.getProperties();
 		     setClickedFeatures([data]);
 		     if(onFeatureClick){
@@ -173,8 +167,7 @@ export const Map: React.FC<React.PropsWithChildren<MapProps>> = ({
 			 lng
 		       });
 		     }
-		     // todo: set spotlight
-		     // todo: log action
+		     // TODO: log action
 		   }}
 		   visible={layer.visible}
 		   zIndex={1}>
@@ -195,7 +188,7 @@ export const Map: React.FC<React.PropsWithChildren<MapProps>> = ({
 		   features={features[index]}
 		   key={`${layer.name}${Date.now()}`}
 		   onClick={(event) => {
-		     // todo: convert this to useCallback
+		     // TODO: convert this to useCallback
 		     const features = event.target.get('features').map((f: any) => {
 		       const {geometry, layerName, ...props} = f.getProperties();
 		       return props;
@@ -233,18 +226,6 @@ export const Map: React.FC<React.PropsWithChildren<MapProps>> = ({
     )).reverse();
   }, [features, scale, visibleLayers]);
   
-  const spotlightLayer = useMemo(() => (
-    <RLayerVector zIndex={2}>
-      <LayerStyle
-	radius={spotlightRadius}
-	scale={scale}
-	strokeColor={spotlightColor}
-	type='Spotlight'
-      />
-      <RFeature geometry={spotlight} />
-    </RLayerVector>
-  ), [scale, spotlightColor, spotlightRadius, spotlight]);
-  
   // wrap in a relative div so controls can be positioned absolute inside
   return <div style={{position: 'relative', height: '100%'}}>
     <RMap
@@ -266,7 +247,6 @@ export const Map: React.FC<React.PropsWithChildren<MapProps>> = ({
 	url={`https://api.protomaps.com/tiles/v3/{z}/{x}/{y}.mvt?key=${protomapsApiKey}`}
       />
       {layersRendered}
-      {spotlightLayer}
     </RMap>
   </div>;
 };
