@@ -19,15 +19,16 @@ const meta: Meta<typeof Map> = {
   component: Map,
   render: ({protomapsApiKey, protomapsStyles: protomapsStylesProp, ...props}) => {
     const [center, setCenter] = useState<any>(prospectPark);
-    const jiggle = useCallback(() => {
+    const changeCenter = useCallback(() => {
 	setCenter({
-	  lat: prospectPark.lat + 0.001 * Math.random(),
-	  lng: prospectPark.lng + 0.001 * Math.random(),
+	  lat: prospectPark.lat,
+	  lng: prospectPark.lng,
+	  timestamp: new Date()
 	});
     }, [setCenter]);
     return <>
-      <IonButton onClick={jiggle}>
-	Jiggle near Prospect Park
+      <IonButton onClick={changeCenter}>
+	Center on Prospect Park
       </IonButton>
       <br />
       [{center.lat}, {center.lng}]
