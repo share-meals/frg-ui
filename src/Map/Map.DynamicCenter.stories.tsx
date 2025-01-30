@@ -35,7 +35,7 @@ const meta: Meta<typeof Map> = {
       [{parks[park].lat}, {parks[park].lng}]
       <div style={{height: '50vh', width: '100vw'}}>
 	<MapProvider
-	  center={parks[park]}
+	  center={{...parks[park], timestamp: new Date()}}
 	  layers={[]}
 	  maxZoom={16}
 	  minZoom={12}>
