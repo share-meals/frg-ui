@@ -9,6 +9,7 @@ import {
   useState
 } from "react";
 
+// TODO: cleanup types for value and label
 export type MultipleCheckboxOption = string | {
   value: any;
   label: string | undefined | null;
