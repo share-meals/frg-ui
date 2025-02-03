@@ -34,6 +34,9 @@ const meta: Meta<typeof InlineSelect> = {
       control,
       formState: {isValid}
     } = useForm<z.infer<typeof schema>>({
+      defaultValues: {
+	field: props.defaultValue ?? undefined
+      },
       mode: 'onChange',
       resolver: zodResolver(schema)
     });
@@ -44,9 +47,11 @@ const meta: Meta<typeof InlineSelect> = {
     return (
       <>
 	<InlineSelect
-	{...props}
 	  control={control}
+	  justify='start'
+	  labelPlacement='end'
 	  name='field'
+	{...props}
 	/>
 	<div className='ion-margin-top'>
 	  <p>
@@ -80,8 +85,6 @@ export const WithStringOnlyOptions: Story = {
 
 export const WithValueLabelOptions: Story = {
   args: {
-    justify: 'start',
-    labelPlacement: 'end',
     options: [
       {
 	value: 'nyc',
@@ -102,8 +105,6 @@ export const WithValueLabelOptions: Story = {
 
 export const WithMixedDatatypeOptions: Story = {
   args: {
-    justify: 'start',
-    labelPlacement: 'end',
     options: [
       {
 	value: 'nyc',
@@ -115,3 +116,24 @@ export const WithMixedDatatypeOptions: Story = {
     wrapper: ({children}) => <IonItem>{children}</IonItem>
   }
 };
+
+export const WithDefaultValue: Story = {
+  args: {
+    defaultValue: 'boston',
+    options: [
+      {
+	value: 'nyc',
+	label: 'New York City',
+      },
+      {
+	value: 'boston',
+	label: 'Boston',
+      },
+      {
+	value: 'vancouver',
+	label: 'Vancouver',
+      }
+    ],
+    wrapper: ({children}) => <IonItem>{children}</IonItem>,
+  }
+}

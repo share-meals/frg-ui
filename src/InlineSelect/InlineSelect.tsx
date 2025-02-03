@@ -19,7 +19,7 @@ export type InlineSelectOption = string | {
 // TODO: somehow also integrate RadioGroup Props?
 export interface InlineSelectProps extends React.ComponentProps<typeof IonRadio> {
   control: Control<any>;
-  //  defaultValue: string[];
+  defaultValue?: string;
   name: string;
   //  onChange?: (arg: any) => void;
   options: InlineSelectOption[];
@@ -29,6 +29,7 @@ export interface InlineSelectProps extends React.ComponentProps<typeof IonRadio>
 
 export const InlineSelect: React.FC<InlineSelectProps> = ({
   control,
+  defaultValue,
   name,
   options,
   testId,
@@ -37,17 +38,19 @@ export const InlineSelect: React.FC<InlineSelectProps> = ({
 }) => {
   return (
     <Controller
-    control={control}
-    data-testid={testId || "extended-radio-component"}
-    name={name}
-    render={
+      control={control}
+      data-testid={testId || "extended-radio-component"}
+      defaultValue={defaultValue}
+      name={name}
+      render={
       (
-	{field: { onChange } }
+	{field: { onChange, value } }
       ): JSX.Element => {
 	return <IonRadioGroup
 	       	 onIonChange={(event) => {
 		   onChange(event.detail.value);
 		 }}
+		 value={value}
 	       >
 	  {
 	  options.map((o) => {
