@@ -6,6 +6,6 @@ export const moduleEnum = z.enum([
 ]);
 
 export const questionTypeEnum = z.enum([
-  'dummy',
-  'multipleChoice'
+  'multipleChoice',
+  'singleChoice',
 ]);
