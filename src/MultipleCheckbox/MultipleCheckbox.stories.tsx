@@ -71,7 +71,7 @@ const meta: Meta<typeof MultipleCheckbox> = {
 	{...props}
 	  control={control}
 	  name='field'
-	  options={options}
+	  options={props.options ?? options}
 	/>
 	<div className='ion-margin-top'>
 	  <p>
@@ -93,6 +93,18 @@ type Story = StoryObj<typeof MultipleCheckbox>;
 export const Default: Story = {
   args: {}
 }
+
+export const WithStringOnlyOptions: Story = {
+  args: {
+    options: [
+      'New York City',
+      'Boston',
+      'Denver',
+    ],
+    wrapper: ({children}) => <IonItem>{children}</IonItem>
+  }
+}
+
 
 export const WithWrapper: Story = {
   args: {
