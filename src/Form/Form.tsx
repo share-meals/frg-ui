@@ -3,6 +3,7 @@ import type {
   MultipleChoiceQuestion as MultipleChoiceQuestionType,
   Page as PageType,
   QuestionModule as QuestionModuleType,
+  SingleChoiceQuestion as SingleChoiceQuestionType,
   TextModule as TextModuleType
 } from './schema';
 import {
@@ -11,7 +12,6 @@ import {
   useFormContext
 } from 'react-hook-form';
 import {
-  IonButton,
   IonCol,
   IonGrid,
   IonItem,
@@ -19,6 +19,7 @@ import {
 } from '@ionic/react';
 import {MultipleCheckbox} from '../MultipleCheckbox';
 import ReactMarkdown from 'react-markdown';
+import {InlineSelect} from '../InlineSelect';
 import {StateButton} from '../StateButton';
 import {
   useState
@@ -31,17 +32,42 @@ const MultipleChoiceQuestion: React.FC<Omit<MultipleChoiceQuestionType, 'type'>>
   options,  
   text,
 }) => {
-  const {control} = useFormContext();
+  const {
+    control,
+    formState: {disabled}
+  } = useFormContext();
   return <>
     <ReactMarkdown children={text} />
     <MultipleCheckbox
       control={control}
+      disabled={disabled}
       justify='start'
       labelPlacement='end'
       maxSelections={maxSelections}
       name={name}
       options={options}
       wrapper={({children}) => <IonItem>{children}</IonItem>}
+    />
+  </>;
+};
+
+const SingleChoiceQuestion: React.FC<Omit<SingleChoiceQuestionType, 'type'>> = ({
+  text,
+  ...props
+}) => {
+  const {
+    control,
+    formState: {disabled}
+  } = useFormContext();
+  return <>
+    <ReactMarkdown children={text} />
+    <InlineSelect
+      control={control}
+      disabled={disabled}
+      justify='start'
+      labelPlacement='end'
+      wrapper={({children}) => <IonItem>{children}</IonItem>}
+      {...props}
     />
   </>;
 };
@@ -53,6 +79,9 @@ const QuestionModule: React.FC<QuestionModuleType> = ({
   switch(type){
     case 'multipleChoice':
       return <MultipleChoiceQuestion {...props} />;
+      break;
+    case 'singleChoice':
+      return <SingleChoiceQuestion {...props} />;
       break;
     default:
       return <></>;
@@ -80,49 +109,56 @@ export const Page: React.FC<{
 }
 
 export const Form: React.FC<{
-  json: FormType
+  isLoading: boolean,
+  json: FormType,
+  onSubmit: (data: any) => void,
 }> = ({
-  json
+  isLoading,
+  json,
+  onSubmit,
 }) => {
   const [pageNumber, setPageNumber] = useState<number>(0);
-  const methods = useForm();
-  const onSubmit = methods.handleSubmit((data) => {
-    console.log(data);
+  const methods = useForm({
+    disabled: isLoading
   });
   return <>
     <FormProvider {...methods}>
-      <form onSubmit={onSubmit}>
+      <form onSubmit={methods.handleSubmit(onSubmit)}>
 	<Page
 	  json={json.pages[pageNumber]}
 	  pageNumber={pageNumber}
 	/>
-    <IonGrid>
-      <IonRow>
-	<IonCol>
-	  {pageNumber > 0 &&
-	  <IonButton onClick={() => {
-	    setPageNumber(pageNumber - 1);
-	    }}>
-	     Previous Page
-	   </IonButton>
-	  }
-	</IonCol>
-	<IonCol className='ion-text-right'>
-	  {pageNumber + 1 < json.pages.length &&
-	  <IonButton onClick={() => {
-	    setPageNumber(pageNumber + 1);
-	    }}>
-	     Next Page
-	   </IonButton>
-	  }
-	  {pageNumber + 1 === json.pages.length &&
-	   <StateButton type='submit'>
-	     Submit
-	   </StateButton>
-	  }
-	</IonCol>
-      </IonRow>
-    </IonGrid>
+	<IonGrid>
+	  <IonRow>
+	    <IonCol>
+	      {pageNumber > 0 &&
+	       <StateButton
+		 isLoading={isLoading}
+		 onClick={() => {
+		   setPageNumber(pageNumber - 1);
+		 }}>
+		 Previous Page
+	       </StateButton>
+	      }
+	    </IonCol>
+	    <IonCol className='ion-text-right'>
+	      {pageNumber + 1 < json.pages.length &&
+	       <StateButton
+		 isLoading={isLoading}
+		 onClick={() => {
+		   setPageNumber(pageNumber + 1);
+		 }}>
+		 Next Page
+	       </StateButton>
+	      }
+	      {pageNumber + 1 === json.pages.length &&
+	       <StateButton isLoading={isLoading} type='submit'>
+		 Submit
+	       </StateButton>
+	      }
+	    </IonCol>
+	  </IonRow>
+	</IonGrid>
       </form>
     </FormProvider>
   </>;
