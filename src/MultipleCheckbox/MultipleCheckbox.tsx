@@ -9,7 +9,7 @@ import {
   useState
 } from "react";
 
-export type MultipleCheckboxOption = {
+export type MultipleCheckboxOption = string | {
   value: any;
   label: string | undefined | null;
 };
@@ -18,17 +18,17 @@ type IonCheckboxProps = {
   alignment: "center" | "start";
   checked: boolean;
   color:
-    | "danger"
-    | "dark"
-    | "light"
-    | "medium"
-    | "primary"
-    | "secondary"
-    | "success"
-    | "tertiary"
-    | "warning"
-    | string
-    | undefined;
+	   | "danger"
+	   | "dark"
+	   | "light"
+	   | "medium"
+	   | "primary"
+	   | "secondary"
+	   | "success"
+	   | "tertiary"
+	   | "warning"
+	   | string
+	   | undefined;
   disabled: boolean;
   indeterminate: boolean;
   justify: "end" | "space-between" | "start";
@@ -52,9 +52,9 @@ type MultipleCheckboxAdditionalProps = {
 };
 
 export type MultipleCheckboxProps = Partial<IonCheckboxProps> &
-  Partial<MultipleCheckboxAdditionalProps> &
-  Pick<IonCheckboxProps, "name"> &
-  Pick<MultipleCheckboxAdditionalProps, "control">;
+				    Partial<MultipleCheckboxAdditionalProps> &
+				    Pick<IonCheckboxProps, "name"> &
+				    Pick<MultipleCheckboxAdditionalProps, "control">;
 
 export const MultipleCheckbox = ({
   control,
@@ -72,10 +72,10 @@ export const MultipleCheckbox = ({
 
   // TODO: this seems bugged
   /*
-  useEffect(() => {
-      setValues(defaultValue);
-  }, [defaultValue]);
-  */
+     useEffect(() => {
+     setValues(defaultValue);
+     }, [defaultValue]);
+   */
 
   return (
     <Controller
@@ -84,24 +84,27 @@ export const MultipleCheckbox = ({
       name={name}
       render={({ field: { onChange } }): JSX.Element => (
         <>
-          {options.map((option) => (
-            <Wrapper key={option.value}>
+	  {options.map((option) => {
+	    const v: string = (typeof option === 'string') ? option : option.value;
+	    const l: string = (typeof option === 'string') ? option : (option.label ?? option.value);
+	    
+	    return <Wrapper key={v}>
               <IonCheckbox
-                checked={values.includes(option.value)}
+                checked={values.includes(v)}
                 disabled={
-                  values.includes(option.value) &&
-                  values.length <= minSelections
+                values.includes(v) &&
+                values.length <= minSelections
                 }
                 onIonChange={(event) => {
                   let newValues: string[];
                   if (event.detail.checked) {
-                    newValues = [...values, option.value];
+                    newValues = [...values, v];
                   } else {
-                    newValues = values.filter((v) => v !== option.value);
+                    newValues = values.filter((val) => v !== val);
                   }
                   // remove any duplicates that may have popped up
                   newValues = Array.from(new Set(newValues));
-
+		  
                   // if maxSelections is defined
                   // and if number of selections exceeds maxSelections
                   // deselect older selections in FIFO
@@ -117,13 +120,14 @@ export const MultipleCheckbox = ({
                     onChangeProps(newValues);
                   }
                 }}
-                value={option.value}
+                value={v}
                 {...props}
               >
-                {option.label}
+                {l}
               </IonCheckbox>
-            </Wrapper>
-          ))}
+	    </Wrapper>;
+	  }
+          )}
         </>
       )}
     />
