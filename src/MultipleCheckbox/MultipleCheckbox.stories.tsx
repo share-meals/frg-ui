@@ -10,8 +10,6 @@ import {
 import {z} from 'zod';
 import {zodResolver} from '@hookform/resolvers/zod';
 
-
-
 import {MultipleCheckbox} from './MultipleCheckbox';
 import type {MultipleCheckboxOption} from './MultipleCheckbox';
 
@@ -55,7 +53,7 @@ const meta: Meta<typeof MultipleCheckbox> = {
       formState: {isValid}
     } = useForm<z.infer<typeof schema>>({
       defaultValues: {
-	field: []
+	field: props.defaultValue ?? []
       },
       mode: 'onChange',
       resolver: zodResolver(schema)
@@ -130,5 +128,19 @@ export const WithWrapperMinMaxSelections: Story = {
     wrapper: ({children}) => <IonItem>{children}</IonItem>,
     maxSelections: 2,
     minSelections: 2
+  }
+}
+
+export const WithOneDefaultValue: Story = {
+  args: {
+    defaultValue: ['warehouse 13'],
+    wrapper: ({children}) => <IonItem>{children}</IonItem>,
+  }
+}
+
+export const WithTwoDefaultValues: Story = {
+  args: {
+    defaultValue: ['warehouse 13', 'dr who'],
+    wrapper: ({children}) => <IonItem>{children}</IonItem>,
   }
 }
