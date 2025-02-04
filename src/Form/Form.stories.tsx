@@ -5,117 +5,32 @@ import type {
 import {Form} from './Form';
 import {
   Form as FormType,
+  Page as PageType
 } from './schema';
+import {useState} from 'react';
+import pages from './pages.stories.json';
 
 const json: FormType = {
   meta: {
     id: '20240214',
   },
-  pages: [
-    [
-      {
-        module: "text",
-        text: `# Page 1
-
-This is explainer text`,
-      },
-      {
-        module: "question",
-        name: "singleChoiceStrings",
-        type: "singleChoice",
-        text: `Single Choice Strings`,
-        options: [
-          "The",
-          "Quick",
-          "Brown",
-          "Fox",
-        ],
-        required: true,
-      },
-      {
-        module: "question",
-        name: "singleChoiceValueLabel",
-        type: "singleChoice",
-        text: `Single Choice Value-Label Objects`,
-        options: [
-	  {
-	    value: 'the',
-	    label: 'The'
-	  },
-	  {
-	    value: 'quick',
-	    label: 'Quick'
-	  },
-	  {
-	    value: 'brown',
-	    label: 'Brown'
-	  },
-	  {
-	    value: 'fox',
-	    label: 'Fox'
-	  },
-        ],
-        required: true,
-      },
-    ],
-    [
-      // page 2
-      {
-        module: "text",
-        text: `# Page 2
-
-This is explainer text`,
-      },
-      {
-        module: "question",
-        name: "multipleChoiceStrings",
-        type: "multipleChoice",
-        text: `Multiple Choice Strings`,
-        options: [
-          "The",
-          "Quick",
-          "Brown",
-          "Fox",
-        ],
-        required: true,
-      },
-      {
-        module: "question",
-        name: "multipleChoiceValueLabel",
-        type: "multipleChoice",
-        text: `Multiple Choice Value-Label Objects`,
-        options: [
-	  {
-	    value: 'the',
-	    label: 'The'
-	  },
-	  {
-	    value: 'quick',
-	    label: 'Quick'
-	  },
-	  {
-	    value: 'brown',
-	    label: 'Brown'
-	  },
-	  {
-	    value: 'fox',
-	    label: 'Fox'
-	  },
-        ],
-        required: true,
-      },
-    ],
-  ],
+  pages: []
 };
 
 
 const meta: Meta<typeof Form> = {
   component: Form,
   render: ({...props}) => {
-    return <Form
-    {...props}
-    onSubmit={console.log}
-    />;
+    const [response, setResponse] = useState<any>(null)
+    return <>
+    <Form
+      {...props}
+      onSubmit={(data) => {
+	setResponse(data);
+      }}
+    />
+    {response && JSON.stringify(response)}
+   </>;
   },
   title: 'Components/Form'
 }
@@ -123,15 +38,39 @@ const meta: Meta<typeof Form> = {
 export default meta;
 type Story = StoryObj<typeof Form>;
 
-export const Default: Story = {
+export const OnePage: Story = {
   args: {
-    json
+    json: {
+      ...json,
+      pages: [pages.mc1] as PageType[]
+    }
   }
 };
+
+export const TwoPages: Story = {
+  args: {
+    json: {
+      ...json,
+      pages: [pages.mc1, pages.mc2] as PageType[]
+    }
+  }
+}
+
+export const FivePages: Story = {
+  args: {
+    json: {
+      ...json,
+      pages: [pages.mc1, pages.mc2, pages.mc3, pages.mc4, pages.mc5] as PageType[]
+    }
+  }
+}
 
 export const Loading: Story = {
   args: {
     isLoading: true,
-    json,
+    json: {
+      ...json,
+      pages: [pages.mc1, pages.mc2] as PageType[]
+    },
   }
 };
