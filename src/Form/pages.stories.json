@@ -1,0 +1,272 @@
+{
+  "mc1": [
+    {
+      "module": "text",
+      "text": "# Welcome to the Upside Down"
+    },
+    {
+      "module": "question",
+      "name": "mc1-1",
+      "type": "multipleChoice",
+      "text": "Who is your favorite Stranger Things character?",
+      "options": ["Eleven", "Mike", "Dustin", "Hopper"],
+      "required": true
+    },
+    {
+      "module": "question",
+      "name": "mc1-2",
+      "type": "multipleChoice",
+      "text": "Choose your Hogwarts house",
+      "options": [
+        { "value": "gryffindor", "label": "Gryffindor" },
+        { "value": "slytherin", "label": "Slytherin" },
+        { "value": "ravenclaw", "label": "Ravenclaw" },
+        { "value": "hufflepuff", "label": "Hufflepuff" }
+      ],
+      "required": true
+    }
+  ],
+  "mc2": [
+    {
+      "module": "text",
+      "text": "# Avengers Assemble!"
+    },
+    {
+      "module": "question",
+      "name": "mc2-1",
+      "type": "multipleChoice",
+      "text": "Who is your favorite Avenger?",
+      "options": ["Iron Man", "Captain America", "Thor", "Black Widow"],
+      "required": true
+    },
+    {
+      "module": "question",
+      "name": "mc2-2",
+      "type": "multipleChoice",
+      "text": "Choose your Infinity Stone",
+      "options": [
+        { "value": "time", "label": "Time Stone" },
+        { "value": "space", "label": "Space Stone" },
+        { "value": "mind", "label": "Mind Stone" },
+        { "value": "power", "label": "Power Stone" }
+      ],
+      "required": true
+    }
+  ],
+  "mc3": [
+    {
+      "module": "text",
+      "text": "# May the Force Be With You"
+    },
+    {
+      "module": "question",
+      "name": "mc3-1",
+      "type": "multipleChoice",
+      "text": "Who is your favorite Star Wars character?",
+      "options": ["Luke Skywalker", "Darth Vader", "Princess Leia", "Yoda"],
+      "required": true
+    },
+    {
+      "module": "question",
+      "name": "mc3-2",
+      "type": "multipleChoice",
+      "text": "Choose your lightsaber color",
+      "options": [
+        { "value": "blue", "label": "Blue" },
+        { "value": "red", "label": "Red" },
+        { "value": "green", "label": "Green" },
+        { "value": "purple", "label": "Purple" }
+      ],
+      "required": true
+    }
+  ],
+  "mc4": [
+    {
+      "module": "text",
+      "text": "# Welcome to Jurassic Park"
+    },
+    {
+      "module": "question",
+      "name": "mc4-1",
+      "type": "multipleChoice",
+      "text": "Which dinosaur is your favorite?",
+      "options": ["T-Rex", "Velociraptor", "Triceratops", "Brachiosaurus"],
+      "required": true
+    },
+    {
+      "module": "question",
+      "name": "mc4-2",
+      "type": "multipleChoice",
+      "text": "Choose your park role",
+      "options": [
+        { "value": "scientist", "label": "Scientist" },
+        { "value": "ranger", "label": "Ranger" },
+        { "value": "tourist", "label": "Tourist" },
+        { "value": "villain", "label": "Villain" }
+      ],
+      "required": true
+    }
+  ],
+  "mc5": [
+    {
+      "module": "text",
+      "text": "# Winter is Coming"
+    },
+    {
+      "module": "question",
+      "name": "mc5-1",
+      "type": "multipleChoice",
+      "text": "Who is your favorite Game of Thrones character?",
+      "options": ["Jon Snow", "Daenerys Targaryen", "Tyrion Lannister", "Arya Stark"],
+      "required": true
+    },
+    {
+      "module": "question",
+      "name": "mc5-2",
+      "type": "multipleChoice",
+      "text": "Choose your house",
+      "options": [
+        { "value": "stark", "label": "Stark" },
+        { "value": "lannister", "label": "Lannister" },
+        { "value": "targaryen", "label": "Targaryen" },
+        { "value": "baratheon", "label": "Baratheon" }
+      ],
+      "required": true
+    }
+  ],
+  "mc6": [
+    {
+      "module": "text",
+      "text": "# Welcome to the Matrix"
+    },
+    {
+      "module": "question",
+      "name": "mc6-1",
+      "type": "multipleChoice",
+      "text": "Which pill do you choose?",
+      "options": ["Red Pill", "Blue Pill", "Green Pill", "Purple Pill"],
+      "required": true
+    },
+    {
+      "module": "question",
+      "name": "mc6-2",
+      "type": "multipleChoice",
+      "text": "Choose your Matrix role",
+      "options": [
+        { "value": "neo", "label": "Neo" },
+        { "value": "trinity", "label": "Trinity" },
+        { "value": "morpheus", "label": "Morpheus" },
+        { "value": "agent", "label": "Agent Smith" }
+      ],
+      "required": true
+    }
+  ],
+  "mc7": [
+    {
+      "module": "text",
+      "text": "# Welcome to the Wizarding World"
+    },
+    {
+      "module": "question",
+      "name": "mc7-1",
+      "type": "multipleChoice",
+      "text": "Which magical creature is your favorite?",
+      "options": ["Hippogriff", "Phoenix", "Dragon", "House Elf"],
+      "required": true
+    },
+    {
+      "module": "question",
+      "name": "mc7-2",
+      "type": "multipleChoice",
+      "text": "Choose your Patronus",
+      "options": [
+        { "value": "stag", "label": "Stag" },
+        { "value": "otter", "label": "Otter" },
+        { "value": "phoenix", "label": "Phoenix" },
+        { "value": "wolf", "label": "Wolf" }
+      ],
+      "required": true
+    }
+  ],
+  "mc8": [
+    {
+      "module": "text",
+      "text": "# To Infinity and Beyond"
+    },
+    {
+      "module": "question",
+      "name": "mc8-1",
+      "type": "multipleChoice",
+      "text": "Who is your favorite Toy Story character?",
+      "options": ["Buzz Lightyear", "Woody", "Jessie", "Rex"],
+      "required": true
+    },
+    {
+      "module": "question",
+      "name": "mc8-2",
+      "type": "multipleChoice",
+      "text": "Choose your toy role",
+      "options": [
+        { "value": "space_ranger", "label": "Space Ranger" },
+        { "value": "cowboy", "label": "Cowboy" },
+        { "value": "cowgirl", "label": "Cowgirl" },
+        { "value": "dinosaur", "label": "Dinosaur" }
+      ],
+      "required": true
+    }
+  ],
+  "mc9": [
+    {
+      "module": "text",
+      "text": "# Welcome to Gotham City"
+    },
+    {
+      "module": "question",
+      "name": "mc9-1",
+      "type": "multipleChoice",
+      "text": "Who is your favorite Batman villain?",
+      "options": ["Joker", "Harley Quinn", "Penguin", "Riddler"],
+      "required": true
+    },
+    {
+      "module": "question",
+      "name": "mc9-2",
+      "type": "multipleChoice",
+      "text": "Choose your Gotham role",
+      "options": [
+        { "value": "hero", "label": "Hero" },
+        { "value": "villain", "label": "Villain" },
+        { "value": "detective", "label": "Detective" },
+        { "value": "citizen", "label": "Citizen" }
+      ],
+      "required": true
+    }
+  ],
+  "mc10": [
+    {
+      "module": "text",
+      "text": "# Welcome to the Shire"
+    },
+    {
+      "module": "question",
+      "name": "mc10-1",
+      "type": "multipleChoice",
+      "text": "Who is your favorite Lord of the Rings character?",
+      "options": ["Frodo", "Gandalf", "Legolas", "Aragorn"],
+      "required": true
+    },
+    {
+      "module": "question",
+      "name": "mc10-2",
+      "type": "multipleChoice",
+      "text": "Choose your Middle-earth race",
+      "options": [
+        { "value": "hobbit", "label": "Hobbit" },
+        { "value": "elf", "label": "Elf" },
+        { "value": "dwarf", "label": "Dwarf" },
+        { "value": "human", "label": "Human" }
+      ],
+      "required": true
+    }
+  ]
+}
