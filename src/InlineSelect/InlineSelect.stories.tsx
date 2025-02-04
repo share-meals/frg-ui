@@ -29,7 +29,10 @@ const meta: Meta<typeof InlineSelect> = {
     }
   },
   component: InlineSelect,
-  render: (props) => {
+  render: ({
+    name = 'field',
+    ...props
+  }) => {
     const schema = z.object({
       field: z.string()
     });
@@ -60,7 +63,7 @@ const meta: Meta<typeof InlineSelect> = {
 	  control={control}
 	  justify='start'
 	  labelPlacement='end'
-	name='field'
+	name={name}
 	{...props}
 	/>
 	<div className='ion-margin-top'>
@@ -95,20 +98,6 @@ export const WithStringOnlyOptions: Story = {
       'Vancouver',
     ],
     wrapper: ({children}) => <IonItem>{children}</IonItem>
-  }
-};
-
-export const Required: Story = {
-  args: {
-    justify: 'start',
-    labelPlacement: 'end',
-    options: [
-      'New York City',
-      'Boston',
-      'Vancouver',
-    ],
-    wrapper: ({children}) => <IonItem>{children}</IonItem>,
-    required: true
   }
 };
 
