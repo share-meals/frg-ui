@@ -47,10 +47,10 @@ const meta: Meta<typeof InlineSelect> = {
     return (
       <>
 	<InlineSelect
+	// @ts-ignore
 	  control={control}
 	  justify='start'
 	  labelPlacement='end'
-	  name='field'
 	{...props}
 	/>
 	<div className='ion-margin-top'>
