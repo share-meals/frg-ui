@@ -2,9 +2,12 @@ import {
   Control,
   Controller
 } from "react-hook-form";
+import {ErrorMessage} from '@hookform/error-message';
 import {
+  IonNote,
   IonRadio,
-  IonRadioGroup
+  IonRadioGroup,
+  IonText,
 } from "@ionic/react";
 import {
   JSX,
@@ -43,31 +46,46 @@ export const InlineSelect: React.FC<InlineSelectProps> = ({
       defaultValue={defaultValue}
       name={name}
       render={
-      (
-	{field: { onChange, value } }
-      ): JSX.Element => {
-	return <IonRadioGroup
-	       	 onIonChange={(event) => {
-		   onChange(event.detail.value);
-		 }}
-		 value={value}
-	       >
-	  {
-	  options.map((o) => {
-	    const v = typeof o === 'string' ? o : o.value;
-	    const l = typeof o === 'string' ? o : o.label;
-	    return <Wrapper key={v}>
-	      <IonRadio
-		value={v}
-		{...props}>
-	      {l}
-	      </IonRadio>
-	    </Wrapper>;
-	  })
+      ({
+	field: { onChange, value },
+	fieldState: {invalid},
+	formState: {
+	  errors,
+	  isSubmitted,
 	}
-	</IonRadioGroup>;
+      }): JSX.Element => {
+	const showErrors = invalid && isSubmitted;
+	return <>
+	  <IonRadioGroup
+	    onIonChange={(event) => {
+	      onChange(event.detail.value);
+	    }}
+	    value={value}
+	  >
+	    {
+	      options.map((o) => {
+		const v = typeof o === 'string' ? o : o.value;
+		const l = typeof o === 'string' ? o : o.label;
+		return <Wrapper key={v}>
+		  <IonRadio
+		    value={v}
+		    {...props}>
+		    {l}
+		  </IonRadio>
+		</Wrapper>;
+	      })
+	    }
+	  </IonRadioGroup>
+	  {errors[name] && showErrors
+	  && <IonNote className='ion-margin-top' style={{display: 'block'}}>
+	    <IonText color='danger'>
+	      <ErrorMessage errors={errors} name={name} />
+	    </IonText>
+	  </IonNote>}
+
+	</>;
       }
-    }
-  />
-);
+      }
+    />
+  );
 };

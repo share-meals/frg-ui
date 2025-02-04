@@ -2,7 +2,12 @@ import {
   Control,
   Controller
 } from "react-hook-form";
-import { IonCheckbox } from "@ionic/react";
+import {ErrorMessage} from '@hookform/error-message';
+import {
+  IonCheckbox,
+  IonNote,
+  IonText,
+} from '@ionic/react';
 
 import {
   JSX,
@@ -83,8 +88,18 @@ export const MultipleCheckbox = ({
       control={control}
       data-testid={testId || "extended-radio-component"}
       name={name}
-      render={({ field: { onChange } }): JSX.Element => (
-        <>
+      render={
+      ({
+	field: { onChange },
+	fieldState: {invalid},
+	formState: {
+	  errors,
+	  isSubmitted,
+	}
+      }): JSX.Element => {
+	const showErrors = invalid && isSubmitted;
+
+	return <>
 	  {options.map((option) => {
 	    const v: string = (typeof option === 'string') ? option : option.value;
 	    const l: string = (typeof option === 'string') ? option : (option.label ?? option.value);
@@ -129,8 +144,14 @@ export const MultipleCheckbox = ({
 	    </Wrapper>;
 	  }
           )}
-        </>
-      )}
+	  {errors[name] && showErrors
+	  && <IonNote className='ion-margin-top' style={{display: 'block'}}>
+	    <IonText color='danger'>
+	      <ErrorMessage errors={errors} name={name} />
+	    </IonText>
+	  </IonNote>}
+	</>;
+      }}
     />
   );
 };
