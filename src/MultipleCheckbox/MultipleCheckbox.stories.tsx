@@ -1,4 +1,7 @@
-import {IonItem} from '@ionic/react';
+import {
+  IonButton,
+  IonItem
+} from '@ionic/react';
 import type {
   Meta,
   StoryObj
@@ -50,6 +53,7 @@ const meta: Meta<typeof MultipleCheckbox> = {
     });
     const {
       control,
+      handleSubmit,
       formState: {isValid}
     } = useForm<z.infer<typeof schema>>({
       defaultValues: {
@@ -62,8 +66,12 @@ const meta: Meta<typeof MultipleCheckbox> = {
       control,
       name: 'field'
     });
+    const onSubmit = handleSubmit(() => {});
+
     return (
-      <>
+      <form
+	noValidate
+	onSubmit={onSubmit}>
 	<MultipleCheckbox
 	{...props}
 	  control={control}
@@ -78,7 +86,11 @@ const meta: Meta<typeof MultipleCheckbox> = {
 	    isValid: {isValid ? 'true' : 'false'}
 	  </p>
 	</div>
-      </>
+	<IonButton
+	  type='submit'>
+	  Submit
+	</IonButton>
+      </form>
     );
   },
   title: 'Components/MultipleCheckbox'

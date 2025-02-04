@@ -1,5 +1,8 @@
+import {
+  IonButton,
+  IonItem
+} from '@ionic/react';
 import {InlineSelect} from './InlineSelect';
-import {IonItem} from '@ionic/react';
 import type {
   Meta,
   StoryObj
@@ -32,7 +35,8 @@ const meta: Meta<typeof InlineSelect> = {
     });
     const {
       control,
-      formState: {isValid}
+      formState: {isValid},
+      handleSubmit
     } = useForm<z.infer<typeof schema>>({
       defaultValues: {
 	field: props.defaultValue ?? undefined
@@ -44,13 +48,19 @@ const meta: Meta<typeof InlineSelect> = {
       control,
       name: 'field'
     });
+    const onSubmit = handleSubmit(() => {});
+
     return (
       <>
+      <form
+	noValidate
+	onSubmit={onSubmit}>
 	<InlineSelect
 	// @ts-ignore
 	  control={control}
 	  justify='start'
 	  labelPlacement='end'
+	name='field'
 	{...props}
 	/>
 	<div className='ion-margin-top'>
@@ -61,6 +71,11 @@ const meta: Meta<typeof InlineSelect> = {
 	    isValid: {isValid ? 'true' : 'false'}
 	  </p>
 	</div>
+	<IonButton
+	  type='submit'>
+	  Submit
+	</IonButton>
+      </form>
       </>
     );
   },
@@ -80,6 +95,20 @@ export const WithStringOnlyOptions: Story = {
       'Vancouver',
     ],
     wrapper: ({children}) => <IonItem>{children}</IonItem>
+  }
+};
+
+export const Required: Story = {
+  args: {
+    justify: 'start',
+    labelPlacement: 'end',
+    options: [
+      'New York City',
+      'Boston',
+      'Vancouver',
+    ],
+    wrapper: ({children}) => <IonItem>{children}</IonItem>,
+    required: true
   }
 };
 
