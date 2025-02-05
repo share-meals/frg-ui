@@ -1,5 +1,6 @@
 export * from './Checkbox';
 export * from './Datetime';
+export * from './Form';
 export * from './HoursFormatter';
 export * from './Input';
 export * from './Map';
