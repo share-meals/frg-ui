@@ -1,7 +1,7 @@
 import {z} from 'zod';
 
-export const MetaSchema = z.object({
+export const FormMetaSchema = z.object({
   id: z.string()
 });
 
-export type Meta = z.infer<typeof MetaSchema>;
+export type FormMetaType = z.infer<typeof FormMetaSchema>;

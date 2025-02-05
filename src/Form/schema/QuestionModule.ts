@@ -9,7 +9,7 @@ const CommonSchema = z.object({
   name: z.string(),
 })
 
-export const MultipleChoiceQuestionSchema = z.object({
+export const FormMultipleChoiceQuestionSchema = z.object({
   maxSelections: z.number().min(0).optional(), // TODO: set max based on number of options
   options: z.union([
     z.array(z.string()),
@@ -23,9 +23,9 @@ export const MultipleChoiceQuestionSchema = z.object({
   required: z.boolean().optional()
 }).merge(CommonSchema);
 
-export type MultipleChoiceQuestion = z.infer<typeof MultipleChoiceQuestionSchema>;
+export type FormMultipleChoiceQuestionType = z.infer<typeof FormMultipleChoiceQuestionSchema>;
 
-export const SingleChoiceQuestionSchema = z.object({
+export const FormSingleChoiceQuestionSchema = z.object({
   options: z.union([
     z.array(z.string()),
     z.array(z.object({
@@ -38,12 +38,12 @@ export const SingleChoiceQuestionSchema = z.object({
   required: z.boolean().optional()
 }).merge(CommonSchema);
 
-export type SingleChoiceQuestion = z.infer<typeof SingleChoiceQuestionSchema>;
+export type FormSingleChoiceQuestionType = z.infer<typeof FormSingleChoiceQuestionSchema>;
 
 
-export const QuestionModuleSchema = z.union([
-  MultipleChoiceQuestionSchema,
-  SingleChoiceQuestionSchema,
+export const FormQuestionModuleSchema = z.union([
+  FormMultipleChoiceQuestionSchema,
+  FormSingleChoiceQuestionSchema,
 ]);
 
-export type QuestionModule = z.infer<typeof QuestionModuleSchema>;
+export type FormQuestionModuleType = z.infer<typeof FormQuestionModuleSchema>;

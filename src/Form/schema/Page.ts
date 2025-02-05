@@ -1,12 +1,12 @@
-import {TextModuleSchema} from './TextModule';
-import {QuestionModuleSchema} from './QuestionModule';
+import {FormTextModuleSchema} from './TextModule';
+import {FormQuestionModuleSchema} from './QuestionModule';
 import {z} from 'zod';
 
-export const PageSchema = z.array(
+export const FormPageSchema = z.array(
   z.union([
-    TextModuleSchema,
-    QuestionModuleSchema
+    FormTextModuleSchema,
+    FormQuestionModuleSchema
   ])
 );
 
-export type Page = z.infer<typeof PageSchema>;
+export type FormPageType = z.infer<typeof FormPageSchema>;

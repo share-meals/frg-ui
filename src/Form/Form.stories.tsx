@@ -4,8 +4,8 @@ import type {
 } from '@storybook/react';
 import {Form} from './Form';
 import {
-  Form as FormType,
-  Page as PageType
+  FormType,
+  FormPageType
 } from './schema';
 import {useState} from 'react';
 import pages from './pages.stories.json';
@@ -42,7 +42,7 @@ export const OnePage: Story = {
   args: {
     json: {
       ...json,
-      pages: [pages.mc1] as PageType[]
+      pages: [pages.mc1] as FormPageType[]
     }
   }
 };
@@ -51,7 +51,7 @@ export const TwoPages: Story = {
   args: {
     json: {
       ...json,
-      pages: [pages.mc1, pages.mc2] as PageType[]
+      pages: [pages.mc1, pages.mc2] as FormPageType[]
     }
   }
 }
@@ -60,7 +60,7 @@ export const FivePages: Story = {
   args: {
     json: {
       ...json,
-      pages: [pages.mc1, pages.mc2, pages.mc3, pages.mc4, pages.mc5] as PageType[]
+      pages: [pages.mc1, pages.mc2, pages.mc3, pages.mc4, pages.mc5] as FormPageType[]
     }
   }
 }
@@ -70,7 +70,7 @@ export const Loading: Story = {
     isLoading: true,
     json: {
       ...json,
-      pages: [pages.mc1, pages.mc2] as PageType[]
+      pages: [pages.mc1, pages.mc2] as FormPageType[]
     },
   }
 };

@@ -1,10 +1,10 @@
-import {MetaSchema} from './Meta';
-import {PageSchema} from './Page';
+import {FormMetaSchema} from './Meta';
+import {FormPageSchema} from './Page';
 import {z} from 'zod';
 
 export const FormSchema = z.object({
-  meta: MetaSchema,
-  pages: z.array(PageSchema)
+  meta: FormMetaSchema,
+  pages: z.array(FormPageSchema)
 });
 
-export type Form = z.infer<typeof FormSchema>;
+export type FormType = z.infer<typeof FormSchema>;

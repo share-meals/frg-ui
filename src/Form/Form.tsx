@@ -1,10 +1,10 @@
 import type {
-  Form as FormType,
-  MultipleChoiceQuestion as MultipleChoiceQuestionType,
-  Page as PageType,
-  QuestionModule as QuestionModuleType,
-  SingleChoiceQuestion as SingleChoiceQuestionType,
-  TextModule as TextModuleType
+  FormType,
+  FormMultipleChoiceQuestionType,
+  FormPageType,
+  FormQuestionModuleType,
+  FormSingleChoiceQuestionType,
+  FormTextModuleType
 } from './schema';
 import {
   FormProvider,
@@ -25,7 +25,7 @@ import {useCallback, useState} from 'react';
 import {z} from 'zod';
 import {zodResolver} from '@hookform/resolvers/zod';
 
-const MultipleChoiceQuestion: React.FC<Omit<MultipleChoiceQuestionType, 'type'>> = ({
+const MultipleChoiceQuestion: React.FC<Omit<FormMultipleChoiceQuestionType, 'type'>> = ({
   maxSelections,
   name,
   options,  
@@ -52,7 +52,7 @@ const MultipleChoiceQuestion: React.FC<Omit<MultipleChoiceQuestionType, 'type'>>
   </>;
 };
 
-const SingleChoiceQuestion: React.FC<Omit<SingleChoiceQuestionType, 'type'>> = ({
+const SingleChoiceQuestion: React.FC<Omit<FormSingleChoiceQuestionType, 'type'>> = ({
   name,
   text,
   ...props
@@ -79,7 +79,7 @@ const SingleChoiceQuestion: React.FC<Omit<SingleChoiceQuestionType, 'type'>> = (
   </>;
 };
 
-const QuestionModule: React.FC<QuestionModuleType> = ({
+const QuestionModule: React.FC<FormQuestionModuleType> = ({
   type,
   ...props
 }) => {
@@ -96,14 +96,14 @@ const QuestionModule: React.FC<QuestionModuleType> = ({
   }
 };
 
-const TextModule: React.FC<TextModuleType> = ({text}) => {
+const TextModule: React.FC<FormTextModuleType> = ({text}) => {
   return <ReactMarkdown children={text} />;
 }
 
 export const Page: React.FC<{
   data: any,
   isLoading?: boolean,
-  json: PageType,
+  json: FormPageType,
   onSubmit: (lastPageData: any) => void,
   pageNumber: number,
   setData: any,
@@ -158,8 +158,8 @@ export const Page: React.FC<{
     {
       json.map(({module, ...props}, index: number) => {
 	return <div key={`${pageNumber}-${index}`}>
-	  {module === 'text' && <TextModule {...props as TextModuleType} />}
-	  {module === 'question' && <QuestionModule {...props as QuestionModuleType} />}
+	  {module === 'text' && <TextModule {...props as FormTextModuleType} />}
+	  {module === 'question' && <QuestionModule {...props as FormQuestionModuleType} />}
 	</div>;
       }
       )}
@@ -189,7 +189,7 @@ export const Page: React.FC<{
   </FormProvider>;
 }
 
-const generateZodSchema = (q: QuestionModuleType) => {
+const generateZodSchema = (q: FormQuestionModuleType) => {
   let schema;
   if(q.type === 'multipleChoice'){
     schema = z.array(z.string());
