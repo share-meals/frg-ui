@@ -1,14 +1,14 @@
-import type {
-  Meta,
-  StoryObj
-} from '@storybook/react';
 import {Form} from './Form';
 import {
   FormType,
   FormPageType
 } from './schema';
-import {useState} from 'react';
+import type {
+  Meta,
+  StoryObj
+} from '@storybook/react';
 import pages from './pages.stories.json';
+import {useState} from 'react';
 
 const json: FormType = {
   meta: {
