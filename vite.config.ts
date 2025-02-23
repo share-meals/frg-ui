@@ -19,15 +19,25 @@ export default defineConfig({
     },
     rollupOptions: {
       external: [
-	/^@material-symbols\/svg-400\/*/,
-	...Object.keys(peerDependencies)
+	'@hookform/error-message',
+	'@ionic/react',
+	'@material-symbols/svg-400/rounded/search.svg',
+	'@material-symbols/svg-400/rounded/lock-fill.svg',
+	'react',
+	'react-dom',
+	'react-hook-form',
+	'react/jsx-runtime',
       ],
       output: {
 	globals: {
+	  '@hookform/error-message': 'ErrorMessage',
 	  '@ionic/react': 'IonicReact',
-	  react: 'React',
+	  '@material-symbols/svg-400/rounded/search.svg': 'SearchIcon',
+	  '@material-symbols/svg-400/rounded/lock-fill.svg': 'LockIcon',
+	  'react': 'React',
 	  'react-dom': 'ReactDom',
 	  'react-hook-form': 'ReactHookForm',
+	  'react/jsx-runtime': 'ReactJSXRuntime',
 	}
       }
     }
