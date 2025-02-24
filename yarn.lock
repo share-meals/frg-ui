@@ -3532,7 +3532,6 @@ __metadata:
     storybook-dark-mode: "npm:^3.0.1"
     typescript: "npm:^5.2.2"
     vite: "npm:^4.5.0"
-    vite-plugin-css-injected-by-js: "npm:^3.3.0"
     vite-plugin-dts: "npm:^3.6.3"
     vite-tsconfig-paths: "npm:^4.2.1"
     vitest: "npm:^0.34.6"
@@ -14523,15 +14522,6 @@ __metadata:
   bin:
     vite-node: vite-node.mjs
   checksum: 10c0/0e804eab1ae5f0d98014f0a933ec08bfc287228283c3c4792f5f8b8fec6657896e513498e8436449e3116839a5592f9b497cf0b982b8da1152d7d419ccc306f1
-  languageName: node
-  linkType: hard
-
-"vite-plugin-css-injected-by-js@npm:^3.3.0":
-  version: 3.4.0
-  resolution: "vite-plugin-css-injected-by-js@npm:3.4.0"
-  peerDependencies:
-    vite: ">2.0.0-0"
-  checksum: 10c0/9e9f0f027d10a876ee3e629d9d3853719bce2d462ee1053d8a164b8282bbf006b34dc14c9ab875ad4ed7772ca61c048aa6b3591ee06cb119dabd02f69d27ab0a
   languageName: node
   linkType: hard
 

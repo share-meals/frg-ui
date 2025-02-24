@@ -1,4 +1,3 @@
-import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js';
 import {defineConfig} from 'vite';
 import dts from 'vite-plugin-dts';
 import path from 'node:path';
@@ -14,7 +13,7 @@ export default defineConfig({
 	'esm',
 	'umd'
       ],
-      fileName: (format) => `frg-ui.${format}.js`,
+      fileName: (format) => `index.${format}.js`,
     name: 'frg-ui',
     },
     minify: false,
@@ -44,7 +43,6 @@ export default defineConfig({
     }
   },
   plugins: [
-    cssInjectedByJsPlugin(),
     dts({
       insertTypesEntry: true
     }),
