@@ -23,7 +23,7 @@ import {
 } from 'react';
 import {useMap} from './MapContext';
 
-import LockIcon from '@material-symbols/svg-400/rounded/lock-fill.svg';
+import {lockClosed} from 'ionicons/icons';
 import 'ol/ol.css';
 
 export * from './MapContext';
@@ -239,7 +239,7 @@ export const Map: React.FC<React.PropsWithChildren<MapProps>> = ({
       width='100%'>
       {controls !== undefined && controls}
       {locked && <div style={lockedDivStyle} className='frg-ui-map-lock'>
-	<IonIcon src={LockIcon}  style={{width: '33%', height: '33%'}} />
+	<IonIcon icon={lockClosed} style={{width: '33%', height: '33%'}} />
       </div>}
       <RLayerVectorTile
 	format={parser}

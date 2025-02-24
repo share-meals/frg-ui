@@ -9,7 +9,7 @@ import {
     IonRow,
 } from '@ionic/react';
 import type {LatLng} from '../interfaces';
-import SearchIcon from '@material-symbols/svg-400/rounded/search.svg';
+import {search} from 'ionicons/icons';
 import {
     useForm
 } from 'react-hook-form';
@@ -165,7 +165,7 @@ export const GeocoderInput = ({
 			    type='submit'>
 			    <IonIcon
 				aria-hidden='true'
-				icon={SearchIcon}
+				icon={search}
 				slot='icon-only'
 			    />
 			</IonButton>

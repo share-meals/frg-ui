@@ -21,8 +21,6 @@ export default defineConfig({
       external: [
 	'@hookform/error-message',
 	'@ionic/react',
-	'@material-symbols/svg-400/rounded/search.svg',
-	'@material-symbols/svg-400/rounded/lock-fill.svg',
 	'react',
 	'react-dom',
 	'react-hook-form',
@@ -32,8 +30,6 @@ export default defineConfig({
 	globals: {
 	  '@hookform/error-message': 'ErrorMessage',
 	  '@ionic/react': 'IonicReact',
-	  '@material-symbols/svg-400/rounded/search.svg': 'SearchIcon',
-	  '@material-symbols/svg-400/rounded/lock-fill.svg': 'LockIcon',
 	  'react': 'React',
 	  'react-dom': 'ReactDom',
 	  'react-hook-form': 'ReactHookForm',
