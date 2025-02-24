@@ -11,12 +11,13 @@ export default defineConfig({
     lib: {
       entry: path.resolve(__dirname, 'src/index.tsx'),
       formats: [
-	'es',
+	'esm',
 	'umd'
       ],
       fileName: (format) => `frg-ui.${format}.js`,
     name: 'frg-ui',
     },
+    minify: false,
     rollupOptions: {
       external: [
 	'@hookform/error-message',
