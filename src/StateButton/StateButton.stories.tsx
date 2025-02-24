@@ -4,7 +4,7 @@ import type {
     StoryObj
 } from '@storybook/react';
 
-import MyLocationIcon from '@material-symbols/svg-400/rounded/my_location-fill.svg';
+import {locate} from 'ionicons/icons';
 
 import type {StateButtonProps} from './StateButton';
 import {StateButton} from './StateButton';
@@ -43,7 +43,7 @@ export const Default: Story = {
 
 export const WithIcon: Story = {
   args: {
-    label: <IonIcon src={MyLocationIcon} />
+    label: <IonIcon src={locate} />
   }
 }
 

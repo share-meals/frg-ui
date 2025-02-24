@@ -38,9 +38,7 @@ import {
 } from 'react';
 import {useWindowSize} from '@uidotdev/usehooks';
 
-import Close from '@material-symbols/svg-400/sharp/close.svg';
-import Lock from '@material-symbols/svg-400/sharp/lock-fill.svg';
-
+import {close, lockClosed} from 'ionicons/icons';
 import './Map.stories.css';
 
 import food_pantries from './stories_data/food_pantries.json';
@@ -114,7 +112,7 @@ const InfoModal = ({trigger}: {trigger: string}) => {
       <IonToolbar>
 	<IonButtons slot='end'>
 	  <IonButton onClick={() => {setIsOpen(false);}}>
-	    <IonIcon slot='icon-only' icon={Close} />
+	    <IonIcon slot='icon-only' icon={close} />
 	  </IonButton>
 	</IonButtons>
       </IonToolbar>
@@ -132,7 +130,7 @@ const LayerTogglesModal = () => {
       <IonToolbar>
 	<IonButtons slot='end'>
 	  <IonButton onClick={() => {modal.current?.dismiss();}}>
-	    <IonIcon slot='icon-only' icon={Close} />
+	    <IonIcon slot='icon-only' icon={close} />
 	  </IonButton>
 	</IonButtons>
       </IonToolbar>
@@ -274,7 +272,7 @@ export const Locked: Story = {
   args: {
     controls: <div style={{position: 'absolute', zIndex: 999, right: '1rem', top: '1rem'}}>
       <IonButton>
-	<IonIcon slot='icon-only' src={Lock} />
+	<IonIcon slot='icon-only' src={lockClosed} />
       </IonButton>
     </div>,
     layers,
