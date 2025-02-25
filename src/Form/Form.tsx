@@ -28,7 +28,8 @@ import {zodResolver} from '@hookform/resolvers/zod';
 const MultipleChoiceQuestion: React.FC<Omit<FormMultipleChoiceQuestionType, 'type'>> = ({
   maxSelections,
   name,
-  options,  
+  options,
+  required,
   text,
 }) => {
   const {
@@ -37,23 +38,24 @@ const MultipleChoiceQuestion: React.FC<Omit<FormMultipleChoiceQuestionType, 'typ
     getValues,
   } = useFormContext();
   return <>
-  <ReactMarkdown children={text} />
+  <ReactMarkdown children={text + (required ? ' \\*' : '')} />
   <MultipleCheckbox
-  control={control}
-  defaultValue={getValues(name)}
-  disabled={disabled}
-  justify='start'
-  labelPlacement='end'
-  maxSelections={maxSelections}
-  name={name}
-  options={options}
-  wrapper={({children}) => <IonItem>{children}</IonItem>}
+    control={control}
+    defaultValue={getValues(name)}
+    disabled={disabled}
+    justify='start'
+    labelPlacement='end'
+    maxSelections={maxSelections}
+    name={name}
+    options={options}
+    wrapper={({children}) => <IonItem lines='none'>{children}</IonItem>}
   />
   </>;
 };
 
 const SingleChoiceQuestion: React.FC<Omit<FormSingleChoiceQuestionType, 'type'>> = ({
   name,
+  required,
   text,
   ...props
 }) => {
@@ -65,7 +67,7 @@ const SingleChoiceQuestion: React.FC<Omit<FormSingleChoiceQuestionType, 'type'>>
     //    trigger
   } = useFormContext();
   return <>
-    <ReactMarkdown children={text} />
+    <ReactMarkdown children={text + (required ? ' \\*' : '')} />
     <InlineSelect
       control={control}
       defaultValue={getValues(name)}
@@ -73,7 +75,7 @@ const SingleChoiceQuestion: React.FC<Omit<FormSingleChoiceQuestionType, 'type'>>
       justify='start'
       labelPlacement='end'
       name={name}
-      wrapper={({children}) => <IonItem>{children}</IonItem>}
+      wrapper={({children}) => <IonItem lines='none'>{children}</IonItem>}
       {...props}
     />
   </>;
@@ -195,12 +197,16 @@ const generateZodSchema = (q: FormQuestionModuleType) => {
     schema = z.array(z.string());
     if(q.required){
       schema = schema.nonempty();
+    }else{
+      schema = schema.optional();
     }
   }
   if(q.type === 'singleChoice'){
     schema = z.string();
     if(q.required){
       schema = schema.nonempty();
+    }else{
+      schema = schema.optional();
     }
   }
   return schema;

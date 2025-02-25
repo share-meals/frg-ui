@@ -105,11 +105,19 @@ export const NotRequired: Story = {
   args: {
     json: {
       ...json,
-      pages: [pages.nr1, pages.nr1] as FormPageType[]
+      pages: [pages.nr1, pages.nr2] as FormPageType[]
     }
   }
 }
 
+export const MixedRequired: Story = {
+  args: {
+    json: {
+      ...json,
+      pages: [pages.mr1] as FormPageType[]
+    }
+  }
+}
 
 export const Loading: Story = {
   args: {

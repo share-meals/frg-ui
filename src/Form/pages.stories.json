@@ -134,7 +134,7 @@
       "required": true
     }
   ],
-    
+  
   "sc1": [
     {
       "module": "text",
@@ -271,8 +271,8 @@
     }
   ],
 
-    
-    "nr1": [
+  
+  "nr1": [
     {
       "module": "text",
       "text": "# Welcome to the Upside Down"
@@ -321,5 +321,33 @@
         { "value": "power", "label": "Power Stone" }
       ]
     }
+  ],
+  
+  "mr1": [
+    {
+      "module": "text",
+      "text": "# May the Force Be With You"
+    },
+    {
+      "module": "question",
+      "name": "mr1-1",
+      "type": "multipleChoice",
+      "text": "Who is your favorite Star Wars character?",
+      "options": ["Luke Skywalker", "Darth Vader", "Princess Leia", "Yoda"]
+    },
+    {
+      "module": "question",
+      "name": "mr1-2",
+      "type": "multipleChoice",
+      "text": "Choose your lightsaber color",
+      "options": [
+        { "value": "blue", "label": "Blue" },
+        { "value": "red", "label": "Red" },
+        { "value": "green", "label": "Green" },
+        { "value": "purple", "label": "Purple" }
+      ],
+      "required": true
+    }
   ]
+
 }
