@@ -82,10 +82,10 @@ export const FillOutline: Story = {
   }
 }
 
-export const FillNone: Story = {
+export const FillClear: Story = {
   args: {
-    fill: 'none',
-    label: 'fill none'
+    fill: 'clear',
+    label: 'fill clear'
   }
 }
 
