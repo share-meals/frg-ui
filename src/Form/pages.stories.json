@@ -134,23 +134,24 @@
       "required": true
     }
   ],
-  "mc6": [
+    
+  "sc1": [
     {
       "module": "text",
       "text": "# Welcome to the Matrix"
     },
     {
       "module": "question",
-      "name": "mc6-1",
-      "type": "multipleChoice",
+      "name": "sc1-1",
+      "type": "singleChoice",
       "text": "Which pill do you choose?",
       "options": ["Red Pill", "Blue Pill", "Green Pill", "Purple Pill"],
       "required": true
     },
     {
       "module": "question",
-      "name": "mc6-2",
-      "type": "multipleChoice",
+      "name": "sc1-2",
+      "type": "singleChoice",
       "text": "Choose your Matrix role",
       "options": [
         { "value": "neo", "label": "Neo" },
@@ -161,23 +162,23 @@
       "required": true
     }
   ],
-  "mc7": [
+  "sc2": [
     {
       "module": "text",
       "text": "# Welcome to the Wizarding World"
     },
     {
       "module": "question",
-      "name": "mc7-1",
-      "type": "multipleChoice",
+      "name": "sc2-1",
+      "type": "singleChoice",
       "text": "Which magical creature is your favorite?",
       "options": ["Hippogriff", "Phoenix", "Dragon", "House Elf"],
       "required": true
     },
     {
       "module": "question",
-      "name": "mc7-2",
-      "type": "multipleChoice",
+      "name": "sc2-2",
+      "type": "singleChoice",
       "text": "Choose your Patronus",
       "options": [
         { "value": "stag", "label": "Stag" },
@@ -188,23 +189,23 @@
       "required": true
     }
   ],
-  "mc8": [
+  "sc3": [
     {
       "module": "text",
       "text": "# To Infinity and Beyond"
     },
     {
       "module": "question",
-      "name": "mc8-1",
-      "type": "multipleChoice",
+      "name": "sc3-1",
+      "type": "singleChoice",
       "text": "Who is your favorite Toy Story character?",
       "options": ["Buzz Lightyear", "Woody", "Jessie", "Rex"],
       "required": true
     },
     {
       "module": "question",
-      "name": "mc8-2",
-      "type": "multipleChoice",
+      "name": "sc3-2",
+      "type": "singleChoice",
       "text": "Choose your toy role",
       "options": [
         { "value": "space_ranger", "label": "Space Ranger" },
@@ -215,23 +216,23 @@
       "required": true
     }
   ],
-  "mc9": [
+  "sc4": [
     {
       "module": "text",
       "text": "# Welcome to Gotham City"
     },
     {
       "module": "question",
-      "name": "mc9-1",
-      "type": "multipleChoice",
+      "name": "sc4-1",
+      "type": "singleChoice",
       "text": "Who is your favorite Batman villain?",
       "options": ["Joker", "Harley Quinn", "Penguin", "Riddler"],
       "required": true
     },
     {
       "module": "question",
-      "name": "mc9-2",
-      "type": "multipleChoice",
+      "name": "sc4-2",
+      "type": "singleChoice",
       "text": "Choose your Gotham role",
       "options": [
         { "value": "hero", "label": "Hero" },
@@ -242,23 +243,23 @@
       "required": true
     }
   ],
-  "mc10": [
+  "sc5": [
     {
       "module": "text",
       "text": "# Welcome to the Shire"
     },
     {
       "module": "question",
-      "name": "mc10-1",
-      "type": "multipleChoice",
+      "name": "sc5-1",
+      "type": "singleChoice",
       "text": "Who is your favorite Lord of the Rings character?",
       "options": ["Frodo", "Gandalf", "Legolas", "Aragorn"],
       "required": true
     },
     {
       "module": "question",
-      "name": "mc10-2",
-      "type": "multipleChoice",
+      "name": "sc5-2",
+      "type": "singleChoice",
       "text": "Choose your Middle-earth race",
       "options": [
         { "value": "hobbit", "label": "Hobbit" },
@@ -267,6 +268,58 @@
         { "value": "human", "label": "Human" }
       ],
       "required": true
+    }
+  ],
+
+    
+    "nr1": [
+    {
+      "module": "text",
+      "text": "# Welcome to the Upside Down"
+    },
+    {
+      "module": "question",
+      "name": "nr1-1",
+      "type": "multipleChoice",
+      "text": "Who is your favorite Stranger Things character?",
+      "options": ["Eleven", "Mike", "Dustin", "Hopper"]
+    },
+    {
+      "module": "question",
+      "name": "nr1-2",
+      "type": "singleChoice",
+      "text": "Choose your Hogwarts house",
+      "options": [
+        { "value": "gryffindor", "label": "Gryffindor" },
+        { "value": "slytherin", "label": "Slytherin" },
+        { "value": "ravenclaw", "label": "Ravenclaw" },
+        { "value": "hufflepuff", "label": "Hufflepuff" }
+      ]
+    }
+  ],
+  "nr2": [
+    {
+      "module": "text",
+      "text": "# Avengers Assemble!"
+    },
+    {
+      "module": "question",
+      "name": "nr2-1",
+      "type": "multipleChoice",
+      "text": "Who is your favorite Avenger?",
+      "options": ["Iron Man", "Captain America", "Thor", "Black Widow"]
+    },
+    {
+      "module": "question",
+      "name": "nr2-2",
+      "type": "multipleChoice",
+      "text": "Choose your Infinity Stone",
+      "options": [
+        { "value": "time", "label": "Time Stone" },
+        { "value": "space", "label": "Space Stone" },
+        { "value": "mind", "label": "Mind Stone" },
+        { "value": "power", "label": "Power Stone" }
+      ]
     }
   ]
 }

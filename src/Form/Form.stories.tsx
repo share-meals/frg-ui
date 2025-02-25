@@ -38,7 +38,7 @@ const meta: Meta<typeof Form> = {
 export default meta;
 type Story = StoryObj<typeof Form>;
 
-export const OnePage: Story = {
+export const OnePageMC: Story = {
   args: {
     json: {
       ...json,
@@ -47,7 +47,7 @@ export const OnePage: Story = {
   }
 };
 
-export const TwoPages: Story = {
+export const TwoPagesMC: Story = {
   args: {
     json: {
       ...json,
@@ -56,7 +56,7 @@ export const TwoPages: Story = {
   }
 }
 
-export const FivePages: Story = {
+export const FivePagesMC: Story = {
   args: {
     json: {
       ...json,
@@ -64,6 +64,52 @@ export const FivePages: Story = {
     }
   }
 }
+
+export const OnePageSC: Story = {
+  args: {
+    json: {
+      ...json,
+      pages: [pages.sc1] as FormPageType[]
+    }
+  }
+};
+
+export const TwoPagesSC: Story = {
+  args: {
+    json: {
+      ...json,
+      pages: [pages.sc1, pages.sc2] as FormPageType[]
+    }
+  }
+}
+
+export const FivePagesSC: Story = {
+  args: {
+    json: {
+      ...json,
+      pages: [pages.sc1, pages.sc2, pages.sc3, pages.sc4, pages.sc5] as FormPageType[]
+    }
+  }
+}
+
+export const TwoPagesMixedChoice: Story = {
+  args: {
+    json: {
+      ...json,
+      pages: [pages.mc1, pages.sc1] as FormPageType[]
+    }
+  }
+}
+
+export const NotRequired: Story = {
+  args: {
+    json: {
+      ...json,
+      pages: [pages.nr1, pages.nr1] as FormPageType[]
+    }
+  }
+}
+
 
 export const Loading: Story = {
   args: {
