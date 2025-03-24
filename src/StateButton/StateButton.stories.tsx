@@ -54,6 +54,43 @@ export const Success: Story = {
   }
 }
 
+export const Danger: Story = {
+  args: {
+    color: 'danger',
+    label: 'danger'
+  }
+}
+
+export const Warning: Story = {
+  args: {
+    color: 'warning',
+    label: 'warning'
+  }
+}
+
+export const Secondary: Story = {
+  args: {
+    color: 'secondary',
+    label: 'secondary'
+  }
+}
+
+export const FillOutline: Story = {
+  args: {
+    fill: 'outline',
+    label: 'fill outline'
+  }
+}
+
+export const FillClear: Story = {
+  args: {
+    fill: 'clear',
+    label: 'fill clear'
+  }
+}
+
+
+
 export const ExpandBlock: Story = {
   args: {
     expand: 'block',

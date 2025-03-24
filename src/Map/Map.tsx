@@ -5,6 +5,7 @@ import {
 } from 'ol/proj';
 import GeoJSON from 'ol/format/GeoJSON';
 import {IonIcon} from '@ionic/react';
+import {Layer} from 'ol/layer';
 import {LayerStyle} from './LayerStyle';
 import type {MapLayerProps} from './MapLayers';
 import { MVT } from 'ol/format';
@@ -28,6 +29,14 @@ import 'ol/ol.css';
 
 export * from './MapContext';
 
+const OLDefaultGetFeaturesAtPixel = {
+  layerFilter: (layer: Layer) => {
+    return layer.get('name') !== undefined;
+  },
+  hitTolerance: 0,
+  checkWrapped: true
+}
+
 const getClosestValue = (haystack: {[key: number]: number}, needle: number) => {
   const keys = Object.keys(haystack).map(Number).sort((a, b) => a - b);
   const normalizedNeedle = Math.floor(needle);
@@ -47,19 +56,27 @@ const getClosestValue = (haystack: {[key: number]: number}, needle: number) => {
 }
 
 
-export interface MapOnFeatureClickProps {
-  data: any;
+export interface MapOnClickProps {
+  data: [Record<string, any>];
   lat: number;
   lng: number;
+}
+
+//https://openlayers.org/en/latest/apidoc/module-ol_Map-Map.html#getFeaturesAtPixel
+export interface MapOnClickOptions {
+  checkWrapped?: boolean;
+  hitTolerance?: number;
+  layerFilter?: (arg0: Layer) => boolean;
 }
 
 export interface MapProps extends Partial<RMapProps> {
   controls?: React.ReactElement;
   locked?: boolean;
   onMapCenter?: ({lat, lng, address}: {lat: number | null, lng: number | null, address: string}) => void;
-  onFeatureClick?: (arg0: MapOnFeatureClickProps) => void;
+  onMapClick?: (arg0: MapOnClickProps) => void;
+  onMapClickOptions?: MapOnClickOptions;
   protomapsApiKey: string;
-  protomapsStyles: any;
+  protomapsStyles: Record<string, any>;
   scalingLookup?: {[key: number]: number};
 };
 
@@ -77,7 +94,8 @@ const lockedDivStyle: React.CSSProperties = {
 export const Map: React.FC<React.PropsWithChildren<MapProps>> = ({
   controls,
   locked = false,
-  onFeatureClick,
+  onMapClick,
+  onMapClickOptions,
   protomapsApiKey,
   protomapsStyles,
   scalingLookup = {0: 1},
@@ -123,7 +141,6 @@ export const Map: React.FC<React.PropsWithChildren<MapProps>> = ({
       setScale(newScale);
     }
   }, [setScale, view]);
-  /////
   
   const features = useMemo(() => {
     return layers.map((
@@ -152,22 +169,8 @@ export const Map: React.FC<React.PropsWithChildren<MapProps>> = ({
 	case 'vector':
 	  return <RLayerVector
 		   key={`${layer.name}${Date.now()}`}
+		   properties={{name: layer.name}}
 		   features={features[index]}
-		   onClick={(event) => {
-		     // TODO: convert this to useCallback
-		     // TODO: when features are stacked, this gets called multiple times for each feature
-		     const data = event.target.getProperties();
-		     setClickedFeatures([data]);
-		     if(onFeatureClick){
-		       const [lng, lat] = toLonLat(event.coordinate);
-		       onFeatureClick({
-			 data,
-			 lat,
-			 lng
-		       });
-		     }
-		     // TODO: log action
-		   }}
 		   visible={layer.visible}
 		   zIndex={layer.zIndex ?? 1}>
 	    <LayerStyle
@@ -186,22 +189,6 @@ export const Map: React.FC<React.PropsWithChildren<MapProps>> = ({
 		   distance={layer.clusterDistance}
 		   features={features[index]}
 		   key={`${layer.name}${Date.now()}`}
-		   onClick={(event) => {
-		     // TODO: convert this to useCallback
-		     const features = event.target.get('features').map((f: any) => {
-		       const {geometry, layerName, ...props} = f.getProperties();
-		       return props;
-		     });
-		     setClickedFeatures(features);
-		     if(onFeatureClick){
-		       const [lng, lat] = toLonLat(event.coordinate);
-		       onFeatureClick({
-			 data: features,
-			 lat,
-			 lng
-		       });
-		     }
-		   }}
 		   visible={layer.visible}
 		   zIndex={layer.zIndex ?? 1}
 		 >
@@ -235,6 +222,28 @@ export const Map: React.FC<React.PropsWithChildren<MapProps>> = ({
       maxZoom={maxZoom}
       minZoom={minZoom}
       noDefaultControls={true}
+      onClick={(event: any) => {
+	const features = event.map.getFeaturesAtPixel(
+	  event.pixel,
+	  {
+	    ...OLDefaultGetFeaturesAtPixel,
+	    ...onMapClickOptions
+	  }
+	);
+	if(features.length > 0){
+	  const data = features.map((f: any) => f.getProperties());
+	  setClickedFeatures(data);
+	  if(onMapClick){
+	    const [lng, lat] = toLonLat(event.coordinate);
+	    onMapClick({
+	      data,
+	      lat,
+	      lng
+	    });
+	  }
+	  
+	}
+      }}
       view={[view, setView]}
       width='100%'>
       {controls !== undefined && controls}
