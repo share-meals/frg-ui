@@ -23,7 +23,7 @@ import {
 } from './Map';
 import type {MapLayerProps} from './MapLayers';
 import type {
-  MapOnFeatureClickProps,
+//  MapOnClickProps,
   MapProps
 } from './Map';
 import type {
@@ -280,19 +280,10 @@ export const Locked: Story = {
   }
 }
 
-export const OnFeatureClickVector: Story = {
+export const OnMapClick: Story = {
   args: {
     layers,
-    onFeatureClick: ({lat, lng, data}: MapOnFeatureClickProps) => {
-      console.log(lat, lng, data);
-    }
-  }
-}
-
-export const OnFeatureClickCluster: Story = {
-  args: {
-    layers: layersCluster,
-    onFeatureClick: ({lat, lng, data}: MapOnFeatureClickProps) => {
+    onMapClick: ({lat, lng, data}: /*MapOnClickProps*/ any) => {
       console.log(lat, lng, data);
     }
   }
