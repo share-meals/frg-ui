@@ -1,13 +1,10 @@
 import {
-    useMemo
-} from 'react';
-import {
     IonItem,
     IonCheckbox
 } from '@ionic/react';
-import {
-    useMap
-} from './MapContext';
+import {TinyColor} from '@ctrl/tinycolor';
+import {useMap} from './MapContext';
+import {useMemo} from 'react';
 
 export interface MapLayerProps {
   clusterDistance?: number;
@@ -58,6 +55,7 @@ export const LayerToggles = () => {
 	    {fillColor, name}: any, // todo: better typing
 	    index: number
 	) => {
+	  const fillColorWithoutAlpha = (new TinyColor(fillColor)).setAlpha(1).toString();
 	    return (
 		<IonItem key={index}>
 		    <IonCheckbox
@@ -74,11 +72,11 @@ export const LayerToggles = () => {
 				}
 			    });
 			}}
-			style={{
-			    '--border-color': fillColor,
-			    '--border-color-checked': fillColor,
-			    '--checkbox-background-checked': fillColor,
-			    '--checkmark-color': fillColor
+		      style={{
+			    '--border-color': fillColorWithoutAlpha,
+			    '--border-color-checked': fillColorWithoutAlpha,
+			    '--checkbox-background-checked': fillColorWithoutAlpha,
+			    '--checkmark-color': fillColorWithoutAlpha
 			}}>
 			{name}
 		    </IonCheckbox>
