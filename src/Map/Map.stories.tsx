@@ -229,6 +229,31 @@ export const Default: Story = {
   }
 };
 
+export const TransparentColors: Story = {
+  args: {
+    layers: [
+      {
+	name: 'Food Pantries',
+	featureRadius: 10,
+	featureWidth: 10,
+	geojson: food_pantries as GeoJSON.GeoJSON,
+	fillColor: 'rgba(100, 167, 11, 0.25)',
+	strokeColor: 'white',
+	type: 'vector'
+      },
+      {
+	name: 'Soup Kitchens',
+	featureRadius: 10,
+	featureWidth: 10,
+	geojson: soup_kitchens as GeoJSON.GeoJSON,
+	fillColor: 'rgba(137, 59, 103, 0.25)',
+	strokeColor: 'white',
+	type: 'vector'
+      }
+    ]
+  }
+};
+
 export const WithScalingLookup: Story = {
   args: {
     layers,
@@ -243,7 +268,6 @@ export const WithScalingLookup: Story = {
     }
   }
 };
-
 
 export const Cluster: Story = {
   args: {
