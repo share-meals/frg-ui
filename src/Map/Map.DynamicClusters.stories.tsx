@@ -1,4 +1,3 @@
-import {GeocoderInput} from './Geocoder';
 import {
   IonCol,
   IonGrid,
@@ -103,13 +102,6 @@ const meta: Meta<typeof Map> = {
 	      </IonCol>
 	      <IonCol size='4'>
 		<LayerToggles />
-		<GeocoderInput
-		helperText='To find food near you, please enter your address, city, and zip code'
-		fill='outline'
-		onGeocodeZoom={17}
-		onGeocode={() => {	    
-		}}
-		/>
 	      </IonCol>
 	    </IonRow>
 	  </IonGrid>

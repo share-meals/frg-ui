@@ -1,6 +1,5 @@
 import {
-  GeocoderInput,
-  GeocoderProvider
+  Geocoder
 } from './Geocoder';
 import {getMapStyle} from './MapStyle';
 import {
@@ -20,10 +19,10 @@ import {
   Map,
   MapProvider,
   MapProviderProps,
+  useMap,
 } from './Map';
 import type {MapLayerProps} from './MapLayers';
 import type {
-//  MapOnClickProps,
   MapProps
 } from './Map';
 import type {
@@ -102,6 +101,25 @@ const layersCluster: MapLayerProps[] = [
 
 type MapStoryProps = MapProps & MapProviderProps;
 
+const GeocoderWrapper: React.FC<any> = ({onGeocode, ...props}) => {
+  const {setInternalCenter} = useMap();
+  return <>
+    <Geocoder
+      apiKey={import.meta.env.VITE_GOOGLEMAPS_GEOCODER_API_KEY as string}
+      helperText={'find food near you'}
+      onGeocode={(data) => {
+	const result = data[0];
+	setInternalCenter({
+	  lat: result.geometry.location.lat(),
+	  lng: result.geometry.location.lng()
+	});
+      }}
+      {...props}
+    />
+  </>;
+};
+
+
 const InfoModal = ({trigger}: {trigger: string}) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   useEffect(() => {
@@ -150,13 +168,6 @@ const meta: Meta<MapStoryProps> = {
     protomapsStyles: protomapsStylesProp,
     ...props
   }) => {
-    const geocoderInput = <GeocoderInput
-			    helperText='To find food near you, please enter your address, city, and zip code'
-			    fill='outline'
-			    onGeocodeZoom={17}
-			    onGeocode={() => {	    
-			    }}
-    />;
     const size: {
       height: number | null,
       width: number | null
@@ -178,9 +189,6 @@ const meta: Meta<MapStoryProps> = {
 	  layers={props.layers}
 	  maxZoom={15}
 	  minZoom={5}>
-	  <GeocoderProvider
-	    platform='nominatim'
-	    url='https://nominatim.openstreetmap.org/search'>
 	    {!isMobile &&
 	     <IonGrid>
 	       <IonRow style={{height: '100vh'}}>
@@ -195,7 +203,7 @@ const meta: Meta<MapStoryProps> = {
 		 <IonCol>
 		   <LayerToggles />
 		   <Renderer />
-		   {geocoderInput}
+		   <GeocoderWrapper />
 		 </IonCol>
 	       </IonRow>
 	     </IonGrid>
@@ -212,7 +220,6 @@ const meta: Meta<MapStoryProps> = {
 	      <InfoModal trigger={infoTrigger} />
 	      <LayerTogglesModal />
 	    </>}
-	  </GeocoderProvider>
 	</MapProvider>
       </div>
     </>;
