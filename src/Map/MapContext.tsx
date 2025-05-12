@@ -25,6 +25,12 @@ export interface TimestampedLatLng extends LatLng {
   timestamp?: Date
 }
 
+export interface TimestampedZoom {
+  level: number,
+  timestamp?: Date
+}
+
+
 interface MapContext {
   clickedFeatures: any[],
   internalCenter: TimestampedLatLng,
@@ -35,10 +41,10 @@ interface MapContext {
   setInternalCenter: Dispatch<SetStateAction<TimestampedLatLng>>,
   setView: Dispatch<SetStateAction<RView>>,
   setVisibleLayers: Dispatch<SetStateAction<VisibleMapLayers>>,
-  setZoom: Dispatch<SetStateAction<number>>,
+  setZoom: Dispatch<SetStateAction<TimestampedZoom>>,
   visibleLayers: VisibleMapLayers,
   view: RView,
-  zoom?: number
+  zoom?: TimestampedZoom
 };
 
 const MapContext = createContext<MapContext>({
@@ -61,7 +67,7 @@ const MapContext = createContext<MapContext>({
     center: fromLonLat([0, 0]),
     zoom: 0
   },
-  zoom: 10
+  zoom: {level: 12}
 });
 
 export const useMap = () => useContext(MapContext);
@@ -71,7 +77,7 @@ export interface MapProviderProps {
   layers: MapLayerProps[],
   maxZoom: number,
   minZoom: number,
-  zoom?: number,
+  zoom?: TimestampedZoom,
 }
 
 const convertToGeojson = (
@@ -111,9 +117,9 @@ export const MapProvider = ({
       center.lng,
       center.lat
     ]),
-    zoom: zoomFromProps || minZoom
+    zoom: zoomFromProps ? zoomFromProps.level : minZoom
   });
-  const [zoom, setZoom] = useState<number>(zoomFromProps || 10);
+  const [zoom, setZoom] = useState<TimestampedZoom>(zoomFromProps || {level: minZoom});
 
   useEffect(() => {
     if(propsCenter.timestamp !== center.timestamp){
@@ -124,10 +130,16 @@ export const MapProvider = ({
 	  center.lng,
 	  center.lat
 	]),
-	zoom: zoom
+	zoom: zoom.level
       });
     }
   }, [center]);
+
+  useEffect(() => {
+    if(zoomFromProps !== undefined){
+      setZoom(zoomFromProps);
+    }
+  }, [zoomFromProps]);
 
   useEffect(() => {
     if(propsLayers !== JSON.stringify(layers)){
@@ -140,7 +152,7 @@ export const MapProvider = ({
       setPropsLayers(JSON.stringify(layers));
     }
   }, [layers]);
-  
+
   return <MapContext.Provider value={{
     internalCenter,
     clickedFeatures,

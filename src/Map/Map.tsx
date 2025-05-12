@@ -122,6 +122,7 @@ export const Map: React.FC<React.PropsWithChildren<MapProps>> = ({
     setView,
     visibleLayers,
     view,
+    zoom,
   } = useMap();
 
   useEffect(() => {
@@ -134,6 +135,13 @@ export const Map: React.FC<React.PropsWithChildren<MapProps>> = ({
     });
   }, [center, setView]);
 
+  useEffect(() => {
+    setView({
+      center: view.center,
+      zoom: zoom ? zoom.level : minZoom
+    });
+  }, [setView, zoom]);
+  
   useEffect(() => {
     const newZoom = view.zoom;
     const newScale = getClosestValue(scalingLookup, newZoom)
