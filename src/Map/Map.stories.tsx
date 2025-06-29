@@ -37,7 +37,11 @@ import {
 } from 'react';
 import {useWindowSize} from '@uidotdev/usehooks';
 
-import {close, lockClosed} from 'ionicons/icons';
+import {
+  cafe,
+  close,
+  lockClosed
+} from 'ionicons/icons';
 import './Map.stories.css';
 
 import food_pantries from './stories_data/food_pantries.json';
@@ -302,12 +306,25 @@ export const EmptyLayer: Story = {
 export const Locked: Story = {
   args: {
     controls: <div style={{position: 'absolute', zIndex: 999, right: '1rem', top: '1rem'}}>
-      <IonButton>
-	<IonIcon slot='icon-only' src={lockClosed} />
+      <IonButton aria-label='lock map'>
+	<IonIcon aria-hidden='true' slot='icon-only' src={lockClosed} />
       </IonButton>
     </div>,
     layers,
     locked: true
+  }
+}
+
+export const LockedCustomIcon: Story = {
+  args: {
+    controls: <div style={{position: 'absolute', zIndex: 999, right: '1rem', top: '1rem'}}>
+      <IonButton aria-label='lock map'>
+	<IonIcon aria-hidden='true' slot='icon-only' src={lockClosed} />
+      </IonButton>
+    </div>,
+    layers,
+    locked: true,
+    lockIcon: <IonIcon aria-label='cafe icon' icon={cafe} />
   }
 }
 

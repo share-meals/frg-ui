@@ -72,6 +72,7 @@ export interface MapOnClickOptions {
 export interface MapProps extends Partial<RMapProps> {
   controls?: React.ReactElement;
   locked?: boolean;
+  lockIcon?: React.ReactElement;
   onMapCenter?: ({lat, lng, address}: {lat: number | null, lng: number | null, address: string}) => void;
   onMapClick?: (arg0: MapOnClickProps) => void;
   onMapClickOptions?: MapOnClickOptions;
@@ -91,9 +92,17 @@ const lockedDivStyle: React.CSSProperties = {
   zIndex: 99
 };
 
+const DefaultLockIcon: React.FC = () => {
+  return <IonIcon
+  aria-label='locked map'
+  icon={lockClosed}
+  style={{width: '33%', height: '33%'}} />;
+};
+
 export const Map: React.FC<React.PropsWithChildren<MapProps>> = ({
   controls,
   locked = false,
+  lockIcon = <DefaultLockIcon />,
   onMapClick,
   onMapClickOptions,
   protomapsApiKey,
@@ -256,7 +265,7 @@ export const Map: React.FC<React.PropsWithChildren<MapProps>> = ({
       width='100%'>
       {controls !== undefined && controls}
       {locked && <div style={lockedDivStyle} className='frg-ui-map-lock'>
-	<IonIcon icon={lockClosed} style={{width: '33%', height: '33%'}} />
+	{lockIcon}
       </div>}
       <RLayerVectorTile
 	format={parser}
