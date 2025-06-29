@@ -1,3 +1,5 @@
+// TODO: allow to be multilingual
+
 import {Input} from '../Input';
 import {IonInput} from '@ionic/react';
 import {
@@ -122,11 +124,13 @@ export const Geocoder = ({
 	<IonRow className='ion-align-items-start'>
 	  <IonCol>
 	    <Input
+	      aria-label='address'
 	      control={control}
 	      disabled={isSubmitting || !isGoogleMapsLoaded}
 	      label={label}
 	      name='address'
 	      placeholder={placeholder}
+	      role='textbox'
 	    {...props}
 	    />
 	  </IonCol>
@@ -135,6 +139,7 @@ export const Geocoder = ({
 	      aria-label='search'
 	      disabled={isSubmitting || !isGoogleMapsLoaded}
 	      fill='clear'
+	      role='button'
 	      type='submit'>
 	      <IonIcon
 		aria-hidden='true'
