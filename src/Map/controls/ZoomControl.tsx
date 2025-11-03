@@ -106,11 +106,11 @@ export const ZoomControls: React.FC<ZoomControlsProps> = ({
   zoomOutControlProps
 }) => {
   return <div className={wrapperClassName ?? 'frg-ui-map-zoom-wrapper'}>
-    <ZoomControlIn
-      increment={increment}
-      {...zoomInControlProps}/>
     <ZoomControlOut
       increment={increment}
       {...zoomOutControlProps} />
+    <ZoomControlIn
+      increment={increment}
+      {...zoomInControlProps}/>
   </div>;
 };
