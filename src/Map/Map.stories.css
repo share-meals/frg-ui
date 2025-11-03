@@ -15,3 +15,12 @@
 .frg-ui-map-lock {
     color: purple;
 }
+
+.ol-layer {
+    background-color: red;
+}
+
+.ol-layer:focus-within {
+  border: 2px solid blue; /* Example style: add a blue border */
+  background-color: lightyellow; /* Example style: change background color */
+}
