@@ -1,3 +1,4 @@
+export * from './controls';
 export * from './Geocoder';
 export * from './Map';
 export * from './MapLayers';
