@@ -55,7 +55,6 @@ const getClosestValue = (haystack: {[key: number]: number}, needle: number) => {
   return closestValue;
 }
 
-
 export interface MapOnClickProps {
   data: [Record<string, any>];
   lat: number;
@@ -110,6 +109,7 @@ export const Map: React.FC<React.PropsWithChildren<MapProps>> = ({
   scalingLookup = {0: 1},
 }: MapProps) => {
   const baseMapRef = useRef<any>();
+  const rMapWrapperRef = useRef<HTMLDivElement | null>(null);
   const [scale, setScale] = useState<number>(0);
   useEffect(() => {
     if(baseMapRef.current && baseMapRef.current.ol){
@@ -121,6 +121,15 @@ export const Map: React.FC<React.PropsWithChildren<MapProps>> = ({
       }
     }
   }, [baseMapRef.current]);
+  useEffect(() => {
+    if (!rMapWrapperRef.current) return
+
+    const viewport = rMapWrapperRef.current.querySelector('.ol-viewport')
+    if (viewport && !viewport.hasAttribute('tabindex')) {
+      viewport.setAttribute('tabindex', '0')
+    }
+  }, []);
+
   const parser = useMemo(() => new MVT(), []);
   const {
     internalCenter: center,
@@ -129,6 +138,7 @@ export const Map: React.FC<React.PropsWithChildren<MapProps>> = ({
     minZoom,
     setClickedFeatures,
     setView,
+    setZoom,
     visibleLayers,
     view,
     zoom,
@@ -157,7 +167,13 @@ export const Map: React.FC<React.PropsWithChildren<MapProps>> = ({
     if(scale !== newScale){
       setScale(newScale);
     }
-  }, [setScale, view]);
+    if(zoom!.level !== newZoom){
+      setZoom({
+	level: newZoom,
+	timestamp: new Date()
+      });
+    }
+  }, [setScale, setZoom, view]);
   
   const features = useMemo(() => {
     return layers.map((
@@ -231,7 +247,7 @@ export const Map: React.FC<React.PropsWithChildren<MapProps>> = ({
   }, [features, scale, visibleLayers]);
   
   // wrap in a relative div so controls can be positioned absolute inside
-  return <div style={{position: 'relative', height: '100%'}}>
+  return <div style={{position: 'relative', height: '100%'}} ref={rMapWrapperRef}>
     <RMap
       enableRotation={false}
       height='100%'

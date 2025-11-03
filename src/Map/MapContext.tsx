@@ -30,7 +30,6 @@ export interface TimestampedZoom {
   timestamp?: Date
 }
 
-
 interface MapContext {
   clickedFeatures: any[],
   internalCenter: TimestampedLatLng,
